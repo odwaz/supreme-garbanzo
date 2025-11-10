@@ -1,0 +1,33 @@
+package com.spaza.category.service;
+
+import com.spaza.category.model.Category;
+import com.spaza.category.repository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class CategoryService {
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    public Category save(Category category) {
+        return categoryRepository.save(category);
+    }
+
+    public void deleteById(Long id) {
+        categoryRepository.deleteById(id);
+    }
+
+    public Optional<Category> findById(Long id) {
+        return categoryRepository.findById(id);
+    }
+
+    public List<Category> findAll(String name, int page, int count) {
+        return categoryRepository.findAll(PageRequest.of(page, count)).getContent();
+    }
+}

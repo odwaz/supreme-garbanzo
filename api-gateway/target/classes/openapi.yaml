@@ -1,0 +1,102 @@
+openapi: 3.1.0
+info:
+  contact: {}
+  description: SpaZar Api Documentation - Microservices Gateway
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+  termsOfService: urn:tos
+  title: SpaZar Online Api Documentation (Microservices)
+  version: "2.0"
+servers:
+- url: //localhost:8080/
+tags:
+- description: User Authentication
+  name: User authentication Api
+- description: Customer Management
+  name: Customer management resource (Customer Management Api)
+- description: Product Management
+  name: Product definition resource
+- description: Category Management
+  name: Category management resource (Category Management Api)
+- description: Shopping Cart
+  name: Shopping cart api
+- description: Order Management
+  name: Ordering api (Order Flow Api)
+- description: Payment Processing
+  name: Payment api
+- description: Shipping Management
+  name: Shipping configuration resource (Shipping Management Api)
+- description: Content Management
+  name: Content management resource (Content Management Api)
+
+paths:
+  # Authentication endpoints (routed to user-auth-service)
+  /api/v1/customer/login:
+    post:
+      summary: Customer login
+      tags: [User authentication Api]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          
+  /api/v1/customer/register:
+    post:
+      summary: Customer registration
+      tags: [Customer management resource (Customer Management Api)]
+      responses:
+        '201':
+          description: Created
+          
+  # Product endpoints (routed to product-service)
+  /api/v1/products:
+    get:
+      summary: List products
+      tags: [Product definition resource]
+      responses:
+        '200':
+          description: OK
+          
+  # Category endpoints (routed to content-service)
+  /api/v1/category:
+    get:
+      summary: List categories
+      tags: [Category management resource (Category Management Api)]
+      responses:
+        '200':
+          description: OK
+          
+  # Cart endpoints (routed to cart-service)
+  /api/v1/cart:
+    post:
+      summary: Add to cart
+      tags: [Shopping cart api]
+      responses:
+        '201':
+          description: Created
+          
+  # Order endpoints (routed to order-service)
+  /api/v1/auth/orders:
+    get:
+      summary: List orders
+      tags: [Ordering api (Order Flow Api)]
+      responses:
+        '200':
+          description: OK
+
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
