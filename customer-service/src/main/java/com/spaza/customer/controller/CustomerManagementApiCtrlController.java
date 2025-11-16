@@ -62,4 +62,9 @@ public class CustomerManagementApiCtrlController implements CustomerManagementAp
     public ResponseEntity<ReadableCustomerList> list(Integer count, Integer page) {
         return delegate.list(count, page);
     }
+    
+    @Override
+    public ResponseEntity<ReadableCustomer> getByEmail(String email) {
+        return delegate.getByEmail(email);
+    }
 }

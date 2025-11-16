@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerManagementApiCtrlDelegateImpl implements CustomerManagementApiCtrlDelegate {
@@ -99,13 +100,19 @@ public class CustomerManagementApiCtrlDelegateImpl implements CustomerManagement
 
     @Override
     public ResponseEntity<ReadableCustomerList> list(Integer count, Integer page) {
-        int pageNum = page != null ? page : 0;
-        int pageSize = count != null ? count : 20;
-        List<Customer> customers = customerService.findAll(pageNum, pageSize);
+        List<Customer> customers = customerService.findAll(0, 0);
         ReadableCustomerList list = new ReadableCustomerList();
-        list.setCustomers(customers.stream().map(this::toReadable).toList());
+        list.setCustomers(customers.stream().map(this::toReadable).collect(Collectors.toList()));
         list.setTotal(customers.size());
         return ResponseEntity.ok(list);
+    }
+    
+    @Override
+    public ResponseEntity<ReadableCustomer> getByEmail(String email) {
+        return customerService.findByEmail(email)
+                .map(this::toReadable)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     private String getAuthenticatedEmail() {

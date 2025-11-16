@@ -11,9 +11,10 @@ public class ReadableShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String code;
+    private java.math.BigDecimal total;
     
-    @ElementCollection
-    private List<String> items = new ArrayList<>();
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> items = new ArrayList<>();
     
     public ReadableShoppingCart() {}
     
@@ -23,6 +24,9 @@ public class ReadableShoppingCart {
     public String getCode() { return code; }
     public void setCode(String code) { this.code = code; }
     
-    public List<String> getItems() { return items; }
-    public void setItems(List<String> items) { this.items = items; }
+    public List<CartItem> getItems() { return items; }
+    public void setItems(List<CartItem> items) { this.items = items; }
+    
+    public java.math.BigDecimal getTotal() { return total; }
+    public void setTotal(java.math.BigDecimal total) { this.total = total; }
 }

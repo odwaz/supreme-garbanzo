@@ -6,6 +6,7 @@ public class ReadableCustomerList {
     private List<ReadableCustomer> customers;
     private int totalPages;
     private long totalElements;
+    private int total;
     
     public ReadableCustomerList() {}
     
@@ -23,4 +24,7 @@ public class ReadableCustomerList {
     
     public long getTotalElements() { return totalElements; }
     public void setTotalElements(long totalElements) { this.totalElements = totalElements; }
+    
+    public int getTotal() { return total; }
+    public void setTotal(int total) { this.total = total; }
 }

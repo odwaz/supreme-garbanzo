@@ -1,5 +1,6 @@
 package com.spaza.product.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +12,7 @@ public class ProductImage {
     
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Product product;
     
     private String imageName;

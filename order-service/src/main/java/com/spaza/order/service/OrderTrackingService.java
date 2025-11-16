@@ -1,6 +1,7 @@
 package com.spaza.order.service;
 
 import com.spaza.order.model.*;
+import com.spaza.order.entity.OrderHistory;
 import com.spaza.order.repository.OrderHistoryRepository;
 import org.springframework.stereotype.Service;
 

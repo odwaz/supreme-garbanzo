@@ -24,8 +24,7 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-            .antMatchers("/api/auth/**", "/health").permitAll()
-            .anyRequest().authenticated();
+            .anyRequest().permitAll();
         
         return http.build();
     }

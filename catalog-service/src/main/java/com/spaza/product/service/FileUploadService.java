@@ -34,7 +34,10 @@ public class FileUploadService {
         String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
         String filename = UUID.randomUUID().toString() + extension;
 
-        Path filePath = uploadPath.resolve(filename);
+        Path filePath = uploadPath.resolve(filename).normalize();
+        if (!filePath.startsWith(uploadPath)) {
+            throw new SecurityException("Invalid file path");
+        }
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
         return baseUrl + "/images/products/" + filename;
@@ -42,6 +45,9 @@ public class FileUploadService {
 
     public boolean deleteFile(String filename) {
         try {
+            if (filename.contains("..") || filename.contains("/") || filename.contains("\\")) {
+                throw new SecurityException("Invalid filename");
+            }
             Path filePath = Paths.get(uploadDir, filename);
             return Files.deleteIfExists(filePath);
         } catch (IOException e) {

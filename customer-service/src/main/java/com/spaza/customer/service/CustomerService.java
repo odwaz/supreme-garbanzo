@@ -35,7 +35,12 @@ public class CustomerService {
         }
         
         Customer saved = customerRepository.save(customer);
-        ReadableCustomer readableCustomer = new ReadableCustomer(saved);
+        
+        ReadableCustomer readableCustomer = new ReadableCustomer();
+        readableCustomer.setId(saved.getId());
+        readableCustomer.setFirstName(saved.getFirstName());
+        readableCustomer.setLastName(saved.getLastName());
+        readableCustomer.setEmail(saved.getEmail());
         
         AuthenticationResponse response = new AuthenticationResponse();
         response.setToken(jwtUtil.generateToken(customer.getEmail()));

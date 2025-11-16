@@ -4,30 +4,31 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "user_groups")
+@Table(name = "sm_group")
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "group_id")
     private Long id;
     
-    @Column(unique = true, nullable = false)
+    @Column(name = "group_name", unique = true, nullable = false, length = 255)
     private String name;
     
-    private String description;
+    @Column(name = "group_type", length = 255)
+    private String type;
     
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "group_permission",
+    @JoinTable(name = "permission_group",
         joinColumns = @JoinColumn(name = "group_id"),
         inverseJoinColumns = @JoinColumn(name = "permission_id"))
     private List<Permission> permissions;
     
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
     public List<Permission> getPermissions() { return permissions; }
     public void setPermissions(List<Permission> permissions) { this.permissions = permissions; }
 }

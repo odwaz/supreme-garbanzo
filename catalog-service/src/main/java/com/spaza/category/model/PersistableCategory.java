@@ -4,9 +4,11 @@ import java.util.List;
 
 public class PersistableCategory {
     private Long id;
+    private Long merchantId;
     private String code;
     private Boolean visible;
     private Boolean featured;
+    private Boolean status;
     private Integer sortOrder;
     private List<CategoryDescription> descriptions;
 
@@ -56,5 +58,21 @@ public class PersistableCategory {
 
     public void setDescriptions(List<CategoryDescription> descriptions) {
         this.descriptions = descriptions;
+    }
+
+    public Long getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(Long merchantId) {
+        this.merchantId = merchantId;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }

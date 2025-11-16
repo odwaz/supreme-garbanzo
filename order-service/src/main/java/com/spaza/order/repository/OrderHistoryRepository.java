@@ -1,6 +1,6 @@
 package com.spaza.order.repository;
 
-import com.spaza.order.model.OrderHistory;
+import com.spaza.order.entity.OrderHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;

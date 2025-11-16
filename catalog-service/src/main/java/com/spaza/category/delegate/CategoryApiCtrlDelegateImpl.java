@@ -37,10 +37,8 @@ public class CategoryApiCtrlDelegateImpl implements CategoryApiCtrlDelegate {
         entity.setVisible(dto.getVisible());
         entity.setFeatured(dto.getFeatured());
         entity.setSortOrder(dto.getSortOrder());
-        if (dto.getDescriptions() != null && !dto.getDescriptions().isEmpty()) {
-            entity.setName(dto.getDescriptions().get(0).getName());
-            entity.setDescription(dto.getDescriptions().get(0).getDescription());
-        }
+        entity.setMerchantId(dto.getMerchantId());
+        entity.setStatus(dto.getStatus());
         return entity;
     }
 

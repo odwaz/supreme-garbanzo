@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import za.blkmarket.userauth.dto.AuthRequest;
 import za.blkmarket.userauth.dto.AuthResponse;
-import za.blkmarket.userauth.dto.CustomerRegistration;
+
 import za.blkmarket.userauth.entity.User;
 import za.blkmarket.userauth.repository.UserRepository;
 import za.blkmarket.userauth.security.JwtTokenProvider;
@@ -25,43 +25,37 @@ public class AuthService {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
     
+    public String hashPassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+    
     public AuthResponse authenticate(AuthRequest request) {
-        User user = userRepository.findByUsername(request.getUsername())
-            .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+        System.out.println("AUTH: Looking for user: " + request.getUsername());
+        User user = userRepository.findByEmail(request.getUsername())
+            .orElseThrow(() -> new RuntimeException("User not found"));
         
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+        System.out.println("AUTH: User found, checking password");
+        System.out.println("AUTH: Stored hash: " + user.getPassword());
+        System.out.println("AUTH: Input password: " + request.getPassword());
+        boolean matches = passwordEncoder.matches(request.getPassword(), user.getPassword());
+        System.out.println("AUTH: Password matches: " + matches);
+        
+        if (!matches) {
+            throw new RuntimeException("Password mismatch");
         }
         
         if (!user.isActive()) {
             throw new RuntimeException("User account is disabled");
         }
         
-        List<String> roles = user.getGroups().stream()
-            .map(group -> group.getName())
-            .collect(Collectors.toList());
+        List<String> roles = user.getGroups() != null ? 
+            user.getGroups().stream().map(group -> group.getName()).collect(Collectors.toList()) : 
+            List.of();
         
-        String token = jwtTokenProvider.generateToken(user.getUsername(), roles);
+        String token = jwtTokenProvider.generateToken(user.getEmail(), roles);
         
-        return new AuthResponse(token, user.getUsername(), user.getEmail());
+        return new AuthResponse(token, user.getEmail(), user.getEmail());
     }
     
-    public AuthResponse register(CustomerRegistration request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
-        
-        User user = new User();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
-        user.setUsername(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setActive(true);
-        
-        userRepository.save(user);
-        
-        String token = jwtTokenProvider.generateToken(user.getUsername(), List.of("CUSTOMER"));
-        return new AuthResponse(token, user.getUsername(), user.getEmail());
-    }
+
 }

@@ -1,1 +1,5 @@
 za\blkmarket\gateway\ApiGatewayApplication.class
+za\blkmarket\gateway\JwtAuthenticationFilter$Config.class
+za\blkmarket\gateway\JwtAuthenticationFilter.class
+za\blkmarket\gateway\JwtAuthFilter.class
+za\blkmarket\gateway\LoggingFilter.class

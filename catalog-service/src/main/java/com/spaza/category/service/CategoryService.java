@@ -30,4 +30,8 @@ public class CategoryService {
     public List<Category> findAll(String name, int page, int count) {
         return categoryRepository.findAll(PageRequest.of(page, count)).getContent();
     }
+    
+    public List<Category> findByMerchantId(Long merchantId) {
+        return categoryRepository.findByMerchantId(merchantId);
+    }
 }

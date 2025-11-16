@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.blkmarket.userauth.dto.AuthRequest;
 import za.blkmarket.userauth.dto.AuthResponse;
-import za.blkmarket.userauth.dto.CustomerRegistration;
+
 import za.blkmarket.userauth.service.AuthService;
 
 import javax.validation.Valid;
@@ -29,16 +29,15 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
     
-    @PostMapping("/register")
-    @Operation(summary = "Registers a customer to the application", 
-               description = "Used as self-served operation")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody CustomerRegistration request) {
-        AuthResponse response = authService.register(request);
-        return ResponseEntity.status(201).body(response);
-    }
+
     
     @GetMapping("/health")
     public ResponseEntity<String> health() {
         return ResponseEntity.ok("User Auth Service is running");
+    }
+    
+    @GetMapping("/hash/{password}")
+    public ResponseEntity<String> hash(@PathVariable String password) {
+        return ResponseEntity.ok(authService.hashPassword(password));
     }
 }
