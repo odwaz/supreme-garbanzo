@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 public interface PaymentApiCtrl {
 
@@ -30,10 +31,10 @@ public interface PaymentApiCtrl {
     ResponseEntity<String> nextTransaction(@PathVariable Long id);
 
     @GetMapping("/api/v1/private/modules/payment")
-    ResponseEntity<Object[]> paymentModules();
+    ResponseEntity<Object[]> paymentModules(@RequestParam(required = false) Long merchantId, @RequestParam(required = false) String language);
 
     @GetMapping("/api/v1/private/modules/payment/{code}")
-    ResponseEntity<Object[]> paymentModule(@PathVariable String code);
+    ResponseEntity<Object[]> paymentModule(@PathVariable String code, @RequestParam(required = false) Long merchantId);
 
     @PostMapping("/api/v1/private/modules/payment")
     ResponseEntity<Void> configure(@Valid @RequestBody IntegrationModuleConfiguration configuration);

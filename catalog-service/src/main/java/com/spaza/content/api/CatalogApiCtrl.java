@@ -16,7 +16,7 @@ public interface CatalogApiCtrl {
     @PostMapping("/api/v1/private/catalog")
     ResponseEntity<ReadableCatalog> create(@Valid @RequestBody PersistableCatalog catalog);
 
-    @PutMapping("/api/v1/private/catalog/{id}")
+    @PatchMapping("/api/v1/private/catalog/{id}")
     ResponseEntity<Void> update(@PathVariable Long id, @Valid @RequestBody PersistableCatalog catalog);
 
     @DeleteMapping("/api/v1/private/catalog/{id}")

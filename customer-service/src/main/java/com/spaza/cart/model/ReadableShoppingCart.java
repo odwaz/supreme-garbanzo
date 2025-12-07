@@ -12,6 +12,7 @@ public class ReadableShoppingCart {
     private Long id;
     private String code;
     private java.math.BigDecimal total;
+    private Long merchantId;
     
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> items = new ArrayList<>();
@@ -29,4 +30,7 @@ public class ReadableShoppingCart {
     
     public java.math.BigDecimal getTotal() { return total; }
     public void setTotal(java.math.BigDecimal total) { this.total = total; }
+    
+    public Long getMerchantId() { return merchantId; }
+    public void setMerchantId(Long merchantId) { this.merchantId = merchantId; }
 }

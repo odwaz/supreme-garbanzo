@@ -21,6 +21,12 @@ public interface CategoryApiCtrl {
     @GetMapping("/api/v1/category/{id}")
     ResponseEntity<Category> getById(@PathVariable Long id);
 
+    @GetMapping("/api/v1/category")
+    ResponseEntity<List<Category>> listPublic(
+            @RequestParam(required = false) String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int count);
+
     @GetMapping("/api/v1/private/category")
     ResponseEntity<List<Category>> list(
             @RequestParam(required = false) String name,

@@ -1,3 +1,4 @@
+D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\exception\ErrorResponse.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\ProductTypeDescription.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\ReadableProductPrice.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\controller\NewsletterApiCtrlController.java
@@ -28,11 +29,9 @@ D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\j
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\api\ProductImageApiCtrl.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\entity\ProductVariation.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\model\Image.java
-D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\api\ProductPriceApiCtrl.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\entity\ProductVariantGroup.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\repository\ProductVariantRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\ReadableProductVariant.java
-D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\controller\ProductVariantApiCtrlController.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\delegate\ProductImageApiCtrlDelegate.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\PersistableProductVariant.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\api\CatalogApiCtrl.java
@@ -47,7 +46,9 @@ D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\j
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\manufacturer\entity\Manufacturer.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\delegate\ProductApiCtrlDelegateImpl.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\ReadableProductType.java
+D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\exception\ServiceException.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\model\ReadableContentBox.java
+D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\exception\ValidationException.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\model\ReadableCatalog.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\ContentServiceApplication.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\PersistableProductOptionSet.java
@@ -68,13 +69,11 @@ D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\j
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\ReadableProductOptionSet.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\repository\ProductImageRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\delegate\ProductImageApiCtrlDelegateImpl.java
-D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\delegate\ImageApiCtrlDelegate.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\delegate\ContentApiCtrlDelegateImpl.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\ReadableProductVariation.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\api\NewsletterApiCtrl.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\delegate\ContentApiCtrlDelegate.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\model\Newsletter.java
-D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\controller\ProductPriceApiCtrlController.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\model\PersistableContentPage.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\entity\ProductVariantValue.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\PersistableProductVariantGroup.java
@@ -82,7 +81,6 @@ D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\j
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\ProductImage.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\category\model\PersistableCategory.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\repository\ProductVariantValueRepository.java
-D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\api\ImageApiCtrl.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\model\PersistableCatalog.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\repository\ProductRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\repository\ContentBoxRepository.java
@@ -97,11 +95,9 @@ D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\j
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\PersistableProductType.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\delegate\ProductApiCtrlDelegate.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\controller\CatalogApiCtrlController.java
+D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\model\PersistableOptin.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\category\delegate\CategoryApiCtrlDelegate.java
-D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\api\ProductVariantApiCtrl.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\Product.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\service\ProductService.java
-D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\delegate\ImageApiCtrlDelegateImpl.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\exception\GlobalExceptionHandler.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\delegate\CatalogApiCtrlDelegateImpl.java
-D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\controller\ImageApiCtrlController.java

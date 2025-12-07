@@ -11,5 +11,6 @@ public interface CategoryApiCtrlDelegate {
     ResponseEntity<Void> update(Long id, PersistableCategory category);
     ResponseEntity<Void> delete(Long id);
     ResponseEntity<Category> getById(Long id);
+    ResponseEntity<List<Category>> listPublic(String filter, int page, int count);
     ResponseEntity<List<Category>> list(String name, int page, int count);
 }

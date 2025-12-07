@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = "*")
+@RequestMapping
 public class OrderApiCtrlController implements OrderApiCtrl {
     
     @Autowired
     private OrderApiCtrlDelegate delegate;
 
     @Override
-    public ResponseEntity<ReadableOrderConfirmation> checkout(String code, @Valid PersistableOrder order) {
+    public ResponseEntity<ReadableOrderConfirmation> checkout(@PathVariable String code, @Valid @RequestBody PersistableOrder order) {
         return delegate.checkout(code, order);
     }
 
     @Override
-    public ResponseEntity<ReadableOrderConfirmation> checkout(String code, @Valid PersistableAnonymousOrder order) {
+    public ResponseEntity<ReadableOrderConfirmation> checkout(@PathVariable String code, @Valid @RequestBody PersistableAnonymousOrder order) {
         return delegate.checkout(code, order);
     }
 
@@ -37,8 +37,8 @@ public class OrderApiCtrlController implements OrderApiCtrl {
     }
 
     @Override
-    public ResponseEntity<ReadableOrderList> list(int count, String email, Long id, String name, int page, String phone, String status) {
-        return delegate.list(count, email, id, name, page, phone, status);
+    public ResponseEntity<ReadableOrderList> list(int count, String email, Long id, String name, int page, String phone, String status, Long merchantId) {
+        return delegate.list(count, email, id, name, page, phone, status, merchantId);
     }
 
     @Override

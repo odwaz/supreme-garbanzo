@@ -38,6 +38,6 @@ public interface CustomerManagementApiCtrl {
     @GetMapping("/api/v1/private/customers")
     ResponseEntity<ReadableCustomerList> list(@RequestParam(required = false) Integer count, @RequestParam(required = false) Integer page);
     
-    @GetMapping("/api/v1/private/customer/email/{email}")
-    ResponseEntity<ReadableCustomer> getByEmail(@PathVariable String email);
+    @GetMapping("/api/v1/private/customer/profile")
+    ResponseEntity<ReadableCustomer> getPrivateProfile();
 }

@@ -34,6 +34,21 @@ spec:
         - containerPort: 8081
         env:
         - name: SPRING_DATASOURCE_URL
-          value: "jdbc:mysql://mysql:3306/salesmanager?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+          value: "jdbc:mysql://host.docker.internal:3306/salesmanager?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
         - name: DB_PASSWORD
-          value: "Qwbrty!"
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: password
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: jwt-secret
+              key: secret
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

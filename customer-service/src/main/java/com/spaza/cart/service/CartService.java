@@ -25,9 +25,11 @@ public class CartService {
     private RestTemplate restTemplate = new RestTemplate();
 
     public ReadableShoppingCart addToCart(PersistableShoppingCartItem item) {
+        Long merchantId = getProductMerchantId(item.getProduct());
         String cartCode = "CART-" + UUID.randomUUID().toString().substring(0, 8);
         ReadableShoppingCart cart = new ReadableShoppingCart();
         cart.setCode(cartCode);
+        cart.setMerchantId(merchantId);
         CartItem cartItem = new CartItem();
         cartItem.setCart(cart);
         cartItem.setProductId(item.getProduct());
@@ -43,6 +45,13 @@ public class CartService {
 
     public ReadableShoppingCart modifyCart(String code, PersistableShoppingCartItem item) {
         ReadableShoppingCart cart = getByCode(code);
+        Long productMerchantId = getProductMerchantId(item.getProduct());
+        if (cart.getMerchantId() != null && !cart.getMerchantId().equals(productMerchantId)) {
+            throw new RuntimeException("Cannot add products from different merchants to the same cart");
+        }
+        if (cart.getMerchantId() == null) {
+            cart.setMerchantId(productMerchantId);
+        }
         CartItem cartItem = new CartItem();
         cartItem.setCart(cart);
         cartItem.setProductId(item.getProduct());
@@ -110,5 +119,18 @@ public class CartService {
         cart.setCode(code);
         cart.setItems(new ArrayList<>());
         return cart;
+    }
+    
+    private Long getProductMerchantId(Long productId) {
+        try {
+            String productUrl = catalogServiceUrl + "/api/v1/product/" + productId;
+            Map product = restTemplate.getForObject(productUrl, Map.class);
+            if (product != null && product.get("merchantId") != null) {
+                return Long.valueOf(product.get("merchantId").toString());
+            }
+        } catch (Exception e) {
+            System.err.println("Error fetching product merchant: " + e.getMessage());
+        }
+        return null;
     }
 }

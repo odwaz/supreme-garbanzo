@@ -1,0 +1,1596 @@
+Analyzing: d:\Documents\projects\Java\online-spaza-microservices\api-gateway\online-api-docs.json
+
+=== API DOCUMENTATION STRUCTURE ===
+
+OpenAPI Version: 3.0.1
+Title: Api Documentation
+Version: 1.0
+Description: Api Documentation...
+
+=== SERVERS (1) ===
+  - http://localhost:8080
+
+=== ENDPOINTS (240) ===
+
+CATALOG MANAGEMENT RESOURCE (CATALOG MANAGEMENT API) (9 endpoints):
+  POST   /api/v1/private/catalog
+         Create catalog
+  GET    /api/v1/private/catalog/{id}
+         Get catalog
+  POST   /api/v1/private/catalog/{id}
+         Add catalog entry to catalog
+  DELETE /api/v1/private/catalog/{id}
+         Deletes a catalog
+  PATCH  /api/v1/private/catalog/{id}
+         Update catalog
+  GET    /api/v1/private/catalogs
+         Get catalogs by merchant
+  GET    /api/v1/private/catalog/{id}/entry
+         Get catalog entry by catalog
+  GET    /api/v1/private/catalog/unique
+         Check if catalog code already exists
+  DELETE /api/v1/private/catalog/{id}/entry/{entryId}
+         Remove catalog entry from catalog
+
+CATEGORY MANAGEMENT RESOURCE (CATEGORY MANAGEMENT API) (11 endpoints):
+  PUT    /api/v1/private/category/{id}
+         update
+  DELETE /api/v1/private/category/{id}
+         delete
+  PUT    /api/v1/private/category/{id}/move/{parent}
+         Move a category under another category
+  GET    /api/v1/private/category
+         Get category hierarchy from root. Supports filtering FEATURED_CATEGORIES and VISIBLE ONLY by adding ?filter=[featured] or ?filter=[visible] or ? filter=[featured,visible
+  POST   /api/v1/private/category
+         create
+  PATCH  /api/v1/private/category/{id}/visible
+         updateVisible
+  GET    /api/v1/private/category/unique
+         Check if category code already exists
+  GET    /api/v1/category
+         Get category hierarchy from root. Supports filtering FEATURED_CATEGORIES and VISIBLE ONLY by adding ?filter=[featured] or ?filter=[visible] or ? filter=[featured,visible
+  GET    /api/v1/category/{id}
+         Get category list for an given Category id
+  GET    /api/v1/category/product/{ProductId}
+         Get category by product
+  GET    /api/v1/category/friendly/{friendlyUrl}
+         Get category list for an given Category code
+
+CONFIGURATIONS MANAGEMENT (4 endpoints):
+  GET    /api/v1/private/configurations/shipping
+         List shipping configurations summary
+  POST   /api/v1/private/configurations/shipping
+         Manages shipping configurations
+  GET    /api/v1/private/configurations/payment
+         List payment configurations summary
+  POST   /api/v1/private/configurations/payment
+         Manages payment configurations
+
+CONTACT FORM API (1 endpoints):
+  POST   /api/v1/contact
+         Sends an email contact us to store owner
+
+CONTENT MANAGEMENT RESOURCE (CONTENT MANAGEMENT API) (26 endpoints):
+  PUT    /api/v1/private/content/{id}
+         Update content page
+  DELETE /api/v1/private/content/{id}
+         Deletes a content from CMS
+  PUT    /api/v1/private/content/page/{id}
+         Update content page
+  DELETE /api/v1/private/content/page/{id}
+         Delete content page
+  PUT    /api/v1/private/content/box/{id}
+         Update content box
+  DELETE /api/v1/private/content/box/{id}
+         Delete content box
+  POST   /api/v1/private/files
+         uploadMultipleFiles
+  POST   /api/v1/private/file
+         upload
+  POST   /api/v1/private/content/page
+         Create content page
+  POST   /api/v1/private/content/box
+         Create content box
+  GET    /api/v1/private/contents/any
+         Get contents (page and box) for a given MerchantStore
+  GET    /api/v1/private/content/pages
+         Get page names created for a given MerchantStore
+  GET    /api/v1/private/content/page/{code}/exists
+         Check unique content page
+  GET    /api/v1/private/content/boxes
+         Get boxes for a given MerchantStore
+  GET    /api/v1/private/content/boxes/{code}
+         Manage box content by code for a code and a given MerchantStore
+  GET    /api/v1/private/content/box/{code}/exists
+         Check unique content box
+  GET    /api/v1/private/content/any/{code}
+         Get page content by code for a given MerchantStore
+  GET    /api/v1/content/summary
+         Get pages summary created for a given MerchantStore. Content summary is a content bux having code summary.
+  GET    /api/v1/content/pages
+         Get page names created for a given MerchantStore
+  GET    /api/v1/content/pages/{code}
+         Get page content by code for a given MerchantStore
+  GET    /api/v1/content/pages/name/{name}
+         Get page content by code for a given MerchantStore
+  GET    /api/v1/content/images
+         Get store content images
+  GET    /api/v1/content/boxes
+         Get boxes for a given MerchantStore
+  GET    /api/v1/content/boxes/{code}
+         Get box content by code for a code and a given MerchantStore
+  DELETE /api/v1/private/content/
+         Deletes a file from CMS
+  DELETE /api/v1/content/folder
+         addFolder
+
+CUSTOMER AUTHENTICATION RESOURCE (CUSTOMER AUTHENTICATION API) (4 endpoints):
+  POST   /api/v1/customer/register
+         Registers a customer to the application
+  POST   /api/v1/customer/login
+         Authenticates a customer to the application
+  POST   /api/v1/auth/customer/password
+         Sends a request to reset password
+  GET    /api/v1/auth/customer/refresh
+         refreshToken
+
+CUSTOMER MANAGEMENT RESOURCE (CUSTOMER MANAGEMENT API) (11 endpoints):
+  GET    /api/v1/private/customer/{id}
+         get
+  PUT    /api/v1/private/customer/{id}
+         Updates a customer
+  DELETE /api/v1/private/customer/{id}
+         Deletes a customer
+  POST   /api/v1/private/customer
+         Creates a customer
+  PATCH  /api/v1/private/customer/{id}/address
+         Updates a customer
+  PATCH  /api/v1/auth/customer/address
+         Updates a loged in customer address
+  DELETE /api/v1/auth/customer/
+         Deletes a loged in customer profile
+  PATCH  /api/v1/auth/customer/
+         Updates a loged in customer profile
+  GET    /api/v1/private/customers
+         list
+  GET    /api/v1/private/customer/profile
+         getAuthUser
+  GET    /api/v1/auth/customer/profile
+         getAuthUser
+
+CUSTOMER PASSWORD MANAGEMENT RESOURCE (USER PASSWORD MANAGEMENT API) (3 endpoints):
+  POST   /api/v1/customer/{store}/password/{token}
+         Change customer password
+  POST   /api/v1/customer/password/reset/request
+         Launch customer password reset flow
+  GET    /api/v1/customer/{store}/reset/{token}
+         Validate customer password reset token
+
+GROUPS AND PERMISSIONS API (3 endpoints):
+  GET    /api/v1/sec/private/{group}/permissions
+         Get permissions by group
+  GET    /api/v1/sec/private/permissions
+         permissions
+  GET    /api/v1/sec/private/groups
+         groups
+
+MANUFACTURER / BRAND MANAGEMENT RESOURCE (MANUFACTURER / BRAND MANAGEMENT API) (8 endpoints):
+  PUT    /api/v1/private/manufacturer/{id}
+         update
+  DELETE /api/v1/private/manufacturer/{id}
+         delete
+  POST   /api/v1/private/manufacturer
+         create
+  GET    /api/v1/private/manufacturers
+         List manufacturers by store
+  GET    /api/v1/private/manufacturer/unique
+         Check if manufacturer code already exists
+  GET    /api/v1/manufacturers
+         List manufacturers by store
+  GET    /api/v1/manufacturer/{id}
+         get
+  GET    /api/v1/category/{id}/manufacturer
+         Get all manufacturers for all items in a given category
+
+MERCHANT AND STORE MANAGEMENT RESOURCE (MERCHANT - STORE MANAGEMENT API) (16 endpoints):
+  GET    /api/v1/private/store/{code}
+         Get merchant store full details
+  PUT    /api/v1/private/store/{code}
+         Updates a store
+  DELETE /api/v1/private/store/{code}
+         Deletes a store
+  POST   /api/v1/private/store
+         Creates a new store
+  GET    /api/v1/private/store/{code}/marketing
+         Get store branding and marketing details
+  POST   /api/v1/private/store/{code}/marketing
+         Create or save store branding and marketing details
+  POST   /api/v1/private/store/{code}/marketing/logo
+         Add store logo
+  DELETE /api/v1/private/store/{code}/marketing/logo
+         Delete store logo
+  GET    /api/v1/store/{code}
+         Get merchant store
+  GET    /api/v1/store/unique
+         Check if store code already exists
+  GET    /api/v1/store/languages
+         Get list of store supported languages.
+  GET    /api/v1/private/stores
+         Get list of stores. Returns all retailers and stores. If superadmin everything is returned, else only retailer and child stores.
+  GET    /api/v1/private/stores/names
+         Get list of store names. Returns all retailers and stores
+  GET    /api/v1/private/store/unique
+         Check if store code already exists
+  GET    /api/v1/private/merchant/{code}/stores
+         Get retailer child stores
+  GET    /api/v1/private/merchant/{code}/children
+         Get child stores
+
+OPTIN CUSTOMER TO NEWSLETTER (3 endpoints):
+  PUT    /api/v1/newsletter/{email}
+         Updates a customer
+  DELETE /api/v1/newsletter/{email}
+         Deletes a customer
+  POST   /api/v1/newsletter
+         Creates a newsletter optin
+
+ORDER TOTAL CALCULATION FOR A GIVEN SHOPPING CART (ORDER TOTAL API) (2 endpoints):
+  GET    /api/v1/cart/{code}/total
+         calculateTotal
+  GET    /api/v1/auth/cart/{id}/total
+         payment
+
+ORDER PAYMENT RESOURCE (ORDER PAYMENT API) (8 endpoints):
+  POST   /api/v1/private/orders/{id}/refund
+         refundPayment
+  POST   /api/v1/private/orders/{id}/capture
+         capturePayment
+  POST   /api/v1/private/orders/{id}/authorize
+         authorizePayment
+  POST   /api/v1/cart/{code}/payment/init
+         init
+  POST   /api/v1/auth/cart/{code}/payment/init
+         init
+  GET    /api/v1/private/orders/{id}/payment/transactions
+         listTransactions
+  GET    /api/v1/private/orders/{id}/payment/nextTransaction
+         nextTransaction
+  GET    /api/v1/private/orders/payment/capturable
+         listCapturableOrders
+
+ORDER STATUS HISTORY API (2 endpoints):
+  GET    /api/v1/private/orders/{id}/history
+         list
+  POST   /api/v1/private/orders/{id}/history
+         Add order history
+
+ORDERING API (ORDER FLOW API) (9 endpoints):
+  PUT    /api/v1/private/orders/{id}/status
+         updateOrderStatus
+  POST   /api/v1/cart/{code}/checkout
+         checkout
+  POST   /api/v1/auth/cart/{code}/checkout
+         checkout
+  PATCH  /api/v1/private/orders/{id}/customer
+         updateOrderCustomer
+  GET    /api/v1/private/orders
+         list
+  GET    /api/v1/private/orders/{id}
+         get
+  GET    /api/v1/private/orders/customers/{id}
+         list
+  GET    /api/v1/auth/orders
+         list
+  GET    /api/v1/auth/orders/{id}
+         getOrder
+
+PAYMENT API (3 endpoints):
+  GET    /api/v1/private/modules/payment
+         List list of payment modules
+  POST   /api/v1/private/modules/payment
+         configure
+  GET    /api/v1/private/modules/payment/{code}
+         Payment module by code
+
+PRODUCT OPTION MANAGEMENT API (20 endpoints):
+  GET    /api/v1/private/product/{id}/attribute/{attributeId}
+         Get product attributes
+  PUT    /api/v1/private/product/{id}/attribute/{attributeId}
+         updateAttribute
+  DELETE /api/v1/private/product/{id}/attribute/{attributeId}
+         deleteAttribute
+  PUT    /api/v1/private/product/option/{optionId}
+         updateOption
+  DELETE /api/v1/private/product/option/{optionId}
+         deleteOption
+  GET    /api/v1/private/product/option/value/{id}
+         getOptionValue
+  PUT    /api/v1/private/product/option/value/{id}
+         updateOptionValue
+  DELETE /api/v1/private/product/option/value/{id}
+         deleteOptionValue
+  GET    /api/v1/private/product/{id}/attributes
+         Get product attributes
+  POST   /api/v1/private/product/{id}/attributes
+         Saves multiple attributes
+  POST   /api/v1/private/product/{id}/attribute
+         createAttribute
+  POST   /api/v1/private/product/option
+         createOption
+  POST   /api/v1/private/product/option/value
+         createOptionValue
+  POST   /api/v1/private/product/option/value/{id}/image
+         addOptionValueImage
+  DELETE /api/v1/private/product/option/value/{id}/image
+         removeOptionValueImage
+  GET    /api/v1/private/product/options
+         options
+  GET    /api/v1/private/product/options/values
+         optionsValues
+  GET    /api/v1/private/product/option/{id}
+         getOption
+  GET    /api/v1/private/product/option/value/unique
+         Check if option value code already exists
+  GET    /api/v1/private/product/option/unique
+         Check if option code already exists
+
+PRODUCT DEFINITION RESOURCE (CREATE UDTATE AND DELETE PRODUCT DEFINITION. SERVES API V1 AND V2 WITH BACKWARD COMPATIBILITY) (15 endpoints):
+  PUT    /api/v1/private/product/{id}
+         Update product
+  POST   /api/v1/private/product/{id}
+         Patch product sort order
+  DELETE /api/v1/private/product/{id}
+         delete
+  PATCH  /api/v1/private/product/{id}
+         Update product inventory
+  PUT    /api/v1/auth/product/{id}
+         Update product
+  POST   /api/v1/auth/product/{id}
+         Patch product sort order
+  DELETE /api/v1/auth/product/{id}
+         delete
+  POST   /api/v1/private/product
+         create
+  POST   /api/v1/private/product/{productId}/category/{categoryId}
+         addProductToCategory
+  DELETE /api/v1/private/product/{productId}/category/{categoryId}
+         removeProductFromCategory
+  POST   /api/v1/auth/products
+         create
+  GET    /api/v1/products
+         list
+  GET    /api/v1/product/{friendlyUrl}
+         Get a product by friendlyUrl (slug)
+  GET    /api/v1/product/friendly/{friendlyUrl}
+         Get a product by friendlyUrl (slug)
+  GET    /api/v1/private/product/unique
+         Check if product code already exists
+
+PRODUCT DISPLAY AND MANAGEMENT RESOURCE (PRODUCT DISPLAY AND MANAGEMENT API SUCH AS ADDING A PRODUCT TO CATEGORY. SERVES API V1 AND V2 WITH BACKWARD COMPATIBILITY) (11 endpoints):
+  GET    /api/v2/private/product/{id}
+         getV2
+  PUT    /api/v2/private/product/{id}
+         updateV2
+  DELETE /api/v2/private/product/{id}
+         deleteV2
+  POST   /api/v2/private/product
+         createV2
+  POST   /api/v2/private/product/inventory
+         create
+  PATCH  /api/v2/private/product/{sku}
+         Update product inventory
+  GET    /api/v2/products
+         list
+  GET    /api/v2/products/category/{friendlyUrl}
+         list
+  GET    /api/v2/product/{sku}
+         Get a product by sku
+  GET    /api/v2/product/name/{friendlyUrl}
+         Get a product by friendlyUrl (slug) version 2
+  GET    /api/v2/product/friendly/{friendlyUrl}
+         Get a product by friendlyUrl (slug) version 2
+
+PRODUCT IMAGES MANAGEMENT. ADD, REMOVE AND SET THE ORDER OF PRODUCT IMAGES. (8 endpoints):
+  POST   /api/v1/private/product/{id}/image
+         uploadImage
+  POST   /api/v1/auth/product/{id}/image
+         uploadImage
+  DELETE /api/v1/private/product/{id}/image/{imageId}
+         deleteImage
+  PATCH  /api/v1/private/product/{id}/image/{imageId}
+         imageDetails
+  PATCH  /api/v1/auth/product/{id}/image/{imageId}
+         imageDetails
+  GET    /api/v1/product/{productId}/images
+         Get images for a given product
+  DELETE /api/v1/private/product/image/{id}
+         deleteImage
+  DELETE /api/v1/auth/product/images/{id}
+         deleteImage
+
+PRODUCT INSTANCES GROUP API (7 endpoints):
+  GET    /api/v2/private/product/productVariantGroup/{id}
+         Get product instance group
+  PUT    /api/v2/private/product/productVariantGroup/{id}
+         Update product instance group
+  DELETE /api/v2/private/product/productVariantGroup/{id}
+         Delete product instance group
+  POST   /api/v2/private/product/productVariantGroup
+         create
+  POST   /api/v2/private/product/productVariantGroup/{id}/image
+         addImage
+  GET    /api/v2/private/product/{id}/productVariantGroup
+         Delete product instance group
+  DELETE /api/v2/private/product/productVariantGroup/{id}/image/{imageId}
+         removeImage
+
+PRODUCT INVENTORY RESOURCE (PRODUCT INVENTORY API) (5 endpoints):
+  PUT    /api/v1/private/product/{productId}/inventory/{id}
+         update
+  DELETE /api/v1/private/product/{productId}/inventory/{id}
+         delete
+  POST   /api/v1/private/product/{productId}/inventory
+         create
+  GET    /api/v1/private/product/{sku}/inventory
+         getBySku
+  GET    /api/v1/private/product/inventory
+         getByProductId
+
+PRODUCT PRICE API (7 endpoints):
+  PUT    /api/v1/private/product/{sku}/inventory/{inventoryId}/price/{priceId}
+         edit
+  POST   /api/v1/private/product/{sku}/price
+         save
+  GET    /api/v1/private/product/{sku}/inventory/{inventoryId}/price
+         list
+  POST   /api/v1/private/product/{sku}/inventory/{inventoryId}/price
+         save
+  GET    /api/v1/private/product/{sku}/prices
+         list
+  GET    /api/v1/private/product/{sku}/price/{priceId}
+         get
+  DELETE /api/v1/private/product/{sku}/price/{priceId}
+         delete
+
+PRODUCT PROPERTY SET REGROUPMENT MANAGEMENT RESOURCE (PRODUCT OPTIONS SET MANAGEMENT API) (6 endpoints):
+  GET    /api/v1/private/product/property/set/{id}
+         get
+  PUT    /api/v1/private/product/property/set/{id}
+         update
+  DELETE /api/v1/private/product/property/set/{id}
+         delete
+  GET    /api/v1/private/product/property/set
+         list
+  POST   /api/v1/private/product/property/set
+         create
+  GET    /api/v1/private/product/property/set/unique
+         Check if option set code already exists
+
+PRODUCT TYPE RESOURCE (PRODUCT TYPE API) (6 endpoints):
+  GET    /api/v1/private/product/type/{id}
+         Get product type
+  PUT    /api/v1/private/product/type/{id}
+         Update product type
+  DELETE /api/v1/private/product/type/{id}
+         Delete product type
+  POST   /api/v1/private/product/type
+         Create product type
+  GET    /api/v1/private/product/types
+         Get product types list
+  GET    /api/v1/private/product/type/unique
+         Verify if product type is unique
+
+PRODUCT VARIANTS API (6 endpoints):
+  GET    /api/v2/private/product/{id}/variant/{variantId}
+         Get a productVariant by id
+  PUT    /api/v2/private/product/{id}/variant/{variantId}
+         Update product variant
+  DELETE /api/v2/private/product/{id}/variant/{variantId}
+         delete
+  POST   /api/v2/private/product/{productId}/variant
+         create
+  GET    /api/v2/private/product/{id}/variants
+         list
+  GET    /api/v2/private/product/{id}/variant/{sku}/unique
+         Check if option set code already exists
+
+PRODUCT VARIATION RESOURCE (PRODUCT VARIANT API) (8 endpoints):
+  GET    /api/v2/private/product/variation/{variationId}
+         get
+  PUT    /api/v2/private/product/variation/{variationId}
+         update
+  DELETE /api/v2/private/product/variation/{variationId}
+         delete
+  POST   /api/v2/product/{id}/variation
+         Get product price variation based on selected product
+  POST   /api/v2/private/product/variation
+         Creates a new product variant
+  GET    /api/v2/private/product/variations
+         list
+  GET    /api/v2/private/product/variation/unique
+         Check if option set code already exists
+  GET    /api/v2/category/{id}/variations
+         Get all variation for all items in a given category
+
+SEARCH PRODUCTS AND SEARCH WORD/SENTENCE COMPLETION FUNCTIONALITY (SEARCH API) (2 endpoints):
+  POST   /api/v1/search
+         search
+  POST   /api/v1/search/autocomplete
+         autocomplete
+
+SHIPPING - EXPEDITION MANAGEMENT RESOURCE (SHIPPING MANAGEMENT API) - SHIP TO COUNTRY (3 endpoints):
+  GET    /api/v1/private/shipping/expedition
+         expedition
+  POST   /api/v1/private/shipping/expedition
+         saveExpedition
+  GET    /api/v1/shipping/country
+         getCountry
+
+SHIPPING QUOTES AND CALCULATION RESOURCE (SHIPPING API) (2 endpoints):
+  POST   /api/v1/cart/{code}/shipping
+         shipping
+  GET    /api/v1/auth/cart/{code}/shipping
+         shipping
+
+SHIPPING CONFIGURATION RESOURCE (SHIPPING MANAGEMENT API) (10 endpoints):
+  GET    /api/v1/private/shipping/package/{code}
+         Get package details
+  PUT    /api/v1/private/shipping/package/{code}
+         Edit package specification
+  DELETE /api/v1/private/shipping/package/{code}
+         Delete a package specification
+  POST   /api/v1/private/shipping/package
+         Create new package specification
+  GET    /api/v1/private/shipping/origin
+         Get shipping origin for a specific merchant store
+  POST   /api/v1/private/shipping/origin
+         saveShippingOrigin
+  GET    /api/v1/private/modules/shipping
+         List list of shipping modules
+  POST   /api/v1/private/modules/shipping
+         configure
+  GET    /api/v1/private/shipping/packages
+         Get list of configured packages types for a specific merchant store
+  GET    /api/v1/private/modules/shipping/{code}
+         Shipping module by code
+
+SHOPPING CART API (9 endpoints):
+  GET    /api/v1/cart/{code}
+         Get a chopping cart by code
+  PUT    /api/v1/cart/{code}
+         Add to an existing shopping cart or modify an item quantity
+  POST   /api/v1/customers/{id}/cart
+         Add product to a specific customer shopping cart
+  POST   /api/v1/cart
+         Add product to shopping cart when no cart exists, this will create a new cart id
+  POST   /api/v1/cart/{code}/promo/{promo}
+         Add promo / coupon to an existing cart
+  POST   /api/v1/cart/{code}/multi
+         Add to an existing shopping cart or modify an item quantity
+  GET    /api/v1/auth/customer/{id}/cart
+         Get a shopping cart by customer id. Customer must be authenticated
+  GET    /api/v1/auth/customer/cart
+         Get a shopping cart by authenticated customer
+  DELETE /api/v1/cart/{code}/product/{sku}
+         Remove a product from a specific cart
+
+TAX CLASS MANAGEMENT RESOURCE (TAX CLASS MANAGEMENT API) (6 endpoints):
+  PUT    /api/v1/private/tax/class/{id}
+         Updates a taxClass
+  DELETE /api/v1/private/tax/class/{id}
+         Delete tax class
+  GET    /api/v1/private/tax/class
+         List taxClasses by store
+  POST   /api/v1/private/tax/class
+         Creates a taxClass
+  GET    /api/v1/private/tax/class/{code}
+         Get a taxClass by code
+  GET    /api/v1/private/tax/class/unique
+         Verify if taxClass is unique
+
+TAX RATES MANAGEMENT RESOURCE (TAX RATES MANAGEMENT API) (6 endpoints):
+  GET    /api/v1/private/tax/rate/{id}
+         Get a taxRate by code
+  PUT    /api/v1/private/tax/rate/{id}
+         Updates a taxRate
+  DELETE /api/v1/private/tax/rate/{id}
+         Delete tax rate
+  POST   /api/v1/private/tax/rate
+         Creates a taxRate
+  GET    /api/v1/private/tax/rates
+         List taxRates by store
+  GET    /api/v1/private/tax/rate/unique
+         Verify if taxRate is unique
+
+USER AUTHENTICATION API (2 endpoints):
+  POST   /api/v1/private/login
+         authenticate
+  GET    /api/v1/auth/refresh
+         refreshAndGetAuthenticationToken
+
+USER MANAGEMENT RESOURCE (USER MANAGEMENT API) (9 endpoints):
+  PUT    /api/v1/private/user/{id}
+         Updates a user
+  DELETE /api/v1/private/user/{id}
+         Deletes a user
+  POST   /api/v1/private/user/unique
+         Check if username already exists
+  POST   /api/v1/private/user/
+         Creates a new user
+  PATCH  /api/v1/private/user/{id}/password
+         Updates a user password
+  PATCH  /api/v1/private/user/{id}/enabled
+         updateEnabled
+  GET    /api/v1/private/users
+         Get list of user
+  GET    /api/v1/private/users/{id}
+         Get a specific user profile by user id
+  GET    /api/v1/private/user/profile
+         getAuthUser
+
+USER PASSWORD RESET RESOURCE (USER PASSWORD RESET API) (3 endpoints):
+  POST   /api/v1/user/{store}/password/{token}
+         Change user password
+  POST   /api/v1/user/password/reset/request
+         Launch user password reset flow
+  GET    /api/v1/user/{store}/reset/{token}
+         Validate user password reset token
+
+CACHE-API (1 endpoints):
+  DELETE /api/v1/auth/cache/store/{storeId}/clear
+         clearCache
+
+CONTENT-ADMINISTRATION-API (6 endpoints):
+  POST   /api/v1/private/content/images/rename
+         rename
+  POST   /api/v1/private/content/images/add
+         upload
+  GET    /api/v1/private/content/list
+         list
+  GET    /api/v1/private/content/folder
+         folder
+  GET    /api/v1/content/images/download
+         download
+  DELETE /api/v1/private/content/images/remove
+         remove
+
+CUSTOMER-REVIEW-API (4 endpoints):
+  PUT    /api/v1/private/customers/{id}/reviews/{reviewid}
+         update
+  POST   /api/v1/private/customers/{id}/reviews
+         create
+  GET    /api/v1/customers/{id}/reviews
+         getAll
+  DELETE /api/v1/private/customers/{id}/reviews/{reviewId}
+         delete
+
+MARKET-PLACE-API (3 endpoints):
+  POST   /api/v1/store/signup
+         Signup store
+  GET    /api/v1/store/{store}/signup/{token}
+         Validate store signup token
+  GET    /api/v1/private/marketplace/{store}
+         Get market place meta-data
+
+OPTIN-API (1 endpoints):
+  POST   /api/v1/private/optin
+         Creates an optin event type definition
+
+PRODUCT-RELATIONSHIP-API (1 endpoints):
+  GET    /api/v1/product/{id}/related
+         Get product related items. This is used for doing cross-sell and up-sell functionality on a product details page
+
+PRODUCT-REVIEW-API (7 endpoints):
+  PUT    /api/v1/private/products/{id}/reviews/{reviewid}
+         update
+  DELETE /api/v1/private/products/{id}/reviews/{reviewid}
+         delete
+  PUT    /api/v1/auth/products/{id}/reviews/{reviewid}
+         update
+  DELETE /api/v1/auth/products/{id}/reviews/{reviewid}
+         delete
+  POST   /api/v1/private/products/{id}/reviews
+         create
+  POST   /api/v1/auth/products/{id}/reviews
+         create
+  GET    /api/v1/product/{id}/reviews
+         getAll
+
+PUBLIC-CONFIGS-API (1 endpoints):
+  GET    /api/v1/config
+         Get public configuration for a given merchant store
+
+REFERENCES-API (5 endpoints):
+  GET    /api/v1/zones
+         getZones
+  GET    /api/v1/measures
+         measures
+  GET    /api/v1/languages
+         getLanguages
+  GET    /api/v1/currency
+         getCurrency
+  GET    /api/v1/country
+         getCountry
+
+SEARCH-TOOLS-API (1 endpoints):
+  POST   /api/v1/private/system/search/index
+         Indexes all products
+
+=== DATA MODELS (166) ===
+  - Address
+  - AddressLocation
+  - AuthenticationRequest
+  - AuthenticationResponse
+  - Category
+  - CategoryDescription
+  - CodeEntity
+  - Configs
+  - ContactForm
+  - Content
+  - ContentDescription
+  - ContentDescriptionEntity
+  - ContentFolder
+  - CreditCard
+  - Currency
+  - Customer
+  - CustomerOption
+  - CustomerOptionDescription
+  - CustomerOptionValue
+  - CustomerOptionValueDescription
+  - Entity
+  - EntityExists
+  - Error
+  - ExpeditionConfiguration
+  - FileStatus
+  - ImageFile
+  - IntegrationModuleConfiguration
+  - Language
+  - LightPersistableProduct
+  - ManufacturerDescription
+  - MerchantConfigEntity
+  - OrderAttribute
+  - OrderTotal
+  - PackageDetails
+  - PasswordRequest
+  - PersistableAddress
+  - PersistableAnonymousOrder
+  - PersistableBrand
+  - PersistableCatalog
+  - PersistableCatalogCategoryEntry
+  - PersistableCategory
+  - PersistableContentBox
+  - PersistableContentEntity
+  - PersistableContentPage
+  - PersistableCustomerAttribute
+  - PersistableCustomerOptin
+  - PersistableCustomerReview
+  - PersistableGroup
+  - PersistableImage
+  - PersistableInventory
+  - PersistableManufacturer
+  - PersistableMerchantStore
+  - PersistableOptin
+  - PersistableOrder
+  - PersistableOrderStatusHistory
+  - PersistablePayment
+  - PersistableProduct
+  - PersistableProductAttribute
+  - PersistableProductDefinition
+  - PersistableProductInventory
+  - PersistableProductOptionEntity
+  - PersistableProductOptionSet
+  - PersistableProductOptionValue
+  - PersistableProductPrice
+  - PersistableProductReview
+  - PersistableProductType
+  - PersistableProductVariant
+  - PersistableProductVariantGroup
+  - PersistableProductVariation
+  - PersistableShoppingCartItem
+  - PersistableTaxClass
+  - PersistableTaxRate
+  - PersistableUser
+  - ProductAttribute
+  - ProductDescription
+  - ProductOptionDescription
+  - ProductOptionValueDescription
+  - ProductPriceDescription
+  - ProductPropertyOption
+  - ProductSpecification
+  - ProductTypeDescription
+  - ReadableAddress
+  - ReadableAudit
+  - ReadableBilling
+  - ReadableBrand
+  - ReadableCatalog
+  - ReadableCatalogCategoryEntry
+  - ReadableCategory
+  - ReadableCategoryList
+  - ReadableContentPage
+  - ReadableCountry
+  - ReadableCustomer
+  - ReadableCustomerAttribute
+  - ReadableCustomerList
+  - ReadableCustomerOption
+  - ReadableCustomerOptionValue
+  - ReadableCustomerReview
+  - ReadableDescription
+  - ReadableEntityList
+  - ReadableEntityListObject
+  - ReadableEntityListReadableInventory
+  - ReadableEntityListReadableProductVariant
+  - ReadableEntityListReadableProductVariantGroup
+  - ReadableEntityListReadableProductVariation
+  - ReadableEntityListReadableTaxRate
+  - ReadableGroup
+  - ReadableImage
+  - ReadableInventory
+  - ReadableLanguage
+  - ReadableManufacturer
+  - ReadableManufacturerList
+  - ReadableMarketPlace
+  - ReadableMerchantStore
+  - ReadableOptin
+  - ReadableOrder
+  - ReadableOrderConfirmation
+  - ReadableOrderList
+  - ReadableOrderProduct
+  - ReadableOrderProductAttribute
+  - ReadableOrderStatusHistory
+  - ReadableOrderTotal
+  - ReadableOrderTotalSummary
+  - ReadablePermission
+  - ReadableProduct
+  - ReadableProductAttributeEntity
+  - ReadableProductAttributeList
+  - ReadableProductDefinition
+  - ReadableProductList
+  - ReadableProductOption
+  - ReadableProductOptionEntity
+  - ReadableProductOptionList
+  - ReadableProductOptionSet
+  - ReadableProductOptionValue
+  - ReadableProductOptionValueList
+  - ReadableProductPrice
+  - ReadableProductReview
+  - ReadableProductType
+  - ReadableProductVariant
+  - ReadableProductVariantGroup
+  - ReadableProductVariantValue
+  - ReadableProductVariation
+  - ReadableSelectedProductVariant
+  - ReadableShippingSummary
+  - ReadableShoppingCart
+  - ReadableShoppingCartAttribute
+  - ReadableShoppingCartAttributeOption
+  - ReadableShoppingCartAttributeOptionValue
+  - ReadableShoppingCartItem
+  - ReadableTaxClass
+  - ReadableTaxRate
+  - ReadableTaxRateDescription
+  - ReadableTotal
+  - ReadableTransaction
+  - ReadableUser
+  - ReadableUserList
+  - ReadableZone
+  - ResetPasswordRequest
+  - SearchItem
+  - SearchProductRequest
+  - ShippingOption
+  - SignupStore
+  - SizeReferences
+  - TaxRateDescription
+  - UniqueEntity
+  - UserPassword
+  - ValueList
+
+=== SECURITY SCHEMES (1) ===
+  - JWT: apiKey
+
+=== ANALYSIS COMPLETE ===
+
+================================================================================
+IMPLEMENTATION ANALYSIS
+================================================================================
+
+Spec Endpoints: 304
+Implemented Endpoints: 119
+API Interface Files: 20
+
+Matched: 92 (30.3%)
+Missing: 212
+Extra (not in spec): 27
+
+================================================================================
+EXTRA ENDPOINTS (NOT IN SPEC)
+================================================================================
+
+CatalogApiCtrl.java (1 extra):
+  PUT    /api/v1/private/catalog/{id}
+
+CustomerAuthenticationApiCtrl.java (2 extra):
+  POST   /api/v1/auth/login
+  POST   /api/v1/auth/register
+
+CustomerManagementApiCtrl.java (2 extra):
+  PUT    /api/v1/auth/customer/profile/{id}
+  GET    /api/v1/private/customer/email/{email}
+
+ImageApiCtrl.java (3 extra):
+  GET    /api/v1/content/images/{name}
+  POST   /api/v1/private/content/images
+  DELETE /api/v1/private/content/images/{name}
+
+NewsletterApiCtrl.java (2 extra):
+  GET    /api/v1/private/optin
+  DELETE /api/v1/private/optin/{email}
+
+OrderTrackingApiCtrl.java (2 extra):
+  GET    /api/v1/auth/orders/{id}/history
+  GET    /api/v1/auth/orders/{id}/tracking
+
+PaymentApiCtrl.java (2 extra):
+  POST   /api/v1/payment/ozow/initiate
+  POST   /api/v1/payment/stripe/initiate
+
+PaymentConfigApiCtrl.java (2 extra):
+  PUT    /api/v1/private/configurations/payment
+  DELETE /api/v1/private/configurations/payment/{code}
+
+ProductPriceApiCtrl.java (2 extra):
+  PUT    /api/v1/private/product/{productId}/price/{priceId}
+  GET    /api/v1/product/{productId}/prices
+
+ProductVariantApiCtrl.java (3 extra):
+  POST   /api/v1/private/product/{productId}/variant
+  DELETE /api/v1/private/product/{productId}/variant/{variantId}
+  GET    /api/v1/product/{productId}/variants
+
+ReferenceApiCtrl.java (3 extra):
+  GET    /api/v1/country/{code}
+  GET    /api/v1/currency/{code}
+  GET    /api/v1/language/{code}
+
+ShippingApiCtrl.java (1 extra):
+  GET    /api/v1/private/shipping
+
+ShippingConfigApiCtrl.java (2 extra):
+  PUT    /api/v1/private/configurations/shipping
+  DELETE /api/v1/private/configurations/shipping/{code}
+
+================================================================================
+MISSING ENDPOINTS BY SERVICE
+================================================================================
+
+Catalog management resource (Catalog Management Api) (5 missing):
+  GET    /api/v1/private/catalog/unique
+         Check if catalog code already exists
+  POST   /api/v1/private/catalog/{id}
+         Add catalog entry to catalog
+  PATCH  /api/v1/private/catalog/{id}
+         Update catalog
+  GET    /api/v1/private/catalog/{id}/entry
+         Get catalog entry by catalog
+  DELETE /api/v1/private/catalog/{id}/entry/{entryId}
+         Remove catalog entry from catalog
+
+Category management resource (Category Management Api) (6 missing):
+  GET    /api/v1/category/product/{ProductId}
+         Get category by product
+  GET    /api/v1/category
+         Get category hierarchy from root. Supports filtering FEATURED_CATEGORIES and VISIBLE ONLY by adding ?filter=[featured] or ?filter=[visible] or ? filter=[featured,visible
+  GET    /api/v1/private/category/unique
+         Check if category code already exists
+  GET    /api/v1/category/friendly/{friendlyUrl}
+         Get category list for an given Category code
+  PATCH  /api/v1/private/category/{id}/visible
+         updateVisible
+  PUT    /api/v1/private/category/{id}/move/{parent}
+         Move a category under another category
+
+Contact form api (1 missing):
+  POST   /api/v1/contact
+         Sends an email contact us to store owner
+
+Content management resource (Content Management Api) (13 missing):
+  GET    /api/v1/private/content/any/{code}
+         Get page content by code for a given MerchantStore
+  POST   /api/v1/private/files
+         uploadMultipleFiles
+  PUT    /api/v1/private/content/{id}
+         Update content page
+  GET    /api/v1/private/contents/any
+         Get contents (page and box) for a given MerchantStore
+  GET    /api/v1/private/content/boxes/{code}
+         Manage box content by code for a code and a given MerchantStore
+  GET    /api/v1/private/content/box/{code}/exists
+         Check unique content box
+  GET    /api/v1/private/content/boxes
+         Get boxes for a given MerchantStore
+  DELETE /api/v1/private/content/
+         Deletes a file from CMS
+  GET    /api/v1/private/content/pages
+         Get page names created for a given MerchantStore
+  GET    /api/v1/private/content/page/{code}/exists
+         Check unique content page
+  ... and 3 more
+
+Customer authentication resource (Customer Authentication Api) (2 missing):
+  POST   /api/v1/customer/register
+         Registers a customer to the application
+  POST   /api/v1/customer/login
+         Authenticates a customer to the application
+
+Customer management resource (Customer Management Api) (1 missing):
+  GET    /api/v1/private/customer/profile
+         getAuthUser
+
+Groups and permissions Api (3 missing):
+  GET    /api/v1/sec/private/permissions
+         permissions
+  GET    /api/v1/sec/private/{group}/permissions
+         Get permissions by group
+  GET    /api/v1/sec/private/groups
+         groups
+
+Manufacturer / Brand management resource (Manufacturer / Brand Management Api) (8 missing):
+  DELETE /api/v1/private/manufacturer/{id}
+         delete
+  GET    /api/v1/manufacturer/{id}
+         get
+  PUT    /api/v1/private/manufacturer/{id}
+         update
+  GET    /api/v1/category/{id}/manufacturer
+         Get all manufacturers for all items in a given category
+  GET    /api/v1/manufacturers
+         List manufacturers by store
+  GET    /api/v1/private/manufacturer/unique
+         Check if manufacturer code already exists
+  POST   /api/v1/private/manufacturer
+         create
+  GET    /api/v1/private/manufacturers
+         List manufacturers by store
+
+Merchant and store management resource (Merchant - Store Management Api) (16 missing):
+  GET    /api/v1/private/store/unique
+         Check if store code already exists
+  GET    /api/v1/private/stores/names
+         Get list of store names. Returns all retailers and stores
+  GET    /api/v1/private/merchant/{code}/stores
+         Get retailer child stores
+  PUT    /api/v1/private/store/{code}
+         Updates a store
+  DELETE /api/v1/private/store/{code}
+         Deletes a store
+  GET    /api/v1/store/{code}
+         Get merchant store
+  GET    /api/v1/private/stores
+         Get list of stores. Returns all retailers and stores. If superadmin everything is returned, else only retailer and child stores.
+  GET    /api/v1/private/store/{code}/marketing
+         Get store branding and marketing details
+  POST   /api/v1/private/store
+         Creates a new store
+  POST   /api/v1/private/store/{code}/marketing/logo
+         Add store logo
+  ... and 6 more
+
+Optin Customer to newsletter (2 missing):
+  DELETE /api/v1/newsletter/{email}
+         Deletes a customer
+  PUT    /api/v1/newsletter/{email}
+         Updates a customer
+
+Order Total calculation for a given shopping cart (Order Total Api) (2 missing):
+  GET    /api/v1/cart/{code}/total
+         calculateTotal
+  GET    /api/v1/auth/cart/{id}/total
+         payment
+
+Order payment resource (Order payment Api) (1 missing):
+  GET    /api/v1/private/orders/payment/capturable
+         listCapturableOrders
+
+Order status history api (2 missing):
+  GET    /api/v1/private/orders/{id}/history
+         list
+  POST   /api/v1/private/orders/{id}/history
+         Add order history
+
+Product Option Management Api (20 missing):
+  POST   /api/v1/private/product/{id}/attribute
+         createAttribute
+  GET    /api/v1/private/product/option/unique
+         Check if option code already exists
+  POST   /api/v1/private/product/{id}/attributes
+         Saves multiple attributes
+  PUT    /api/v1/private/product/option/{optionId}
+         updateOption
+  DELETE /api/v1/private/product/option/value/{id}/image
+         removeOptionValueImage
+  DELETE /api/v1/private/product/{id}/attribute/{attributeId}
+         deleteAttribute
+  DELETE /api/v1/private/product/option/value/{id}
+         deleteOptionValue
+  PUT    /api/v1/private/product/{id}/attribute/{attributeId}
+         updateAttribute
+  GET    /api/v1/private/product/option/value/{id}
+         getOptionValue
+  POST   /api/v1/private/product/option/value/{id}/image
+         addOptionValueImage
+  ... and 10 more
+
+Product definition resource (Create udtate and delete product definition. Serves api v1 and v2 with backward compatibility) (10 missing):
+  DELETE /api/v1/private/product/{productId}/category/{categoryId}
+         removeProductFromCategory
+  PUT    /api/v1/auth/product/{id}
+         Update product
+  POST   /api/v1/private/product/{productId}/category/{categoryId}
+         addProductToCategory
+  POST   /api/v1/private/product/{id}
+         Patch product sort order
+  DELETE /api/v1/auth/product/{id}
+         delete
+  PATCH  /api/v1/private/product/{id}
+         Update product inventory
+  GET    /api/v1/product/friendly/{friendlyUrl}
+         Get a product by friendlyUrl (slug)
+  POST   /api/v1/auth/products
+         create
+  GET    /api/v1/private/product/unique
+         Check if product code already exists
+  POST   /api/v1/auth/product/{id}
+         Patch product sort order
+
+Product display and management resource (Product display and Management Api such as adding a product to category. Serves api v1 and v2 with backward compatibility) (11 missing):
+  GET    /api/v2/products
+         list
+  GET    /api/v2/private/product/{id}
+         getV2
+  POST   /api/v2/private/product/inventory
+         create
+  DELETE /api/v2/private/product/{id}
+         deleteV2
+  GET    /api/v2/product/{sku}
+         Get a product by sku
+  PUT    /api/v2/private/product/{id}
+         updateV2
+  GET    /api/v2/products/category/{friendlyUrl}
+         list
+  POST   /api/v2/private/product
+         createV2
+  GET    /api/v2/product/name/{friendlyUrl}
+         Get a product by friendlyUrl (slug) version 2
+  PATCH  /api/v2/private/product/{sku}
+         Update product inventory
+  ... and 1 more
+
+Product images management. Add, remove and set the order of product images. (4 missing):
+  PATCH  /api/v1/auth/product/{id}/image/{imageId}
+         imageDetails
+  POST   /api/v1/auth/product/{id}/image
+         uploadImage
+  DELETE /api/v1/private/product/image/{id}
+         deleteImage
+  DELETE /api/v1/auth/product/images/{id}
+         deleteImage
+
+Product instances group api (7 missing):
+  POST   /api/v2/private/product/productVariantGroup
+         create
+  GET    /api/v2/private/product/{id}/productVariantGroup
+         Delete product instance group
+  DELETE /api/v2/private/product/productVariantGroup/{id}/image/{imageId}
+         removeImage
+  DELETE /api/v2/private/product/productVariantGroup/{id}
+         Delete product instance group
+  POST   /api/v2/private/product/productVariantGroup/{id}/image
+         addImage
+  GET    /api/v2/private/product/productVariantGroup/{id}
+         Get product instance group
+  PUT    /api/v2/private/product/productVariantGroup/{id}
+         Update product instance group
+
+Product inventory resource (Product Inventory Api) (5 missing):
+  GET    /api/v1/private/product/{sku}/inventory
+         getBySku
+  DELETE /api/v1/private/product/{productId}/inventory/{id}
+         delete
+  POST   /api/v1/private/product/{productId}/inventory
+         create
+  GET    /api/v1/private/product/inventory
+         getByProductId
+  PUT    /api/v1/private/product/{productId}/inventory/{id}
+         update
+
+Product price api (5 missing):
+  POST   /api/v1/private/product/{sku}/inventory/{inventoryId}/price
+         save
+  GET    /api/v1/private/product/{sku}/price/{priceId}
+         get
+  GET    /api/v1/private/product/{sku}/prices
+         list
+  PUT    /api/v1/private/product/{sku}/inventory/{inventoryId}/price/{priceId}
+         edit
+  GET    /api/v1/private/product/{sku}/inventory/{inventoryId}/price
+         list
+
+Product property set regroupment management resource (Product Options Set Management Api) (6 missing):
+  PUT    /api/v1/private/product/property/set/{id}
+         update
+  POST   /api/v1/private/product/property/set
+         create
+  DELETE /api/v1/private/product/property/set/{id}
+         delete
+  GET    /api/v1/private/product/property/set
+         list
+  GET    /api/v1/private/product/property/set/{id}
+         get
+  GET    /api/v1/private/product/property/set/unique
+         Check if option set code already exists
+
+Product type resource (Product Type Api) (6 missing):
+  GET    /api/v1/private/product/type/unique
+         Verify if product type is unique
+  GET    /api/v1/private/product/types
+         Get product types list
+  GET    /api/v1/private/product/type/{id}
+         Get product type
+  PUT    /api/v1/private/product/type/{id}
+         Update product type
+  POST   /api/v1/private/product/type
+         Create product type
+  DELETE /api/v1/private/product/type/{id}
+         Delete product type
+
+Product variants api (6 missing):
+  PUT    /api/v2/private/product/{id}/variant/{variantId}
+         Update product variant
+  GET    /api/v2/private/product/{id}/variant/{variantId}
+         Get a productVariant by id
+  DELETE /api/v2/private/product/{id}/variant/{variantId}
+         delete
+  GET    /api/v2/private/product/{id}/variant/{sku}/unique
+         Check if option set code already exists
+  GET    /api/v2/private/product/{id}/variants
+         list
+  POST   /api/v2/private/product/{productId}/variant
+         create
+
+Product variation resource (Product variant Api) (8 missing):
+  GET    /api/v2/private/product/variation/unique
+         Check if option set code already exists
+  DELETE /api/v2/private/product/variation/{variationId}
+         delete
+  GET    /api/v2/private/product/variation/{variationId}
+         get
+  GET    /api/v2/category/{id}/variations
+         Get all variation for all items in a given category
+  POST   /api/v2/private/product/variation
+         Creates a new product variant
+  GET    /api/v2/private/product/variations
+         list
+  POST   /api/v2/product/{id}/variation
+         Get product price variation based on selected product
+  PUT    /api/v2/private/product/variation/{variationId}
+         update
+
+Search products and search word/sentence completion functionality (Search Api) (2 missing):
+  POST   /api/v1/search/autocomplete
+         autocomplete
+  POST   /api/v1/search
+         search
+
+Shipping - Expedition management resource (Shipping Management Api) - ship to country (3 missing):
+  GET    /api/v1/shipping/country
+         getCountry
+  GET    /api/v1/private/shipping/expedition
+         expedition
+  POST   /api/v1/private/shipping/expedition
+         saveExpedition
+
+Shipping configuration resource (Shipping Management Api) (7 missing):
+  POST   /api/v1/private/shipping/origin
+         saveShippingOrigin
+  GET    /api/v1/private/shipping/package/{code}
+         Get package details
+  GET    /api/v1/private/shipping/origin
+         Get shipping origin for a specific merchant store
+  GET    /api/v1/private/shipping/packages
+         Get list of configured packages types for a specific merchant store
+  POST   /api/v1/private/shipping/package
+         Create new package specification
+  PUT    /api/v1/private/shipping/package/{code}
+         Edit package specification
+  DELETE /api/v1/private/shipping/package/{code}
+         Delete a package specification
+
+Tax class management resource (Tax class management Api) (6 missing):
+  POST   /api/v1/private/tax/class
+         Creates a taxClass
+  DELETE /api/v1/private/tax/class/{id}
+         Delete tax class
+  GET    /api/v1/private/tax/class
+         List taxClasses by store
+  GET    /api/v1/private/tax/class/unique
+         Verify if taxClass is unique
+  GET    /api/v1/private/tax/class/{code}
+         Get a taxClass by code
+  PUT    /api/v1/private/tax/class/{id}
+         Updates a taxClass
+
+Tax rates management resource (Tax rates management Api) (6 missing):
+  GET    /api/v1/private/tax/rate/{id}
+         Get a taxRate by code
+  POST   /api/v1/private/tax/rate
+         Creates a taxRate
+  DELETE /api/v1/private/tax/rate/{id}
+         Delete tax rate
+  GET    /api/v1/private/tax/rate/unique
+         Verify if taxRate is unique
+  PUT    /api/v1/private/tax/rate/{id}
+         Updates a taxRate
+  GET    /api/v1/private/tax/rates
+         List taxRates by store
+
+User management resource (User Management Api) (9 missing):
+  DELETE /api/v1/private/user/{id}
+         Deletes a user
+  PUT    /api/v1/private/user/{id}
+         Updates a user
+  POST   /api/v1/private/user/
+         Creates a new user
+  PATCH  /api/v1/private/user/{id}/password
+         Updates a user password
+  POST   /api/v1/private/user/unique
+         Check if username already exists
+  GET    /api/v1/private/users
+         Get list of user
+  PATCH  /api/v1/private/user/{id}/enabled
+         updateEnabled
+  GET    /api/v1/private/users/{id}
+         Get a specific user profile by user id
+  GET    /api/v1/private/user/profile
+         getAuthUser
+
+User password reset resource (User password reset Api) (3 missing):
+  GET    /api/v1/user/{store}/reset/{token}
+         Validate user password reset token
+  POST   /api/v1/user/password/reset/request
+         Launch user password reset flow
+  POST   /api/v1/user/{store}/password/{token}
+         Change user password
+
+cache-api (1 missing):
+  DELETE /api/v1/auth/cache/store/{storeId}/clear
+         clearCache
+
+content-administration-api (6 missing):
+  GET    /api/v1/private/content/folder
+         folder
+  GET    /api/v1/private/content/list
+         list
+  DELETE /api/v1/private/content/images/remove
+         remove
+  POST   /api/v1/private/content/images/rename
+         rename
+  GET    /api/v1/content/images/download
+         download
+  POST   /api/v1/private/content/images/add
+         upload
+
+customer-review-api (4 missing):
+  DELETE /api/v1/private/customers/{id}/reviews/{reviewId}
+         delete
+  PUT    /api/v1/private/customers/{id}/reviews/{reviewid}
+         update
+  GET    /api/v1/customers/{id}/reviews
+         getAll
+  POST   /api/v1/private/customers/{id}/reviews
+         create
+
+market-place-api (3 missing):
+  GET    /api/v1/store/{store}/signup/{token}
+         Validate store signup token
+  POST   /api/v1/store/signup
+         Signup store
+  GET    /api/v1/private/marketplace/{store}
+         Get market place meta-data
+
+optin-api (1 missing):
+  POST   /api/v1/private/optin
+         Creates an optin event type definition
+
+product-relationship-api (1 missing):
+  GET    /api/v1/product/{id}/related
+         Get product related items. This is used for doing cross-sell and up-sell functionality on a product details page
+
+product-review-api (7 missing):
+  DELETE /api/v1/auth/products/{id}/reviews/{reviewid}
+         delete
+  POST   /api/v1/auth/products/{id}/reviews
+         create
+  POST   /api/v1/private/products/{id}/reviews
+         create
+  PUT    /api/v1/private/products/{id}/reviews/{reviewid}
+         update
+  DELETE /api/v1/private/products/{id}/reviews/{reviewid}
+         delete
+  PUT    /api/v1/auth/products/{id}/reviews/{reviewid}
+         update
+  GET    /api/v1/product/{id}/reviews
+         getAll
+
+public-configs-api (1 missing):
+  GET    /api/v1/config
+         Get public configuration for a given merchant store
+
+references-api (1 missing):
+  GET    /api/v1/zones
+         getZones
+
+search-tools-api (1 missing):
+  POST   /api/v1/private/system/search/index
+         Indexes all products
+
+================================================================================
+ALL IMPLEMENTED ENDPOINTS BY FILE
+================================================================================
+
+CatalogApiCtrl.java (5 endpoints)
+  POST   /api/v1/private/catalog
+  GET    /api/v1/private/catalog/{id}
+  PUT    /api/v1/private/catalog/{id}
+  DELETE /api/v1/private/catalog/{id}
+  GET    /api/v1/private/catalogs
+
+CategoryApiCtrl.java (5 endpoints)
+  GET    /api/v1/category/{id}
+  GET    /api/v1/private/category
+  POST   /api/v1/private/category
+  PUT    /api/v1/private/category/{id}
+  DELETE /api/v1/private/category/{id}
+
+ContentApiCtrl.java (13 endpoints)
+  GET    /api/v1/content/boxes
+  GET    /api/v1/content/boxes/{code}
+  GET    /api/v1/content/images
+  GET    /api/v1/content/pages
+  GET    /api/v1/content/pages/name/{name}
+  GET    /api/v1/content/pages/{code}
+  POST   /api/v1/private/content/box
+  PUT    /api/v1/private/content/box/{id}
+  DELETE /api/v1/private/content/box/{id}
+  POST   /api/v1/private/content/page
+  PUT    /api/v1/private/content/page/{id}
+  DELETE /api/v1/private/content/page/{id}
+  POST   /api/v1/private/file
+
+CustomerAuthenticationApiCtrl.java (7 endpoints)
+  POST   /api/v1/auth/customer/password
+  GET    /api/v1/auth/customer/refresh
+  POST   /api/v1/auth/login
+  POST   /api/v1/auth/register
+  POST   /api/v1/customer/password/reset/request
+  POST   /api/v1/customer/{store}/password/{token}
+  GET    /api/v1/customer/{store}/reset/{token}
+
+CustomerManagementApiCtrl.java (12 endpoints)
+  DELETE /api/v1/auth/customer/
+  PATCH  /api/v1/auth/customer/
+  PATCH  /api/v1/auth/customer/address
+  GET    /api/v1/auth/customer/profile
+  PUT    /api/v1/auth/customer/profile/{id}
+  POST   /api/v1/private/customer
+  GET    /api/v1/private/customer/email/{email}
+  GET    /api/v1/private/customer/{id}
+  PUT    /api/v1/private/customer/{id}
+  DELETE /api/v1/private/customer/{id}
+  PATCH  /api/v1/private/customer/{id}/address
+  GET    /api/v1/private/customers
+
+ImageApiCtrl.java (3 endpoints)
+  GET    /api/v1/content/images/{name}
+  POST   /api/v1/private/content/images
+  DELETE /api/v1/private/content/images/{name}
+
+NewsletterApiCtrl.java (3 endpoints)
+  POST   /api/v1/newsletter
+  GET    /api/v1/private/optin
+  DELETE /api/v1/private/optin/{email}
+
+OrderApiCtrl.java (9 endpoints)
+  POST   /api/v1/auth/cart/{code}/checkout
+  GET    /api/v1/auth/orders
+  GET    /api/v1/auth/orders/{id}
+  POST   /api/v1/cart/{code}/checkout
+  GET    /api/v1/private/orders
+  GET    /api/v1/private/orders/customers/{id}
+  GET    /api/v1/private/orders/{id}
+  PATCH  /api/v1/private/orders/{id}/customer
+  PUT    /api/v1/private/orders/{id}/status
+
+OrderTrackingApiCtrl.java (2 endpoints)
+  GET    /api/v1/auth/orders/{id}/history
+  GET    /api/v1/auth/orders/{id}/tracking
+
+PaymentApiCtrl.java (12 endpoints)
+  POST   /api/v1/auth/cart/{code}/payment/init
+  POST   /api/v1/cart/{code}/payment/init
+  POST   /api/v1/payment/ozow/initiate
+  POST   /api/v1/payment/stripe/initiate
+  GET    /api/v1/private/modules/payment
+  POST   /api/v1/private/modules/payment
+  GET    /api/v1/private/modules/payment/{code}
+  POST   /api/v1/private/orders/{id}/authorize
+  POST   /api/v1/private/orders/{id}/capture
+  GET    /api/v1/private/orders/{id}/payment/nextTransaction
+  GET    /api/v1/private/orders/{id}/payment/transactions
+  POST   /api/v1/private/orders/{id}/refund
+
+PaymentConfigApiCtrl.java (4 endpoints)
+  GET    /api/v1/private/configurations/payment
+  POST   /api/v1/private/configurations/payment
+  PUT    /api/v1/private/configurations/payment
+  DELETE /api/v1/private/configurations/payment/{code}
+
+ProductApiCtrl.java (5 endpoints)
+  POST   /api/v1/private/product
+  PUT    /api/v1/private/product/{id}
+  DELETE /api/v1/private/product/{id}
+  GET    /api/v1/product/{id}
+  GET    /api/v1/products
+
+ProductImageApiCtrl.java (4 endpoints)
+  POST   /api/v1/private/product/{id}/image
+  DELETE /api/v1/private/product/{id}/image/{imageId}
+  PATCH  /api/v1/private/product/{id}/image/{imageId}
+  GET    /api/v1/product/{productId}/images
+
+ProductPriceApiCtrl.java (4 endpoints)
+  POST   /api/v1/private/product/{productId}/price
+  PUT    /api/v1/private/product/{productId}/price/{priceId}
+  DELETE /api/v1/private/product/{productId}/price/{priceId}
+  GET    /api/v1/product/{productId}/prices
+
+ProductVariantApiCtrl.java (3 endpoints)
+  POST   /api/v1/private/product/{productId}/variant
+  DELETE /api/v1/private/product/{productId}/variant/{variantId}
+  GET    /api/v1/product/{productId}/variants
+
+ReferenceApiCtrl.java (7 endpoints)
+  GET    /api/v1/country
+  GET    /api/v1/country/{code}
+  GET    /api/v1/currency
+  GET    /api/v1/currency/{code}
+  GET    /api/v1/language/{code}
+  GET    /api/v1/languages
+  GET    /api/v1/measures
+
+ShippingApiCtrl.java (6 endpoints)
+  GET    /api/v1/auth/cart/{code}/shipping
+  POST   /api/v1/cart/{code}/shipping
+  GET    /api/v1/private/modules/shipping
+  POST   /api/v1/private/modules/shipping
+  GET    /api/v1/private/modules/shipping/{code}
+  GET    /api/v1/private/shipping
+
+ShippingConfigApiCtrl.java (4 endpoints)
+  GET    /api/v1/private/configurations/shipping
+  POST   /api/v1/private/configurations/shipping
+  PUT    /api/v1/private/configurations/shipping
+  DELETE /api/v1/private/configurations/shipping/{code}
+
+ShoppingCartApiCtrl.java (9 endpoints)
+  GET    /api/v1/auth/customer/cart
+  GET    /api/v1/auth/customer/{id}/cart
+  POST   /api/v1/cart
+  GET    /api/v1/cart/{code}
+  PUT    /api/v1/cart/{code}
+  POST   /api/v1/cart/{code}/multi
+  DELETE /api/v1/cart/{code}/product/{sku}
+  POST   /api/v1/cart/{code}/promo/{promo}
+  POST   /api/v1/customers/{id}/cart
+
+UserAuthenticationApiCtrl.java (2 endpoints)
+  GET    /api/v1/auth/refresh
+  POST   /api/v1/private/login

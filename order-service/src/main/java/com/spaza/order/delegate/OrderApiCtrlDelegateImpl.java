@@ -59,8 +59,8 @@ public class OrderApiCtrlDelegateImpl implements OrderApiCtrlDelegate {
     }
 
     @Override
-    public ResponseEntity<ReadableOrderList> list(int count, String email, Long id, String name, int page, String phone, String status) {
-        ReadableOrderList orders = orderService.searchOrders(count, email, id, name, page, phone, status);
+    public ResponseEntity<ReadableOrderList> list(int count, String email, Long id, String name, int page, String phone, String status, Long merchantId) {
+        ReadableOrderList orders = orderService.searchOrders(count, email, id, name, page, phone, status, merchantId);
         return ResponseEntity.ok(orders);
     }
 

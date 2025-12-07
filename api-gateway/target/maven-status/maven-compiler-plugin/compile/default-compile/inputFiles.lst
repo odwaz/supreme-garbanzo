@@ -1,4 +1,5 @@
-d:\Documents\projects\Java\online-spaza-microservices\api-gateway\src\main\java\za\blkmarket\gateway\LoggingFilter.java
-d:\Documents\projects\Java\online-spaza-microservices\api-gateway\src\main\java\za\blkmarket\gateway\JwtAuthenticationFilter.java
-d:\Documents\projects\Java\online-spaza-microservices\api-gateway\src\main\java\za\blkmarket\gateway\JwtAuthFilter.java
-d:\Documents\projects\Java\online-spaza-microservices\api-gateway\src\main\java\za\blkmarket\gateway\ApiGatewayApplication.java
+D:\Documents\projects\Java\online-spaza-microservices\api-gateway\src\main\java\za\blkmarket\gateway\LoggingFilter.java
+D:\Documents\projects\Java\online-spaza-microservices\api-gateway\src\main\java\za\blkmarket\gateway\CorsConfig.java
+D:\Documents\projects\Java\online-spaza-microservices\api-gateway\src\main\java\za\blkmarket\gateway\JwtAuthenticationFilter.java
+D:\Documents\projects\Java\online-spaza-microservices\api-gateway\src\main\java\za\blkmarket\gateway\JwtAuthFilter.java
+D:\Documents\projects\Java\online-spaza-microservices\api-gateway\src\main\java\za\blkmarket\gateway\ApiGatewayApplication.java

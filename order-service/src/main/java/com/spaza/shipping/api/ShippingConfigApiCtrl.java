@@ -13,10 +13,4 @@ public interface ShippingConfigApiCtrl {
 
     @PostMapping("/api/v1/private/configurations/shipping")
     ResponseEntity<Void> createShippingConfiguration(@Valid @RequestBody PersistableShippingConfiguration configuration);
-
-    @PutMapping("/api/v1/private/configurations/shipping")
-    ResponseEntity<Void> updateShippingConfiguration(@Valid @RequestBody PersistableShippingConfiguration configuration);
-
-    @DeleteMapping("/api/v1/private/configurations/shipping/{code}")
-    ResponseEntity<Void> deleteShippingConfiguration(@PathVariable String code);
 }

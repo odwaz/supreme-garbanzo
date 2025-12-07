@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "*")
+
 public class PaymentConfigApiCtrlController implements PaymentConfigApiCtrl {
 
     @Autowired
@@ -22,15 +22,5 @@ public class PaymentConfigApiCtrlController implements PaymentConfigApiCtrl {
     @Override
     public ResponseEntity<Void> createPaymentConfiguration(PersistablePaymentConfiguration configuration) {
         return delegate.createPaymentConfiguration(configuration);
-    }
-
-    @Override
-    public ResponseEntity<Void> updatePaymentConfiguration(PersistablePaymentConfiguration configuration) {
-        return delegate.updatePaymentConfiguration(configuration);
-    }
-
-    @Override
-    public ResponseEntity<Void> deletePaymentConfiguration(String code) {
-        return delegate.deletePaymentConfiguration(code);
     }
 }

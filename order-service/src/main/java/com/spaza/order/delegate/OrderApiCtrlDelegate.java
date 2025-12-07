@@ -8,7 +8,7 @@ public interface OrderApiCtrlDelegate {
     ResponseEntity<ReadableOrderConfirmation> checkout(String code, PersistableAnonymousOrder order);
     ResponseEntity<ReadableOrderList> list(Integer count, Integer page);
     ResponseEntity<ReadableOrder> getOrder(Long id);
-    ResponseEntity<ReadableOrderList> list(int count, String email, Long id, String name, int page, String phone, String status);
+    ResponseEntity<ReadableOrderList> list(int count, String email, Long id, String name, int page, String phone, String status, Long merchantId);
     ResponseEntity<ReadableOrderList> list(Integer count, Long id, Integer start);
     ResponseEntity<ReadableOrder> get(Long id);
     ResponseEntity<Void> updateOrderCustomer(Long id, Customer orderCustomer);

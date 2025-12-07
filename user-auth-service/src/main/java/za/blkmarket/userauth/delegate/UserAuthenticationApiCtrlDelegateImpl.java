@@ -21,16 +21,20 @@ public class UserAuthenticationApiCtrlDelegateImpl implements UserAuthentication
     @Override
     public ResponseEntity<Object> authenticateUsingPOST1(AuthRequest authenticationRequest) {
         try {
+            System.out.println("LOGIN ATTEMPT: " + authenticationRequest.getUsername());
             AuthResponse response = authService.authenticate(authenticationRequest);
             
-            // Return Shopizer-compatible response format
             Map<String, Object> shopizerResponse = new HashMap<>();
             shopizerResponse.put("token", response.getToken());
             shopizerResponse.put("username", response.getUsername());
             shopizerResponse.put("email", response.getEmail());
+            shopizerResponse.put("roles", response.getRoles());
+            shopizerResponse.put("store", response.getStore());
             
             return ResponseEntity.ok(shopizerResponse);
         } catch (Exception e) {
+            System.out.println("LOGIN FAILED: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

@@ -30,18 +30,11 @@ public class AuthService {
     }
     
     public AuthResponse authenticate(AuthRequest request) {
-        System.out.println("AUTH: Looking for user: " + request.getUsername());
         User user = userRepository.findByEmail(request.getUsername())
             .orElseThrow(() -> new RuntimeException("User not found"));
         
-        System.out.println("AUTH: User found, checking password");
-        System.out.println("AUTH: Stored hash: " + user.getPassword());
-        System.out.println("AUTH: Input password: " + request.getPassword());
-        boolean matches = passwordEncoder.matches(request.getPassword(), user.getPassword());
-        System.out.println("AUTH: Password matches: " + matches);
-        
-        if (!matches) {
-            throw new RuntimeException("Password mismatch");
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
         }
         
         if (!user.isActive()) {
@@ -54,7 +47,18 @@ public class AuthService {
         
         String token = jwtTokenProvider.generateToken(user.getEmail(), roles);
         
-        return new AuthResponse(token, user.getEmail(), user.getEmail());
+        AuthResponse response = new AuthResponse(token, user.getEmail(), user.getEmail());
+        response.setRoles(roles);
+        
+        if (user.getMerchantStore() != null) {
+            java.util.Map<String, Object> store = new java.util.HashMap<>();
+            store.put("id", user.getMerchantStore().getId());
+            store.put("code", user.getMerchantStore().getCode());
+            store.put("name", user.getMerchantStore().getName());
+            response.setStore(store);
+        }
+        
+        return response;
     }
     
 

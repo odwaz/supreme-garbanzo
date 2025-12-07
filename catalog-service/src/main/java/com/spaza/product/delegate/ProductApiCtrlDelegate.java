@@ -10,5 +10,5 @@ public interface ProductApiCtrlDelegate {
     ResponseEntity<Void> update(Long id, Product product);
     ResponseEntity<Void> delete(Long id);
     ResponseEntity<Product> getById(Long id);
-    ResponseEntity<List<Product>> list(String sku, String name, Boolean available, int page, int count);
+    ResponseEntity<List<Product>> list(String sku, String name, Boolean available, int page, int count, Long merchant);
 }

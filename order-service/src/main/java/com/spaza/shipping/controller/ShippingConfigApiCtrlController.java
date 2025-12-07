@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "*")
+
 public class ShippingConfigApiCtrlController implements ShippingConfigApiCtrl {
 
     @Autowired
@@ -22,15 +22,5 @@ public class ShippingConfigApiCtrlController implements ShippingConfigApiCtrl {
     @Override
     public ResponseEntity<Void> createShippingConfiguration(PersistableShippingConfiguration configuration) {
         return delegate.createShippingConfiguration(configuration);
-    }
-
-    @Override
-    public ResponseEntity<Void> updateShippingConfiguration(PersistableShippingConfiguration configuration) {
-        return delegate.updateShippingConfiguration(configuration);
-    }
-
-    @Override
-    public ResponseEntity<Void> deleteShippingConfiguration(String code) {
-        return delegate.deleteShippingConfiguration(code);
     }
 }

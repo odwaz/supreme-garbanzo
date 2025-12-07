@@ -1,1 +1,5 @@
+com\spaza\payment\service\OzowPaymentModuleTest.class
 com\spaza\tax\controller\TaxControllerTest.class
+com\spaza\payment\service\MerchantPaymentConfigServiceTest.class
+com\spaza\payment\service\StripePaymentModuleTest.class
+com\spaza\payment\service\PaymentServiceTest.class

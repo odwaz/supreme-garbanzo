@@ -79,8 +79,15 @@ public class ProductService {
         return product;
     }
 
-    public List<Product> findAll(String sku, String name, Boolean available, int page, int count) {
-        List<Product> products = productRepository.findAll(PageRequest.of(page, count)).getContent();
+    public List<Product> findAll(String sku, String name, Boolean available, int page, int count, Long merchant) {
+        List<Product> products;
+        
+        if (merchant != null) {
+            products = productRepository.findByMerchantId(merchant, PageRequest.of(page, count)).getContent();
+        } else {
+            products = productRepository.findAll(PageRequest.of(page, count)).getContent();
+        }
+        
         products.forEach(this::enrichProduct);
         return products;
     }

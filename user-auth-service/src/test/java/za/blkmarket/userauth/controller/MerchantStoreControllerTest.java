@@ -31,8 +31,17 @@ class MerchantStoreControllerTest {
 
     @Test
     void getStore_ShouldReturn200() throws Exception {
-        mockMvc.perform(get("/api/v1/private/stores/SPAZA_HQ"))
+        String code = "TEST_GET_" + System.currentTimeMillis();
+        String json = "{\"code\":\"" + code + "\",\"name\":\"Test Store\",\"email\":\"test@store.com\",\"phone\":\"+27123456789\"}";
+        
+        mockMvc.perform(post("/api/v1/private/stores")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
                 .andExpect(status().isOk());
+        
+        mockMvc.perform(get("/api/v1/private/stores/" + code))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(code));
     }
 
     @Test

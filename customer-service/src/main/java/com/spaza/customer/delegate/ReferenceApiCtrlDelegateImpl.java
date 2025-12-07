@@ -18,28 +18,13 @@ public class ReferenceApiCtrlDelegateImpl implements ReferenceApiCtrlDelegate {
     }
 
     @Override
-    public ResponseEntity<ReadableCountry> getCountry(String code) {
-        return ResponseEntity.ok(referenceService.getCountry(code));
-    }
-
-    @Override
     public ResponseEntity<ReadableCurrency[]> listCurrencies() {
         return ResponseEntity.ok(referenceService.listCurrencies());
     }
 
     @Override
-    public ResponseEntity<ReadableCurrency> getCurrency(String code) {
-        return ResponseEntity.ok(referenceService.getCurrency(code));
-    }
-
-    @Override
     public ResponseEntity<ReadableLanguage[]> listLanguages() {
         return ResponseEntity.ok(referenceService.listLanguages());
-    }
-
-    @Override
-    public ResponseEntity<ReadableLanguage> getLanguage(String code) {
-        return ResponseEntity.ok(referenceService.getLanguage(code));
     }
 
     @Override

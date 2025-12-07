@@ -37,6 +37,11 @@ public class CategoryApiCtrlController implements CategoryApiCtrl {
     }
 
     @Override
+    public ResponseEntity<List<Category>> listPublic(String filter, int page, int count) {
+        return delegate.listPublic(filter, page, count);
+    }
+
+    @Override
     public ResponseEntity<List<Category>> list(String name, int page, int count) {
         return delegate.list(name, page, count);
     }

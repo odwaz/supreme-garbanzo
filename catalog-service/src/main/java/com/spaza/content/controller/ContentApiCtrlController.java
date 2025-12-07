@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = "*")
 public class ContentApiCtrlController implements ContentApiCtrl {
 
     @Autowired

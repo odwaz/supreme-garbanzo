@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "SALES_ORDER")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +42,39 @@ public class Order {
     @Column(name = "DATE_MODIFIED")
     private LocalDateTime dateModified;
     
+    @Column(name = "PAYMENT_METHOD")
+    private String paymentMethod;
+    
+    @Column(name = "SHIPPING_ADDRESS")
+    private String shippingAddress;
+    
+    @Column(name = "BILLING_ADDRESS")
+    private String billingAddress;
+    
+    @Column(name = "SHIPPING_CITY")
+    private String shippingCity;
+    
+    @Column(name = "SHIPPING_POSTAL_CODE")
+    private String shippingPostalCode;
+    
+    @Column(name = "SHIPPING_COUNTRY")
+    private String shippingCountry;
+    
+    @Column(name = "BILLING_CITY")
+    private String billingCity;
+    
+    @Column(name = "BILLING_POSTAL_CODE")
+    private String billingPostalCode;
+    
+    @Column(name = "BILLING_COUNTRY")
+    private String billingCountry;
+    
+    @Column(name = "PHONE")
+    private String phone;
+    
+    @Column(name = "EMAIL")
+    private String email;
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getCustomerId() { return customerId; }
@@ -64,4 +97,26 @@ public class Order {
     public void setDateCreated(LocalDateTime dateCreated) { this.dateCreated = dateCreated; }
     public LocalDateTime getDateModified() { return dateModified; }
     public void setDateModified(LocalDateTime dateModified) { this.dateModified = dateModified; }
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
+    public String getShippingAddress() { return shippingAddress; }
+    public void setShippingAddress(String shippingAddress) { this.shippingAddress = shippingAddress; }
+    public String getBillingAddress() { return billingAddress; }
+    public void setBillingAddress(String billingAddress) { this.billingAddress = billingAddress; }
+    public String getShippingCity() { return shippingCity; }
+    public void setShippingCity(String shippingCity) { this.shippingCity = shippingCity; }
+    public String getShippingPostalCode() { return shippingPostalCode; }
+    public void setShippingPostalCode(String shippingPostalCode) { this.shippingPostalCode = shippingPostalCode; }
+    public String getShippingCountry() { return shippingCountry; }
+    public void setShippingCountry(String shippingCountry) { this.shippingCountry = shippingCountry; }
+    public String getBillingCity() { return billingCity; }
+    public void setBillingCity(String billingCity) { this.billingCity = billingCity; }
+    public String getBillingPostalCode() { return billingPostalCode; }
+    public void setBillingPostalCode(String billingPostalCode) { this.billingPostalCode = billingPostalCode; }
+    public String getBillingCountry() { return billingCountry; }
+    public void setBillingCountry(String billingCountry) { this.billingCountry = billingCountry; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 }

@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findBySku(String sku);
     boolean existsBySku(String sku);
+    org.springframework.data.domain.Page<Product> findByMerchantId(Long merchantId, org.springframework.data.domain.Pageable pageable);
 }

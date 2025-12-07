@@ -108,7 +108,8 @@ public class CustomerManagementApiCtrlDelegateImpl implements CustomerManagement
     }
     
     @Override
-    public ResponseEntity<ReadableCustomer> getByEmail(String email) {
+    public ResponseEntity<ReadableCustomer> getPrivateProfile() {
+        String email = getAuthenticatedEmail();
         return customerService.findByEmail(email)
                 .map(this::toReadable)
                 .map(ResponseEntity::ok)

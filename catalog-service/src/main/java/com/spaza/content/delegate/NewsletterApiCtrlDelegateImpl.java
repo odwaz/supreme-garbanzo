@@ -19,13 +19,20 @@ public class NewsletterApiCtrlDelegateImpl implements NewsletterApiCtrlDelegate 
     }
 
     @Override
-    public ResponseEntity<ReadableOptin[]> listOptins() {
-        return ResponseEntity.ok(newsletterService.listOptins());
+    public ResponseEntity<Void> unsubscribe(String email) {
+        newsletterService.unsubscribe(email);
+        return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<Void> deleteOptin(String email) {
-        newsletterService.deleteOptin(email);
+    public ResponseEntity<Void> update(String email, NewsletterSubscription subscription) {
+        newsletterService.update(email, subscription);
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> createOptin(PersistableOptin optin) {
+        newsletterService.createOptin(optin);
         return ResponseEntity.ok().build();
     }
 }

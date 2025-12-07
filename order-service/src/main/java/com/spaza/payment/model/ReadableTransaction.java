@@ -11,6 +11,7 @@ public class ReadableTransaction {
     private String orderId;
     private Double amount;
     private String status;
+    private String paymentMethod;
     
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -20,4 +21,6 @@ public class ReadableTransaction {
     public void setAmount(Double amount) { this.amount = amount; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
 }

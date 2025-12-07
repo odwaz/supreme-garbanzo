@@ -6,6 +6,7 @@ D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\service\CustomerService.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\Language.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\api\CustomerAuthenticationApiCtrl.java
+D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\exception\AuthenticationFailedException.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\exception\GlobalExceptionHandler.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\api\ReferenceApiCtrl.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\PersistableCustomerAttribute.java
@@ -23,6 +24,7 @@ D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\cart\model\ReadableShoppingCartItem.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\repository\CustomerRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\delegate\CustomerAuthenticationApiCtrlDelegateImpl.java
+D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\exception\ServiceException.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\Country.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\ReadableMeasure.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\CustomerOption.java
@@ -34,6 +36,7 @@ D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\delegate\CustomerAuthenticationApiCtrlDelegate.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\cart\api\ShoppingCartApiCtrl.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\repository\LanguageRepository.java
+D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\exception\ErrorResponse.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\ReadableCurrency.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\delegate\ReferenceApiCtrlDelegateImpl.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\cart\controller\ShoppingCartApiCtrlController.java
@@ -46,6 +49,7 @@ D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\cart\repository\CartItemRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\ReadableCountry.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\delegate\ReferenceApiCtrlDelegate.java
+D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\exception\ValidationException.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\ReadableCustomer.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\api\CustomerManagementApiCtrl.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\ReadableLanguage.java

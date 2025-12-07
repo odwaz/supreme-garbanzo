@@ -14,5 +14,5 @@ public interface CustomerManagementApiCtrlDelegate {
     ResponseEntity<Void> delete(Long id);
     ResponseEntity<Void> updateAddress(Long id, Customer customer);
     ResponseEntity<ReadableCustomerList> list(Integer count, Integer page);
-    ResponseEntity<ReadableCustomer> getByEmail(String email);
+    ResponseEntity<ReadableCustomer> getPrivateProfile();
 }

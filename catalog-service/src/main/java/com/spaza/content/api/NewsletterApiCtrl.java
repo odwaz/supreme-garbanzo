@@ -10,9 +10,12 @@ public interface NewsletterApiCtrl {
     @PostMapping("/api/v1/newsletter")
     ResponseEntity<Void> subscribe(@Valid @RequestBody NewsletterSubscription subscription);
 
-    @GetMapping("/api/v1/private/optin")
-    ResponseEntity<ReadableOptin[]> listOptins();
+    @DeleteMapping("/api/v1/newsletter/{email}")
+    ResponseEntity<Void> unsubscribe(@PathVariable String email);
 
-    @DeleteMapping("/api/v1/private/optin/{email}")
-    ResponseEntity<Void> deleteOptin(@PathVariable String email);
+    @PutMapping("/api/v1/newsletter/{email}")
+    ResponseEntity<Void> update(@PathVariable String email, @Valid @RequestBody NewsletterSubscription subscription);
+
+    @PostMapping("/api/v1/private/optin")
+    ResponseEntity<Void> createOptin(@Valid @RequestBody PersistableOptin optin);
 }

@@ -14,11 +14,16 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin(origins = "*")
 public class MerchantStoreController {
     
     @Autowired
     private MerchantStoreService storeService;
+    
+    @Autowired
+    private za.blkmarket.userauth.repository.UserRepository userRepository;
+    
+    @Autowired
+    private za.blkmarket.userauth.security.JwtTokenProvider jwtTokenProvider;
     
     @PostMapping("/private/stores")
     public ResponseEntity<ReadableMerchantStore> create(@RequestBody PersistableMerchantStore dto) {
@@ -79,6 +84,9 @@ public class MerchantStoreController {
     
     @GetMapping("/private/stores/{code}")
     public ResponseEntity<ReadableMerchantStore> get(@PathVariable String code) {
+        if ("undefined".equals(code) || "null".equals(code)) {
+            return ResponseEntity.badRequest().build();
+        }
         MerchantStore store = storeService.findByCode(code)
             .orElseThrow(() -> new RuntimeException("Store not found"));
         return ResponseEntity.ok(toReadable(store));
@@ -111,6 +119,29 @@ public class MerchantStoreController {
         MerchantStore store = storeService.findByCode(code)
             .orElseThrow(() -> new RuntimeException("Store not found"));
         return ResponseEntity.ok(toReadable(store));
+    }
+    
+    @GetMapping("/private/user/profile")
+    public ResponseEntity<java.util.Map<String, Object>> getProfile(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        String email = jwtTokenProvider.getUsernameFromToken(token);
+        
+        za.blkmarket.userauth.entity.User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        java.util.Map<String, Object> profile = new java.util.HashMap<>();
+        profile.put("id", user.getId());
+        profile.put("email", user.getEmail());
+        profile.put("name", user.getFirstName() + " " + user.getLastName());
+        profile.put("permissions", user.getGroups() != null ? 
+            user.getGroups().stream().map(g -> g.getName()).collect(java.util.stream.Collectors.toList()) : 
+            java.util.List.of());
+        
+        if (user.getMerchantStore() != null) {
+            profile.put("store", toReadable(user.getMerchantStore()));
+        }
+        
+        return ResponseEntity.ok(profile);
     }
     
     private ReadableMerchantStore toReadable(MerchantStore store) {

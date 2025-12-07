@@ -1,9 +1,11 @@
 package com.spaza.customer.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import javax.validation.constraints.NotBlank;
 
 public class AuthenticationRequest {
     @NotBlank
+    @JsonAlias({"email", "username"})
     private String username;
     
     @NotBlank

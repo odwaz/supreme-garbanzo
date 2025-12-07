@@ -36,7 +36,7 @@ public class ProductApiCtrlController implements ProductApiCtrl {
     }
 
     @Override
-    public ResponseEntity<List<Product>> list(String sku, String name, Boolean available, int page, int count) {
-        return delegate.list(sku, name, available, page, count);
+    public ResponseEntity<List<Product>> list(String sku, String name, Boolean available, int page, int count, Long merchant) {
+        return delegate.list(sku, name, available, page, count, merchant);
     }
 }

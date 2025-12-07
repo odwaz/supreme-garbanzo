@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface NewsletterApiCtrlDelegate {
     ResponseEntity<Void> subscribe(NewsletterSubscription subscription);
-    ResponseEntity<ReadableOptin[]> listOptins();
-    ResponseEntity<Void> deleteOptin(String email);
+    ResponseEntity<Void> unsubscribe(String email);
+    ResponseEntity<Void> update(String email, NewsletterSubscription subscription);
+    ResponseEntity<Void> createOptin(PersistableOptin optin);
 }

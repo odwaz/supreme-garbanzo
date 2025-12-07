@@ -1,12 +1,16 @@
 package com.spaza.payment.delegate;
 
+import com.spaza.order.exception.*;
 import com.spaza.payment.model.*;
 import com.spaza.payment.service.PaymentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import java.util.Map;
 
 @Service
+@Slf4j
 public class PaymentApiCtrlDelegateImpl implements PaymentApiCtrlDelegate {
 
     @Autowired
@@ -14,32 +18,67 @@ public class PaymentApiCtrlDelegateImpl implements PaymentApiCtrlDelegate {
 
     @Override
     public ResponseEntity<ReadableTransaction> initAuth(String code, PersistablePayment payment) {
-        ReadableTransaction transaction = paymentService.init(code, payment);
-        return ResponseEntity.ok(transaction);
+        try {
+            log.info("Initializing auth payment with code={}", code);
+            ReadableTransaction transaction = paymentService.init(code, payment);
+            log.info("Auth payment initialized successfully");
+            return ResponseEntity.ok(transaction);
+        } catch (Exception e) {
+            log.error("Failed to initialize auth payment with code={}", code, e);
+            throw new PaymentFailedException("Failed to initialize payment authorization");
+        }
     }
 
     @Override
     public ResponseEntity<ReadableTransaction> init(String code, PersistablePayment payment) {
-        ReadableTransaction transaction = paymentService.init(code, payment);
-        return ResponseEntity.ok(transaction);
+        try {
+            log.info("Initializing payment with code={}", code);
+            ReadableTransaction transaction = paymentService.init(code, payment);
+            log.info("Payment initialized successfully");
+            return ResponseEntity.ok(transaction);
+        } catch (Exception e) {
+            log.error("Failed to initialize payment with code={}", code, e);
+            throw new PaymentFailedException("Failed to initialize payment");
+        }
     }
 
     @Override
     public ResponseEntity<ReadableTransaction> authorizePayment(Long id) {
-        ReadableTransaction transaction = paymentService.authorize(id);
-        return ResponseEntity.ok(transaction);
+        try {
+            log.info("Authorizing payment: transactionId={}", id);
+            ReadableTransaction transaction = paymentService.authorize(id);
+            log.info("Payment authorized successfully: transactionId={}", id);
+            return ResponseEntity.ok(transaction);
+        } catch (Exception e) {
+            log.error("Failed to authorize payment: transactionId={}", id, e);
+            throw new PaymentFailedException("Transaction " + id, null, e);
+        }
     }
 
     @Override
     public ResponseEntity<ReadableTransaction> capturePayment(Long id) {
-        ReadableTransaction transaction = paymentService.capture(id);
-        return ResponseEntity.ok(transaction);
+        try {
+            log.info("Capturing payment: transactionId={}", id);
+            ReadableTransaction transaction = paymentService.capture(id);
+            log.info("Payment captured successfully: transactionId={}", id);
+            return ResponseEntity.ok(transaction);
+        } catch (Exception e) {
+            log.error("Failed to capture payment: transactionId={}", id, e);
+            throw new PaymentFailedException("Transaction " + id, null, e);
+        }
     }
 
     @Override
     public ResponseEntity<ReadableTransaction> refundPayment(Long id) {
-        ReadableTransaction transaction = paymentService.refund(id);
-        return ResponseEntity.ok(transaction);
+        try {
+            log.info("Refunding payment: transactionId={}", id);
+            ReadableTransaction transaction = paymentService.refund(id);
+            log.info("Payment refunded successfully: transactionId={}", id);
+            return ResponseEntity.ok(transaction);
+        } catch (Exception e) {
+            log.error("Failed to refund payment: transactionId={}", id, e);
+            throw new PaymentFailedException("Transaction " + id, null, e);
+        }
     }
 
     @Override
@@ -55,14 +94,14 @@ public class PaymentApiCtrlDelegateImpl implements PaymentApiCtrlDelegate {
     }
 
     @Override
-    public ResponseEntity<Object[]> paymentModules() {
-        Object[] modules = paymentService.getPaymentModules();
+    public ResponseEntity<Object[]> paymentModules(Long merchantId, String language) {
+        Object[] modules = paymentService.getPaymentModules(merchantId);
         return ResponseEntity.ok(modules);
     }
 
     @Override
-    public ResponseEntity<Object[]> paymentModule(String code) {
-        Object[] module = paymentService.getPaymentModule(code);
+    public ResponseEntity<Object[]> paymentModule(String code, Long merchantId) {
+        Object[] module = paymentService.getPaymentModule(code, merchantId);
         return ResponseEntity.ok(module);
     }
 

@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "*")
 public class NewsletterApiCtrlController implements NewsletterApiCtrl {
 
     @Autowired
@@ -20,12 +19,17 @@ public class NewsletterApiCtrlController implements NewsletterApiCtrl {
     }
 
     @Override
-    public ResponseEntity<ReadableOptin[]> listOptins() {
-        return delegate.listOptins();
+    public ResponseEntity<Void> unsubscribe(String email) {
+        return delegate.unsubscribe(email);
     }
 
     @Override
-    public ResponseEntity<Void> deleteOptin(String email) {
-        return delegate.deleteOptin(email);
+    public ResponseEntity<Void> update(String email, NewsletterSubscription subscription) {
+        return delegate.update(email, subscription);
+    }
+
+    @Override
+    public ResponseEntity<Void> createOptin(PersistableOptin optin) {
+        return delegate.createOptin(optin);
     }
 }

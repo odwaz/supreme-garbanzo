@@ -60,6 +60,7 @@ public class OrderService {
     
     public ReadableOrderConfirmation createOrder(String cartCode, PersistableOrder persistableOrder, Long authenticatedCustomerId) {
         java.math.BigDecimal total = java.math.BigDecimal.ZERO;
+        Long merchantId = null;
         
         try {
             String cartUrl = customerServiceUrl + "/api/v1/cart/" + cartCode;
@@ -67,23 +68,47 @@ public class OrderService {
             Map cartResponse = restTemplate.getForObject(cartUrl, Map.class);
             System.out.println("=== CART RESPONSE: " + cartResponse);
             
-            if (cartResponse != null && cartResponse.get("total") != null) {
-                total = new java.math.BigDecimal(cartResponse.get("total").toString());
-                System.out.println("=== TOTAL EXTRACTED: " + total);
+            if (cartResponse != null) {
+                if (cartResponse.get("total") != null) {
+                    total = new java.math.BigDecimal(cartResponse.get("total").toString());
+                    System.out.println("=== TOTAL EXTRACTED: " + total);
+                }
+                if (cartResponse.get("merchantId") != null) {
+                    merchantId = Long.valueOf(cartResponse.get("merchantId").toString());
+                    System.out.println("=== MERCHANT ID EXTRACTED: " + merchantId);
+                } else {
+                    throw new RuntimeException("Cart has no merchant ID - cannot create order");
+                }
             } else {
-                System.out.println("=== NO TOTAL IN RESPONSE");
+                System.out.println("=== NO CART RESPONSE");
             }
         } catch (Exception e) {
             System.err.println("=== ERROR: " + e.getMessage());
             e.printStackTrace();
+            throw new RuntimeException("Failed to create order: " + e.getMessage());
         }
         
         Order order = new Order();
         order.setCustomerId(authenticatedCustomerId);
+        order.setMerchantId(merchantId);
         order.setStatus("PENDING");
         order.setTotal(total);
+        order.setTax(persistableOrder.getTax());
+        order.setShipping(persistableOrder.getShipping());
+        order.setPaymentMethod(persistableOrder.getPaymentMethod());
+        order.setShippingAddress(persistableOrder.getShippingAddress());
+        order.setBillingAddress(persistableOrder.getBillingAddress());
+        order.setShippingCity(persistableOrder.getShippingCity());
+        order.setShippingPostalCode(persistableOrder.getShippingPostalCode());
+        order.setShippingCountry(persistableOrder.getShippingCountry());
+        order.setBillingCity(persistableOrder.getBillingCity());
+        order.setBillingPostalCode(persistableOrder.getBillingPostalCode());
+        order.setBillingCountry(persistableOrder.getBillingCountry());
+        order.setPhone(persistableOrder.getPhone());
+        order.setEmail(persistableOrder.getEmail());
+        order.setCurrencyCode(persistableOrder.getCurrencyCode());
         order.setDateCreated(java.time.LocalDateTime.now());
-        System.out.println("=== SAVING ORDER WITH TOTAL: " + total);
+        System.out.println("=== SAVING ORDER WITH TOTAL: " + total + ", MERCHANT: " + merchantId);
         
         Order saved = orderRepository.save(order);
         System.out.println("=== SAVED ORDER TOTAL: " + saved.getTotal());
@@ -109,8 +134,18 @@ public class OrderService {
         return orderRepository.findById(id).map(this::toReadable).orElse(null);
     }
     
-    public ReadableOrderList searchOrders(int count, String email, Long id, String name, int page, String phone, String status) {
-        List<Order> orders = status != null ? orderRepository.findByStatus(status) : orderRepository.findAll();
+    public ReadableOrderList searchOrders(int count, String email, Long id, String name, int page, String phone, String status, Long merchantId) {
+        List<Order> orders;
+        
+        if (merchantId != null) {
+            orders = orderRepository.findByMerchantId(merchantId);
+            if (status != null) {
+                orders = orders.stream().filter(o -> status.equals(o.getStatus())).collect(Collectors.toList());
+            }
+        } else {
+            orders = status != null ? orderRepository.findByStatus(status) : orderRepository.findAll();
+        }
+        
         List<ReadableOrder> readableOrders = orders.stream().map(this::toReadable).collect(Collectors.toList());
         return new ReadableOrderList(readableOrders, readableOrders.size());
     }

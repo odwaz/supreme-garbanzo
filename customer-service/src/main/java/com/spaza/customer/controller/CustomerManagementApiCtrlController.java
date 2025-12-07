@@ -64,7 +64,7 @@ public class CustomerManagementApiCtrlController implements CustomerManagementAp
     }
     
     @Override
-    public ResponseEntity<ReadableCustomer> getByEmail(String email) {
-        return delegate.getByEmail(email);
+    public ResponseEntity<ReadableCustomer> getPrivateProfile() {
+        return delegate.getPrivateProfile();
     }
 }

@@ -24,7 +24,7 @@ public interface OrderApiCtrl {
     ResponseEntity<ReadableOrderList> list(@RequestParam(defaultValue = "25") int count, @RequestParam(required = false) String email,
                                           @RequestParam(required = false) Long id, @RequestParam(required = false) String name,
                                           @RequestParam(defaultValue = "0") int page, @RequestParam(required = false) String phone,
-                                          @RequestParam(required = false) String status);
+                                          @RequestParam(required = false) String status, @RequestParam(required = false) Long merchantId);
 
     @GetMapping("/api/v1/private/orders/customers/{id}")
     ResponseEntity<ReadableOrderList> list(@RequestParam(required = false) Integer count, @PathVariable Long id, @RequestParam(required = false) Integer start);

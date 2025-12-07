@@ -22,16 +22,4 @@ public class ShippingConfigApiCtrlDelegateImpl implements ShippingConfigApiCtrlD
         shippingConfigService.createConfiguration(configuration);
         return ResponseEntity.ok().build();
     }
-
-    @Override
-    public ResponseEntity<Void> updateShippingConfiguration(PersistableShippingConfiguration configuration) {
-        shippingConfigService.updateConfiguration(configuration);
-        return ResponseEntity.ok().build();
-    }
-
-    @Override
-    public ResponseEntity<Void> deleteShippingConfiguration(String code) {
-        shippingConfigService.deleteConfiguration(code);
-        return ResponseEntity.ok().build();
-    }
 }

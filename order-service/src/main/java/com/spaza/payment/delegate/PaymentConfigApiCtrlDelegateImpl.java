@@ -22,16 +22,4 @@ public class PaymentConfigApiCtrlDelegateImpl implements PaymentConfigApiCtrlDel
         paymentConfigService.createConfiguration(configuration);
         return ResponseEntity.ok().build();
     }
-
-    @Override
-    public ResponseEntity<Void> updatePaymentConfiguration(PersistablePaymentConfiguration configuration) {
-        paymentConfigService.updateConfiguration(configuration);
-        return ResponseEntity.ok().build();
-    }
-
-    @Override
-    public ResponseEntity<Void> deletePaymentConfiguration(String code) {
-        paymentConfigService.deleteConfiguration(code);
-        return ResponseEntity.ok().build();
-    }
 }

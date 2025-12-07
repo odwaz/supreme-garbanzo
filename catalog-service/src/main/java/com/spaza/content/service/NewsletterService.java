@@ -23,22 +23,24 @@ public class NewsletterService {
         repository.save(entity);
     }
 
-    public ReadableOptin[] listOptins() {
-        return repository.findAll().stream()
-            .map(this::toReadable)
-            .toArray(ReadableOptin[]::new);
-    }
-
-    public void deleteOptin(String email) {
+    public void unsubscribe(String email) {
         repository.findByEmail(email).ifPresent(repository::delete);
     }
 
-    private ReadableOptin toReadable(Newsletter entity) {
-        ReadableOptin readable = new ReadableOptin();
-        readable.setEmail(entity.getEmail());
-        readable.setFirstName(entity.getFirstName());
-        readable.setLastName(entity.getLastName());
-        readable.setSubscribedDate(entity.getSubscribedDate());
-        return readable;
+    public void update(String email, NewsletterSubscription subscription) {
+        repository.findByEmail(email).ifPresent(entity -> {
+            entity.setFirstName(subscription.getFirstName());
+            entity.setLastName(subscription.getLastName());
+            repository.save(entity);
+        });
+    }
+
+    public void createOptin(PersistableOptin optin) {
+        Newsletter entity = new Newsletter();
+        entity.setEmail(optin.getEmail());
+        entity.setFirstName(optin.getFirstName());
+        entity.setLastName(optin.getLastName());
+        entity.setSubscribedDate(LocalDateTime.now());
+        repository.save(entity);
     }
 }

@@ -8,10 +8,10 @@ import javax.validation.Valid;
 
 public interface CustomerAuthenticationApiCtrl {
 
-    @PostMapping("/api/v1/auth/login")
+    @PostMapping("/api/v1/customer/login")
     ResponseEntity<Object> authenticate(@Valid @RequestBody AuthenticationRequest authenticationRequest);
 
-    @PostMapping("/api/v1/auth/register")
+    @PostMapping("/api/v1/customer/register")
     ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody Customer customer);
 
     @GetMapping("/api/v1/auth/customer/refresh")

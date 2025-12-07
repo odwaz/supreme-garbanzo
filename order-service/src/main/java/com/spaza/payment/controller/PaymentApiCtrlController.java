@@ -8,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*")
 public class PaymentApiCtrlController implements PaymentApiCtrl {
 
     @Autowired
@@ -52,13 +52,13 @@ public class PaymentApiCtrlController implements PaymentApiCtrl {
     }
 
     @Override
-    public ResponseEntity<Object[]> paymentModules() {
-        return delegate.paymentModules();
+    public ResponseEntity<Object[]> paymentModules(@RequestParam(required = false) Long merchantId, @RequestParam(required = false) String language) {
+        return delegate.paymentModules(merchantId, language);
     }
 
     @Override
-    public ResponseEntity<Object[]> paymentModule(@PathVariable String code) {
-        return delegate.paymentModule(code);
+    public ResponseEntity<Object[]> paymentModule(@PathVariable String code, @RequestParam(required = false) Long merchantId) {
+        return delegate.paymentModule(code, merchantId);
     }
 
     @Override

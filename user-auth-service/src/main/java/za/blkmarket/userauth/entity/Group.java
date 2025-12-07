@@ -4,14 +4,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "sm_group")
+@Table(name = "user_role")
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "group_id")
+    @Column(name = "role_id")
     private Long id;
     
-    @Column(name = "group_name", unique = true, nullable = false, length = 255)
+    @Column(name = "role_name", unique = true, nullable = false, length = 255)
     private String name;
     
     @Column(name = "group_type", length = 255)

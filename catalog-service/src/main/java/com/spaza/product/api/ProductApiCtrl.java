@@ -26,5 +26,6 @@ public interface ProductApiCtrl {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Boolean available,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "100") int count);
+            @RequestParam(defaultValue = "100") int count,
+            @RequestParam(required = false) Long merchant);
 }
