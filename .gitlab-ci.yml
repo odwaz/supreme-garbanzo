@@ -14,11 +14,11 @@ build:
   artifacts:
     paths:
       - "*/target/*.jar"
-    expire_in: 2 hours
+    expire_in: 1 hour
 
 push:
   stage: push
-  image: docker:latest
+  image: docker:dev
   services:
     - docker:dind
   before_script:
