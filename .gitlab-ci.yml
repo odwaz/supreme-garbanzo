@@ -14,7 +14,7 @@ build:
   artifacts:
     paths:
       - "*/target/*.jar"
-    expire_in: 1 hour
+    expire_in: 2 hours
 
 push:
   stage: push
