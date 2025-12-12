@@ -18,7 +18,7 @@ build:
 
 push:
   stage: push
-  image: docker:dev
+  image: docker:latest
   services:
     - docker:dind
   before_script:
