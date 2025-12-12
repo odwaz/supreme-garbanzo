@@ -1,8 +1,10 @@
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\delegate\CustomerManagementApiCtrlDelegate.java
+D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\repository\PasswordResetTokenRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\repository\CurrencyRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\config\SecurityConfig.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\ReadableCustomerAttribute.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\repository\CountryRepository.java
+D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\ReadableZone.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\service\CustomerService.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\Language.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\api\CustomerAuthenticationApiCtrl.java
@@ -15,6 +17,7 @@ D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\cart\repository\CartRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\cart\service\CartService.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\AuthenticationRequest.java
+D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\exception\ResourceNotFoundException.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\util\JwtUtil.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\ReadableCustomerList.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\cart\model\CartItem.java
@@ -26,6 +29,7 @@ D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\delegate\CustomerAuthenticationApiCtrlDelegateImpl.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\exception\ServiceException.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\Country.java
+D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\PasswordResetToken.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\ReadableMeasure.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\CustomerOption.java
 D:\Documents\projects\Java\online-spaza-microservices\customer-service\src\main\java\com\spaza\customer\model\CustomerOptionValue.java

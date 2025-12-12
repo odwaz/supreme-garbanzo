@@ -31,4 +31,10 @@ public class ReferenceApiCtrlDelegateImpl implements ReferenceApiCtrlDelegate {
     public ResponseEntity<ReadableMeasure[]> listMeasures() {
         return ResponseEntity.ok(referenceService.listMeasures());
     }
+
+    @Override
+    public ResponseEntity<ReadableZone[]> listZones(String country) {
+        // Zones are not yet implemented in ReferenceService; return empty list for now
+        return ResponseEntity.ok(new ReadableZone[0]);
+    }
 }

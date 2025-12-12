@@ -26,6 +26,20 @@ public class GlobalExceptionHandler {
             .body(new ErrorResponse("INVALID_ARGUMENT", ex.getMessage()));
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleAuthentication(RuntimeException ex) {
+        if (ex.getMessage() != null && ex.getMessage().contains("credentials")) {
+            log.warn("Authentication failed");
+            return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse("AUTHENTICATION_FAILED", ex.getMessage()));
+        }
+        log.error("Runtime error", ex);
+        return ResponseEntity
+            .internalServerError()
+            .body(new ErrorResponse("INTERNAL_ERROR", "An unexpected error occurred"));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex) {
         log.error("Unexpected error occurred", ex);

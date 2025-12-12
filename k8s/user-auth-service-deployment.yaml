@@ -28,13 +28,18 @@ spec:
     spec:
       containers:
       - name: user-auth-service
-        image: online-spaza/user-auth-service:latest
+        image: online-spaza/user-auth-service:dev
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8082
         env:
-        - name: SPRING_DATASOURCE_URL
-          value: "jdbc:mysql://host.docker.internal:3306/salesmanager?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+        - name: DB_URL
+          value: "jdbc:mysql://mysql:3306/salesmanager?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: username
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
