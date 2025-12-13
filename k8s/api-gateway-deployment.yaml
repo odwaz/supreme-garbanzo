@@ -4,7 +4,7 @@ metadata:
   name: api-gateway
   namespace: online-spaza
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 8080
     targetPort: 8080
