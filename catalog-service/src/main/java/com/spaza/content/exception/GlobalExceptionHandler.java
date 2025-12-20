@@ -26,6 +26,14 @@ public class GlobalExceptionHandler {
             .body(new ErrorResponse("INVALID_ARGUMENT", ex.getMessage()));
     }
 
+    @ExceptionHandler(SecurityException.class)
+    public ResponseEntity<ErrorResponse> handleSecurity(SecurityException ex) {
+        log.warn("Security violation: {}", ex.getMessage());
+        return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .body(new ErrorResponse("SECURITY_ERROR", ex.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex) {
         log.error("Unexpected error occurred", ex);

@@ -1,13 +1,17 @@
 package com.spaza.payment.service;
 
+import com.spaza.order.exception.*;
 import com.spaza.payment.model.*;
 import com.spaza.payment.repository.MerchantPaymentConfigRepository;
 import com.spaza.payment.repository.PaymentRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+@Slf4j
 @Service
 public class PaymentService {
 
@@ -23,50 +27,66 @@ public class PaymentService {
     @Autowired
     private StripePaymentModule stripePaymentModule;
 
+    @Transactional
     public ReadableTransaction init(String cartCode, PersistablePayment payment) {
+        if (paymentRepository.existsByOrderIdAndStatus(cartCode, "PENDING")) {
+            List<ReadableTransaction> pending = paymentRepository.findByOrderIdAndStatus(cartCode, "PENDING");
+            log.debug("Returning existing pending transaction for order: {}", cartCode);
+            return pending.isEmpty() ? null : pending.get(0);
+        }
+
         ReadableTransaction transaction = new ReadableTransaction();
         transaction.setOrderId(cartCode);
         transaction.setAmount(payment.getAmount());
         transaction.setStatus("PENDING");
         transaction.setPaymentMethod(payment.getPaymentMethod());
-        return paymentRepository.save(transaction);
+        ReadableTransaction saved = paymentRepository.save(transaction);
+        log.info("Payment transaction initialized: {} for order: {}", payment.getPaymentMethod(), cartCode);
+        return saved;
     }
 
+    @Transactional
     public ReadableTransaction authorize(Long orderId) {
         List<ReadableTransaction> pending = paymentRepository.findByOrderIdAndStatus(
             String.valueOf(orderId), "PENDING"
         );
         
         if (pending.isEmpty()) {
-            throw new RuntimeException("No pending payment found");
+            throw new PaymentFailedException("No pending payment found for order: " + orderId);
         }
         
         ReadableTransaction transaction = pending.get(0);
         transaction.setStatus("AUTHORIZED");
-        return paymentRepository.save(transaction);
+        ReadableTransaction saved = paymentRepository.save(transaction);
+        log.info("Payment authorized for order: {}", orderId);
+        return saved;
     }
 
+    @Transactional
     public ReadableTransaction capture(Long orderId) {
         List<ReadableTransaction> authorized = paymentRepository.findByOrderIdAndStatus(
             String.valueOf(orderId), "AUTHORIZED"
         );
         
         if (authorized.isEmpty()) {
-            throw new RuntimeException("No authorized payment found");
+            throw new PaymentFailedException("No authorized payment found for order: " + orderId);
         }
         
         ReadableTransaction transaction = authorized.get(0);
         transaction.setStatus("CAPTURED");
-        return paymentRepository.save(transaction);
+        ReadableTransaction saved = paymentRepository.save(transaction);
+        log.info("Payment captured for order: {}", orderId);
+        return saved;
     }
 
+    @Transactional
     public ReadableTransaction refund(Long orderId) {
         List<ReadableTransaction> captured = paymentRepository.findByOrderIdAndStatus(
             String.valueOf(orderId), "CAPTURED"
         );
         
         if (captured.isEmpty()) {
-            throw new RuntimeException("No captured payment found");
+            throw new PaymentFailedException("No captured payment found for order: " + orderId);
         }
         
         ReadableTransaction refund = new ReadableTransaction();
@@ -75,7 +95,9 @@ public class PaymentService {
         refund.setStatus("REFUNDED");
         refund.setPaymentMethod(captured.get(0).getPaymentMethod());
         
-        return paymentRepository.save(refund);
+        ReadableTransaction saved = paymentRepository.save(refund);
+        log.info("Payment refunded for order: {}", orderId);
+        return saved;
     }
 
     public ReadableTransaction[] listTransactions(Long orderId) {
@@ -178,6 +200,6 @@ public class PaymentService {
     }
 
     public void configure(IntegrationModuleConfiguration configuration) {
-        System.out.println("Configuring payment module: " + configuration.getCode());
+        log.info("Configuring payment module: {}", configuration.getCode());
     }
 }

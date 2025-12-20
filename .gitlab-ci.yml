@@ -1,0 +1,45 @@
+stages:
+  - build
+  - sonar
+  - push
+
+variables:
+  DOCKER_REGISTRY: docker.io
+  DOCKER_IMAGE_PREFIX: codecorner
+  SONAR_HOST_URL: "https://sonarcloud.io"
+
+build:
+  stage: build
+  image: maven:3.9-eclipse-temurin-11
+  script:
+    - mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - "*/target/*.jar"
+    expire_in: 1 hour
+sonar:
+  stage: sonar
+  image: maven:3.9-eclipse-temurin-11
+  script:
+    - mvn sonar:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
+
+push:
+  stage: push
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  script:
+    - docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/api-gateway:$CI_COMMIT_SHORT_SHA ./api-gateway
+    - docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/catalog-service:$CI_COMMIT_SHORT_SHA ./catalog-service
+    - docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/customer-service:$CI_COMMIT_SHORT_SHA ./customer-service
+    - docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/user-auth-service:$CI_COMMIT_SHORT_SHA ./user-auth-service
+    - docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/order-service:$CI_COMMIT_SHORT_SHA ./order-service
+    - docker push $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/api-gateway:$CI_COMMIT_SHORT_SHA
+    - docker push $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/catalog-service:$CI_COMMIT_SHORT_SHA
+    - docker push $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/customer-service:$CI_COMMIT_SHORT_SHA
+    - docker push $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/user-auth-service:$CI_COMMIT_SHORT_SHA
+    - docker push $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/order-service:$CI_COMMIT_SHORT_SHA
+  only:
+    - dev

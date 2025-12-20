@@ -10,8 +10,10 @@ com\spaza\customer\CustomerServiceApplication.class
 com\spaza\customer\delegate\CustomerAuthenticationApiCtrlDelegateImpl.class
 com\spaza\customer\config\SecurityConfig.class
 com\spaza\customer\model\PersistableCustomerAttribute.class
+com\spaza\customer\model\ReadableZone.class
 com\spaza\customer\exception\ServiceException.class
 com\spaza\customer\model\ReadableCustomer.class
+com\spaza\customer\repository\PasswordResetTokenRepository.class
 com\spaza\cart\model\ReadableShoppingCartItem.class
 com\spaza\customer\model\Language.class
 com\spaza\cart\repository\CartRepository.class
@@ -27,6 +29,7 @@ com\spaza\customer\exception\AuthenticationFailedException.class
 com\spaza\customer\repository\CountryRepository.class
 com\spaza\customer\delegate\ReferenceApiCtrlDelegateImpl.class
 com\spaza\customer\exception\GlobalExceptionHandler.class
+com\spaza\customer\exception\ResourceNotFoundException.class
 com\spaza\customer\repository\LanguageRepository.class
 com\spaza\customer\model\ReadableCurrency.class
 com\spaza\customer\api\CustomerAuthenticationApiCtrl.class
@@ -45,6 +48,7 @@ com\spaza\customer\service\CustomerService.class
 com\spaza\customer\model\ReadableCountry.class
 com\spaza\customer\repository\CustomerRepository.class
 com\spaza\customer\model\Country.class
+com\spaza\customer\model\PasswordResetToken.class
 com\spaza\cart\service\CartService.class
 com\spaza\customer\repository\CurrencyRepository.class
 com\spaza\customer\controller\CustomerManagementApiCtrlController.class

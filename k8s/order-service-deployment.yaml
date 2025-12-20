@@ -11,6 +11,20 @@ spec:
   selector:
     app: order-service
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service-webhook
+  namespace: online-spaza
+spec:
+  type: NodePort
+  ports:
+  - port: 8087
+    targetPort: 8087
+    nodePort: 30087
+  selector:
+    app: order-service
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -28,13 +42,13 @@ spec:
     spec:
       containers:
       - name: order-service
-        image: online-spaza/order-service:latest
+        image: online-spaza/order-service:dev
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8087
         env:
-        - name: SPRING_DATASOURCE_URL
-          value: "jdbc:mysql://host.docker.internal:3306/salesmanager?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+        - name: DB_URL
+          value: "jdbc:mysql://mysql:3306/salesmanager?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
         - name: DB_USERNAME
           valueFrom:
             secretKeyRef:
@@ -53,7 +67,10 @@ spec:
         - name: CUSTOMER_SERVICE_URL
           value: "http://customer-service:8085"
         - name: STRIPE_WEBHOOK_SECRET
-          value: "whsec_your_webhook_secret_from_stripe_dashboard"
+          valueFrom:
+            secretKeyRef:
+              name: stripe-webhook
+              key: secret
         resources:
           requests:
             memory: "256Mi"

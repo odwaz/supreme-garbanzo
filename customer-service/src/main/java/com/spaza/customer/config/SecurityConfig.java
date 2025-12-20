@@ -62,7 +62,9 @@ public class SecurityConfig {
                                 new UsernamePasswordAuthenticationToken(email, null, new ArrayList<>());
                             SecurityContextHolder.getContext().setAuthentication(auth);
                         }
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                        // Invalid JWT token, continue without authentication
+                    }
                 }
                 chain.doFilter(request, response);
             }

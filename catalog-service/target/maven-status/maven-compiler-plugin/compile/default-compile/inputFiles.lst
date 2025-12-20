@@ -76,12 +76,14 @@ D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\j
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\model\Newsletter.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\model\PersistableContentPage.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\entity\ProductVariantValue.java
+D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\repository\CatalogEntryRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\PersistableProductVariantGroup.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\controller\ProductImageApiCtrlController.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\model\ProductImage.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\category\model\PersistableCategory.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\repository\ProductVariantValueRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\model\PersistableCatalog.java
+D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\model\CatalogEntry.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\repository\ProductRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\content\repository\ContentBoxRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\catalog-service\src\main\java\com\spaza\product\repository\ProductDescriptionRepository.java

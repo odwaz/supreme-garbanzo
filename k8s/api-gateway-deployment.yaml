@@ -4,7 +4,7 @@ metadata:
   name: api-gateway
   namespace: online-spaza
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 8080
     targetPort: 8080
@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: api-gateway
-        image: online-spaza/api-gateway:latest
+        image: online-spaza/api-gateway:dev
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -48,3 +48,8 @@ spec:
             value: "http://customer-service:8085"
           - name: ORDER_SERVICE_URL
             value: "http://order-service:8087"
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secret
+                key: secret

@@ -1,14 +1,21 @@
 package com.spaza.customer.service;
 
+import com.spaza.customer.exception.*;
 import com.spaza.customer.model.*;
 import com.spaza.customer.repository.CustomerRepository;
+import com.spaza.customer.repository.PasswordResetTokenRepository;
 import com.spaza.customer.util.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
+@Slf4j
 @Service
 public class CustomerService {
 
@@ -17,75 +24,151 @@ public class CustomerService {
 
     @Autowired
     private JwtUtil jwtUtil;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private PasswordResetTokenRepository tokenRepository;
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        Optional<ReadableCustomer> customer = customerRepository.findReadableByEmail(request.getUsername());
-        if (customer.isPresent()) {
-            AuthenticationResponse response = new AuthenticationResponse();
-            response.setToken(jwtUtil.generateToken(request.getUsername()));
-            response.setCustomer(customer.get());
-            return response;
+        log.info("Authenticating customer: {}", request.getUsername());
+        Customer customer = customerRepository.findByEmail(request.getUsername())
+            .orElseThrow(() -> new AuthenticationFailedException("Invalid credentials"));
+        
+        if (!passwordEncoder.matches(request.getPassword(), customer.getPassword())) {
+            log.warn("Failed authentication attempt for: {}", request.getUsername());
+            throw new AuthenticationFailedException("Invalid credentials");
         }
-        return null;
+        
+        AuthenticationResponse response = new AuthenticationResponse();
+        response.setToken(jwtUtil.generateToken(request.getUsername()));
+        response.setCustomer(new ReadableCustomer(customer));
+        log.info("Customer authenticated successfully: {}", request.getUsername());
+        return response;
     }
 
+    @Transactional
     public AuthenticationResponse register(Customer customer) {
+        log.info("Registering customer: {}", customer.getEmail());
         if (customerRepository.existsByEmail(customer.getEmail())) {
-            throw new IllegalArgumentException("Email already registered");
+            throw new ValidationException("Email already registered");
         }
         
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         Customer saved = customerRepository.save(customer);
-        
-        ReadableCustomer readableCustomer = new ReadableCustomer();
-        readableCustomer.setId(saved.getId());
-        readableCustomer.setFirstName(saved.getFirstName());
-        readableCustomer.setLastName(saved.getLastName());
-        readableCustomer.setEmail(saved.getEmail());
         
         AuthenticationResponse response = new AuthenticationResponse();
         response.setToken(jwtUtil.generateToken(customer.getEmail()));
-        response.setCustomer(readableCustomer);
+        response.setCustomer(new ReadableCustomer(saved));
+        log.info("Customer registered successfully: {}", customer.getEmail());
         return response;
     }
 
     public Object refreshToken(String authHeader) {
         String token = authHeader.replace("Bearer ", "");
         String email = jwtUtil.extractEmail(token);
+        log.debug("Refreshing token for: {}", email);
         return Map.of("token", jwtUtil.generateToken(email));
     }
 
+    @Transactional
     public ResponseEntity changePassword(PasswordRequest request) {
-        return ResponseEntity.ok().build();
+        log.warn("Authenticated password change not implemented");
+        throw new ServiceException("Use password reset flow instead");
     }
 
+    @Transactional
     public void passwordResetRequest(ResetPasswordRequest request) {
-        // Password reset logic
+        log.info("Password reset requested for: {}", request.getEmail());
+        Customer customer = customerRepository.findByEmail(request.getEmail())
+            .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+        
+        tokenRepository.deleteByEmail(request.getEmail());
+        
+        String token = UUID.randomUUID().toString();
+        PasswordResetToken resetToken = new PasswordResetToken(
+            token, 
+            request.getEmail(), 
+            LocalDateTime.now().plusHours(24)
+        );
+        tokenRepository.save(resetToken);
+        
+        log.info("Password reset token generated for: {}", request.getEmail());
     }
 
+    @Transactional
     public void changePassword(String store, String token, PasswordRequest request) {
-        // Change password logic
+        log.info("Changing password with token: {}", token);
+        PasswordResetToken resetToken = tokenRepository.findByToken(token)
+            .orElseThrow(() -> new ValidationException("Invalid or expired token"));
+        
+        if (resetToken.isUsed()) {
+            throw new ValidationException("Token already used");
+        }
+        if (resetToken.isExpired()) {
+            throw new ValidationException("Token expired");
+        }
+        
+        Customer customer = customerRepository.findByEmail(resetToken.getEmail())
+            .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+        
+        customer.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        customerRepository.save(customer);
+        
+        resetToken.setUsed(true);
+        tokenRepository.save(resetToken);
+        
+        log.info("Password changed successfully for: {}", customer.getEmail());
     }
 
     public void passwordResetVerify(String store, String token) {
-        // Verify reset token
+        log.info("Verifying reset token: {}", token);
+        PasswordResetToken resetToken = tokenRepository.findByToken(token)
+            .orElseThrow(() -> new ValidationException("Invalid token"));
+        
+        if (resetToken.isUsed()) {
+            throw new ValidationException("Token already used");
+        }
+        if (resetToken.isExpired()) {
+            throw new ValidationException("Token expired");
+        }
+        
+        log.info("Token verified successfully for: {}", resetToken.getEmail());
     }
 
+    @Transactional
     public ReadableCustomer createCustomer(Customer customer) {
+        log.info("Creating customer: {}", customer.getEmail());
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         Customer saved = customerRepository.save(customer);
         return new ReadableCustomer(saved);
     }
 
     public ReadableCustomer getCustomer(Long id) {
-        Optional<ReadableCustomer> customer = customerRepository.findReadableById(id);
-        return customer.orElse(null);
+        return customerRepository.findReadableById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Customer not found: " + id));
     }
 
+    @Transactional
     public void deleteCustomer(Long id) {
+        log.info("Deleting customer: {}", id);
+        if (!customerRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Customer not found: " + id);
+        }
         customerRepository.deleteById(id);
     }
 
+    @Transactional
     public ReadableCustomer updateCustomer(Long id, Customer customer) {
+        log.info("Updating customer: {}", id);
+        if (!customerRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Customer not found: " + id);
+        }
         customer.setId(id);
+        if (customer.getPassword() != null && !customer.getPassword().isEmpty()) {
+            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        }
         Customer saved = customerRepository.save(customer);
         return new ReadableCustomer(saved);
     }
@@ -98,7 +181,11 @@ public class CustomerService {
         return customerRepository.findByEmail(email);
     }
 
+    @Transactional
     public Customer save(Customer customer) {
+        if (customer.getPassword() != null && !customer.getPassword().isEmpty()) {
+            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        }
         return customerRepository.save(customer);
     }
 
@@ -106,6 +193,7 @@ public class CustomerService {
         return customerRepository.findById(id);
     }
 
+    @Transactional
     public void deleteById(Long id) {
         customerRepository.deleteById(id);
     }

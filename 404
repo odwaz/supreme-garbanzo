@@ -1,6 +1,0 @@
-Test results for these endpoints:
-POST   /api/v1/cart/{code}/shipping             - NOT_FOUND
-GET    /api/v1/zones                            - NOT_FOUND
-GET    /api/v1/shipping/country                 - NOT_FOUND
-GET    /api/v1/config                           - NOT_FOUND
-GET    /api/v1/cart/{code}/total                - NOT_FOUND

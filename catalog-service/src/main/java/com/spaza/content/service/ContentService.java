@@ -32,20 +32,11 @@ public class ContentService {
     }
 
     public ReadableContentPage getPage(String code) {
-        return pageRepository.findByCode(code).orElseGet(() -> {
-            ReadableContentPage page = new ReadableContentPage();
-            page.setCode(code);
-            page.setName("Sample Page");
-            return page;
-        });
+        return pageRepository.findByCode(code).orElse(null);
     }
 
     public ReadableContentPage getPageByName(String name) {
-        return pageRepository.findByName(name).orElseGet(() -> {
-            ReadableContentPage page = new ReadableContentPage();
-            page.setName(name);
-            return page;
-        });
+        return pageRepository.findByName(name).orElse(null);
     }
 
     public ContentFolder getImages(String path) {

@@ -1,65 +1,125 @@
 package com.spaza.order.exception;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import java.util.stream.Collectors;
+import org.springframework.web.context.request.WebRequest;
+
+import javax.validation.ConstraintViolationException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
-@Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<ErrorResponse> handleValidation(ValidationException ex) {
-        log.warn("Validation error: {}", ex.getMessage());
-        return ResponseEntity
-            .badRequest()
-            .body(new ErrorResponse("VALIDATION_ERROR", ex.getMessage()));
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(
+            ResourceNotFoundException ex, WebRequest request) {
+        log.error("Resource not found: {}", ex.getMessage());
+        
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", ""),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(PaymentFailedException.class)
-    public ResponseEntity<ErrorResponse> handlePaymentFailed(PaymentFailedException ex) {
-        log.error("Payment failed for order={}, amount={}", ex.getOrderId(), ex.getAmount(), ex);
-        return ResponseEntity
-            .status(HttpStatus.PAYMENT_REQUIRED)
-            .body(new ErrorResponse("PAYMENT_FAILED", ex.getMessage()));
+    public ResponseEntity<ErrorResponse> handlePaymentFailedException(
+            PaymentFailedException ex, WebRequest request) {
+        log.error("Payment failed: {}", ex.getMessage(), ex);
+        
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.PAYMENT_REQUIRED.value(),
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", ""),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(error, HttpStatus.PAYMENT_REQUIRED);
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
-        log.warn("Resource not found: {}", ex.getMessage());
-        return ResponseEntity
-            .status(HttpStatus.NOT_FOUND)
-            .body(new ErrorResponse("NOT_FOUND", ex.getMessage()));
+    @ExceptionHandler(ServiceException.class)
+    public ResponseEntity<ErrorResponse> handleServiceException(
+            ServiceException ex, WebRequest request) {
+        log.error("Service error: {}", ex.getMessage(), ex);
+        
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", ""),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
-        log.warn("Invalid argument: {}", ex.getMessage());
-        return ResponseEntity
-            .badRequest()
-            .body(new ErrorResponse("INVALID_ARGUMENT", ex.getMessage()));
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorResponse> handleValidationException(
+            ValidationException ex, WebRequest request) {
+        log.error("Validation error: {}", ex.getMessage());
+        
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", ""),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex) {
-        String errors = ex.getBindingResult().getFieldErrors().stream()
-            .map(error -> error.getField() + ": " + error.getDefaultMessage())
-            .collect(Collectors.joining(", "));
-        log.warn("Validation failed: {}", errors);
-        return ResponseEntity
-            .badRequest()
-            .body(new ErrorResponse("VALIDATION_ERROR", errors));
+    public ResponseEntity<ErrorResponse> handleValidationException(
+            MethodArgumentNotValidException ex, WebRequest request) {
+        log.error("Validation error: {}", ex.getMessage());
+        
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage())
+        );
+
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "Validation failed",
+                request.getDescription(false).replace("uri=", ""),
+                LocalDateTime.now(),
+                errors
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(
+            ConstraintViolationException ex, WebRequest request) {
+        log.error("Constraint violation: {}", ex.getMessage());
+        
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "Constraint violation: " + ex.getMessage(),
+                request.getDescription(false).replace("uri=", ""),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex) {
+    public ResponseEntity<ErrorResponse> handleGlobalException(
+            Exception ex, WebRequest request) {
         log.error("Unexpected error occurred", ex);
-        return ResponseEntity
-            .internalServerError()
-            .body(new ErrorResponse("INTERNAL_ERROR", "An unexpected error occurred"));
+        
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "An unexpected error occurred. Please contact support.",
+                request.getDescription(false).replace("uri=", ""),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

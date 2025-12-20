@@ -31,14 +31,10 @@ public class AuthService {
     
     public AuthResponse authenticate(AuthRequest request) {
         User user = userRepository.findByEmail(request.getUsername())
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new RuntimeException("Invalid credentials"));
         
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword()) || !user.isActive()) {
             throw new RuntimeException("Invalid credentials");
-        }
-        
-        if (!user.isActive()) {
-            throw new RuntimeException("User account is disabled");
         }
         
         List<String> roles = user.getGroups() != null ? 
