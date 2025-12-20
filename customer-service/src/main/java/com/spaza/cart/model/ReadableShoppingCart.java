@@ -17,7 +17,9 @@ public class ReadableShoppingCart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> items = new ArrayList<>();
     
-    public ReadableShoppingCart() {}
+    public ReadableShoppingCart() {
+        // Default constructor for JPA
+    }
     
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

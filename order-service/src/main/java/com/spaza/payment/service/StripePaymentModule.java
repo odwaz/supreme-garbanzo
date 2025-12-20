@@ -16,6 +16,11 @@ import java.util.Map;
 
 @Component
 public class StripePaymentModule {
+
+    private static final String STRIPE = "STRIPE";
+    private static final String STRIPE_NOT_CONFIGURED = "Stripe not configured for merchant";
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER = "Bearer ";
     
     @Autowired
     private MerchantPaymentConfigRepository configRepository;
@@ -24,15 +29,15 @@ public class StripePaymentModule {
     
     public Map<String, String> createPaymentIntent(Long merchantId, String orderId, Double amount) {
         MerchantPaymentConfig config = configRepository
-            .findByMerchantIdAndPaymentMethod(merchantId, "STRIPE")
-            .orElseThrow(() -> new RuntimeException("Stripe not configured for merchant"));
+            .findByMerchantIdAndPaymentMethod(merchantId, STRIPE)
+            .orElseThrow(() -> new IllegalStateException(STRIPE_NOT_CONFIGURED));
         
-        if (!config.getEnabled()) {
-            throw new RuntimeException("Stripe payment disabled for merchant");
+        if (Boolean.FALSE.equals(config.getEnabled())) {
+            throw new IllegalStateException("Stripe payment disabled for merchant");
         }
         
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + config.getApiKey());
+        headers.set(AUTHORIZATION, BEARER + config.getApiKey());
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         
         String body = "amount=" + (int)(amount * 100) + 
@@ -42,7 +47,7 @@ public class StripePaymentModule {
         HttpEntity<String> request = new HttpEntity<>(body, headers);
         
         try {
-            ResponseEntity<Map> response = restTemplate.postForEntity(
+            ResponseEntity<Map<String, Object>> response = restTemplate.postForEntity(
                 "https://api.stripe.com/v1/payment_intents",
                 request,
                 Map.class
@@ -53,40 +58,40 @@ public class StripePaymentModule {
             result.put("paymentIntentId", (String) response.getBody().get("id"));
             return result;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to create Stripe payment intent", e);
+            throw new IllegalStateException("Failed to create Stripe payment intent", e);
         }
     }
     
     public String capturePayment(Long merchantId, String paymentIntentId) {
         MerchantPaymentConfig config = configRepository
-            .findByMerchantIdAndPaymentMethod(merchantId, "STRIPE")
-            .orElseThrow(() -> new RuntimeException("Stripe not configured for merchant"));
+            .findByMerchantIdAndPaymentMethod(merchantId, STRIPE)
+            .orElseThrow(() -> new IllegalStateException(STRIPE_NOT_CONFIGURED));
         
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + config.getApiKey());
+        headers.set(AUTHORIZATION, BEARER + config.getApiKey());
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         
         HttpEntity<String> request = new HttpEntity<>("", headers);
         
         try {
-            ResponseEntity<Map> response = restTemplate.postForEntity(
+            ResponseEntity<Map<String, Object>> response = restTemplate.postForEntity(
                 "https://api.stripe.com/v1/payment_intents/" + paymentIntentId + "/capture",
                 request,
                 Map.class
             );
             return (String) response.getBody().get("status");
         } catch (Exception e) {
-            throw new RuntimeException("Failed to capture Stripe payment", e);
+            throw new IllegalStateException("Failed to capture Stripe payment", e);
         }
     }
     
     public String refundPayment(Long merchantId, String paymentIntentId, Double amount) {
         MerchantPaymentConfig config = configRepository
-            .findByMerchantIdAndPaymentMethod(merchantId, "STRIPE")
-            .orElseThrow(() -> new RuntimeException("Stripe not configured for merchant"));
+            .findByMerchantIdAndPaymentMethod(merchantId, STRIPE)
+            .orElseThrow(() -> new IllegalStateException(STRIPE_NOT_CONFIGURED));
         
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + config.getApiKey());
+        headers.set(AUTHORIZATION, BEARER + config.getApiKey());
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         
         String body = "payment_intent=" + paymentIntentId;
@@ -97,14 +102,14 @@ public class StripePaymentModule {
         HttpEntity<String> request = new HttpEntity<>(body, headers);
         
         try {
-            ResponseEntity<Map> response = restTemplate.postForEntity(
+            ResponseEntity<Map<String, Object>> response = restTemplate.postForEntity(
                 "https://api.stripe.com/v1/refunds",
                 request,
                 Map.class
             );
             return (String) response.getBody().get("status");
         } catch (Exception e) {
-            throw new RuntimeException("Failed to refund Stripe payment", e);
+            throw new IllegalStateException("Failed to refund Stripe payment", e);
         }
     }
     

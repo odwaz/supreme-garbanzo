@@ -98,7 +98,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public void changePassword(String store, String token, PasswordRequest request) {
+    public void changePassword(String token, PasswordRequest request) {
         log.info("Changing password with token: {}", token);
         PasswordResetToken resetToken = tokenRepository.findByToken(token)
             .orElseThrow(() -> new ValidationException("Invalid or expired token"));
@@ -122,7 +122,7 @@ public class CustomerService {
         log.info("Password changed successfully for: {}", customer.getEmail());
     }
 
-    public void passwordResetVerify(String store, String token) {
+    public void passwordResetVerify(String token) {
         log.info("Verifying reset token: {}", token);
         PasswordResetToken resetToken = tokenRepository.findByToken(token)
             .orElseThrow(() -> new ValidationException("Invalid token"));
@@ -198,7 +198,7 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    public List<Customer> findAll(int page, int size) {
+    public List<Customer> findAll() {
         return customerRepository.findAll();
     }
 }
