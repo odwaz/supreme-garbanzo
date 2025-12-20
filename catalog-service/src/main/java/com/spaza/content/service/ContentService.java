@@ -17,7 +17,7 @@ public class ContentService {
     @Autowired
     private ContentPageRepository pageRepository;
 
-    public Object[] getBoxes(Integer count, Integer page) {
+    public Object[] getBoxes() {
         return boxRepository.findAll().toArray();
     }
 
@@ -27,7 +27,7 @@ public class ContentService {
                 .orElse(new Object[0]);
     }
 
-    public Object[] getPages(Integer count, Integer page) {
+    public Object[] getPages() {
         return pageRepository.findAll().toArray();
     }
 
@@ -92,6 +92,6 @@ public class ContentService {
     }
 
     public void upload(MultipartFile file) {
-        // File upload logic
+        throw new UnsupportedOperationException("File upload not yet implemented");
     }
 }

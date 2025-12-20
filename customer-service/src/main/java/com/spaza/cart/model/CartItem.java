@@ -18,7 +18,9 @@ public class CartItem {
     private Long productId;
     private Integer quantity;
     
-    public CartItem() {}
+    public CartItem() {
+        // Default constructor for JPA
+    }
     
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

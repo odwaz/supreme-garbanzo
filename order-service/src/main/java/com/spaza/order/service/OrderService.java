@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 public class OrderService {
 
+    private static final String ORDER_NOT_FOUND = "Order not found: ";
+
     @Value("${customer.service.url}") private String customerServiceUrl;
     @Autowired
     private OrderRepository orderRepository;
@@ -79,7 +81,7 @@ public class OrderService {
         try {
             String cartUrl = customerServiceUrl + "/api/v1/cart/" + cartCode;
             log.debug("Fetching cart: {}", cartUrl);
-            Map cartResponse = restTemplate.getForObject(cartUrl, Map.class);
+            Map<String, Object> cartResponse = restTemplate.getForObject(cartUrl, Map.class);
             
             if (cartResponse != null) {
                 if (cartResponse.get("total") != null) {
@@ -168,7 +170,7 @@ public class OrderService {
         return new ReadableOrderConfirmation(saved.getId(), "ORD-" + saved.getId());
     }
     
-    public ReadableOrderList getOrders(Integer count, Integer page) {
+    public ReadableOrderList getOrders() {
         List<Order> orders = orderRepository.findAll();
         List<ReadableOrder> readableOrders = orders.stream().map(this::toReadable).collect(Collectors.toList());
         return new ReadableOrderList(readableOrders, readableOrders.size());
@@ -177,10 +179,10 @@ public class OrderService {
     public ReadableOrder getOrder(Long id) {
         return orderRepository.findById(id)
             .map(this::toReadable)
-            .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + id));
+            .orElseThrow(() -> new ResourceNotFoundException(ORDER_NOT_FOUND + id));
     }
     
-    public ReadableOrderList searchOrders(int count, String email, Long id, String name, int page, String phone, String status, Long merchantId) {
+    public ReadableOrderList searchOrders(String status, Long merchantId) {
         List<Order> orders;
         
         if (merchantId != null) {
@@ -196,7 +198,7 @@ public class OrderService {
         return new ReadableOrderList(readableOrders, readableOrders.size());
     }
     
-    public ReadableOrderList getCustomerOrders(Integer count, Long customerId, Integer start) {
+    public ReadableOrderList getCustomerOrders(Long customerId) {
         List<Order> orders = orderRepository.findByCustomerId(customerId);
         List<ReadableOrder> readableOrders = orders.stream().map(this::toReadable).collect(Collectors.toList());
         return new ReadableOrderList(readableOrders, readableOrders.size());
@@ -205,7 +207,7 @@ public class OrderService {
     @Transactional
     public void updateCustomer(Long orderId, Customer customer) {
         Order order = orderRepository.findById(orderId)
-            .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + orderId));
+            .orElseThrow(() -> new ResourceNotFoundException(ORDER_NOT_FOUND + orderId));
         order.setCustomerId(customer.getId());
         orderRepository.save(order);
         log.info("Updated customer for order: {}", orderId);
@@ -214,7 +216,7 @@ public class OrderService {
     @Transactional
     public void updateStatus(Long orderId, String status) {
         Order order = orderRepository.findById(orderId)
-            .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + orderId));
+            .orElseThrow(() -> new ResourceNotFoundException(ORDER_NOT_FOUND + orderId));
         order.setStatus(status);
         orderRepository.save(order);
         log.info("Updated order {} status to: {}", orderId, status);

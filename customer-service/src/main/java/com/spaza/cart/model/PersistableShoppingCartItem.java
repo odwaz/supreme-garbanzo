@@ -9,7 +9,9 @@ public class PersistableShoppingCartItem {
     @NotNull
     private Integer quantity;
     
-    public PersistableShoppingCartItem() {}
+    public PersistableShoppingCartItem() {
+        // Default constructor for deserialization
+    }
     
     public Long getProduct() { return product; }
     public void setProduct(Long product) { this.product = product; }

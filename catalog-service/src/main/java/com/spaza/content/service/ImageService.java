@@ -18,13 +18,8 @@ public class ImageService {
     @Autowired
     private FileUploadService fileUploadService;
 
-    public String upload(MultipartFile file) {
-        try {
-            return fileUploadService.uploadFile(file);
-        } catch (IOException e) {
-            log.error("Failed to upload image: {}", e.getMessage());
-            throw new RuntimeException("Image upload failed", e);
-        }
+    public String upload(MultipartFile file) throws IOException {
+        return fileUploadService.uploadFile(file);
     }
 
     public byte[] get(String name) {

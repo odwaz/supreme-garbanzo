@@ -29,12 +29,12 @@ public class AuthService {
         return passwordEncoder.encode(password);
     }
     
-    public AuthResponse authenticate(AuthRequest request) {
+    public AuthResponse authenticate(AuthRequest request) throws IllegalStateException {
         User user = userRepository.findByEmail(request.getUsername())
-            .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+            .orElseThrow(() -> new IllegalStateException("Invalid credentials"));
         
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword()) || !user.isActive()) {
-            throw new RuntimeException("Invalid credentials");
+            throw new IllegalStateException("Invalid credentials");
         }
         
         List<String> roles = user.getGroups() != null ? 

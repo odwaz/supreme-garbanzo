@@ -113,8 +113,10 @@ public class ProductService {
             });
     }
     
+    private static final Long DEFAULT_LANGUAGE_ID = 1L;
+
     private Long getDefaultLanguageId() {
-        return 1L; // English - should be fetched from language repository
+        return DEFAULT_LANGUAGE_ID; // English - should be fetched from language repository
     }
 
     @Transactional
@@ -129,7 +131,7 @@ public class ProductService {
         return product;
     }
 
-    public List<Product> findAll(String sku, String name, Boolean available, int page, int count, Long merchant) {
+    public List<Product> findAll(int page, int count, Long merchant) {
         List<Product> products;
         
         if (merchant != null) {

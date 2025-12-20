@@ -23,7 +23,9 @@ public class Invoice {
     private String currency;
     private String status;
     
-    public Invoice() {}
+    public Invoice() {
+        // Default constructor for deserialization
+    }
     
     public String getInvoiceNumber() { return invoiceNumber; }
     public void setInvoiceNumber(String invoiceNumber) { this.invoiceNumber = invoiceNumber; }

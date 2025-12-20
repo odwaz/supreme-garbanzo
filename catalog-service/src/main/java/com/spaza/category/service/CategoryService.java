@@ -27,7 +27,7 @@ public class CategoryService {
         return categoryRepository.findById(id);
     }
 
-    public List<Category> findAll(String name, int page, int count) {
+    public List<Category> findAll(int page, int count) {
         return categoryRepository.findAll(PageRequest.of(page, count)).getContent();
     }
     
