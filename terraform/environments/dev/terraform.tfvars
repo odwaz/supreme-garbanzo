@@ -1,0 +1,6 @@
+namespace           = "online-spaza"
+db_username         = "root"
+db_password         = "Qwbrty!"
+db_root_password    = "Qwbrty!"
+jwt_secret          = "dev-jwt-secret-key-83451237"
+git_branch          = "dev"

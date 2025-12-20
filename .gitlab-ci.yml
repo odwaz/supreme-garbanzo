@@ -1,10 +1,12 @@
 stages:
   - build
+  - sonar
   - push
 
 variables:
   DOCKER_REGISTRY: docker.io
   DOCKER_IMAGE_PREFIX: codecorner
+  SONAR_HOST_URL: "https://sonarcloud.io"
 
 build:
   stage: build
@@ -15,6 +17,11 @@ build:
     paths:
       - "*/target/*.jar"
     expire_in: 1 hour
+sonar:
+  stage: sonar
+  image: maven:3.9-eclipse-temurin-11
+  script:
+    - mvn sonar:sonar -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
 
 push:
   stage: push
