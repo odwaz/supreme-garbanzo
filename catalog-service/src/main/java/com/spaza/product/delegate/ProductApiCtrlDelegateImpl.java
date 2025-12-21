@@ -43,7 +43,7 @@ public class ProductApiCtrlDelegateImpl implements ProductApiCtrlDelegate {
 
     @Override
     public ResponseEntity<List<Product>> list(String sku, String name, Boolean available, int page, int count, Long merchant) {
-        List<Product> products = productService.findAll(sku, name, available, page, count, merchant);
+        List<Product> products = productService.findAll(page, count, merchant);
         return ResponseEntity.ok(products);
     }
 }

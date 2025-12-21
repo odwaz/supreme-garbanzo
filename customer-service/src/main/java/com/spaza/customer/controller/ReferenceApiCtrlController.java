@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "*")
 public class ReferenceApiCtrlController implements ReferenceApiCtrl {
 
     @Autowired
@@ -32,5 +31,10 @@ public class ReferenceApiCtrlController implements ReferenceApiCtrl {
     @Override
     public ResponseEntity<ReadableMeasure[]> listMeasures() {
         return delegate.listMeasures();
+    }
+
+    @Override
+    public ResponseEntity<ReadableZone[]> listZones(String country) {
+        return delegate.listZones(country);
     }
 }

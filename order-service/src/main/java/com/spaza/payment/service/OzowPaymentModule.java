@@ -14,6 +14,9 @@ import java.util.Map;
 
 @Component
 public class OzowPaymentModule {
+
+    private static final String OZOW = "OZOW";
+    private static final String OZOW_NOT_CONFIGURED = "Ozow not configured for merchant";
     
     @Autowired
     private MerchantPaymentConfigRepository configRepository;
@@ -28,11 +31,11 @@ public class OzowPaymentModule {
     
     public String initiatePayment(Long merchantId, String orderId, Double amount) {
         MerchantPaymentConfig config = configRepository
-            .findByMerchantIdAndPaymentMethod(merchantId, "OZOW")
-            .orElseThrow(() -> new RuntimeException("Ozow not configured for merchant"));
+            .findByMerchantIdAndPaymentMethod(merchantId, OZOW)
+            .orElseThrow(() -> new IllegalStateException(OZOW_NOT_CONFIGURED));
         
-        if (!config.getEnabled()) {
-            throw new RuntimeException("Ozow payment disabled for merchant");
+        if (Boolean.FALSE.equals(config.getEnabled())) {
+            throw new IllegalStateException("Ozow payment disabled for merchant");
         }
         
         String hash = generateHash(config.getSiteCode(), orderId, amount, config.getPrivateKey());
@@ -81,7 +84,7 @@ public class OzowPaymentModule {
             }
             return hexString.toString().toLowerCase();
         } catch (Exception e) {
-            throw new RuntimeException("Hash generation failed", e);
+            throw new IllegalStateException("Hash generation failed", e);
         }
     }
     

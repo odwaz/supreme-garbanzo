@@ -43,6 +43,7 @@ D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\jav
 D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\shipping\delegate\ShippingConfigApiCtrlDelegate.java
 D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\payment\api\PaymentConfigApiCtrl.java
 D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\order\exception\ResourceNotFoundException.java
+D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\payment\model\StripeEventLog.java
 D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\order\model\ReadableOrderList.java
 D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\shipping\service\ShippingService.java
 D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\payment\controller\PaymentApiCtrlController.java
@@ -67,6 +68,7 @@ D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\jav
 D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\shipping\model\ReadableShippingQuote.java
 D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\order\exception\ServiceException.java
 D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\shipping\repository\ShippingRepository.java
+D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\payment\repository\StripeEventLogRepository.java
 D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\order\model\Customer.java
 D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\shipping\delegate\ShippingApiCtrlDelegate.java
 D:\Documents\projects\Java\online-spaza-microservices\order-service\src\main\java\com\spaza\payment\service\MerchantPaymentConfigService.java

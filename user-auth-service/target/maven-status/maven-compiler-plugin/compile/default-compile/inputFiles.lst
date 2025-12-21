@@ -16,7 +16,6 @@ D:\Documents\projects\Java\online-spaza-microservices\user-auth-service\src\main
 D:\Documents\projects\Java\online-spaza-microservices\user-auth-service\src\main\java\za\blkmarket\userauth\dto\AuthResponse.java
 D:\Documents\projects\Java\online-spaza-microservices\user-auth-service\src\main\java\za\blkmarket\userauth\entity\MerchantStore.java
 D:\Documents\projects\Java\online-spaza-microservices\user-auth-service\src\main\java\za\blkmarket\userauth\entity\User.java
-D:\Documents\projects\Java\online-spaza-microservices\user-auth-service\src\main\java\za\blkmarket\userauth\util\JwtUtil.java
 D:\Documents\projects\Java\online-spaza-microservices\user-auth-service\src\main\java\za\blkmarket\userauth\exception\ServiceException.java
 D:\Documents\projects\Java\online-spaza-microservices\user-auth-service\src\main\java\za\blkmarket\userauth\UserAuthServiceApplication.java
 D:\Documents\projects\Java\online-spaza-microservices\user-auth-service\src\main\java\za\blkmarket\userauth\api\UserAuthenticationApiCtrl.java

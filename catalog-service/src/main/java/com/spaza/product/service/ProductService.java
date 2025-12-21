@@ -38,18 +38,42 @@ public class ProductService {
     
     @Autowired
     private ProductVariantValueRepository productVariantValueRepository;
+    
+    @Autowired
+    private com.spaza.content.repository.CatalogRepository catalogRepository;
+    
+    @Autowired
+    private com.spaza.content.repository.CatalogEntryRepository catalogEntryRepository;
+    
+    @Autowired
+    private com.spaza.category.repository.CategoryRepository categoryRepository;
 
     @Transactional
     public Product save(Product product) {
+        if (product.getPrice() == null || product.getPrice().compareTo(java.math.BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Invalid product price");
+        }
+        if (product.getQuantity() == null || product.getQuantity() < 0) {
+            throw new IllegalArgumentException("Invalid product quantity");
+        }
+        if (product.getName() == null || product.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name is required");
+        }
+        if (product.getCategoryId() != null && !categoryRepository.existsById(product.getCategoryId())) {
+            throw new IllegalArgumentException("Invalid category ID");
+        }
+        
         Product saved = productRepository.save(product);
         
         // Create ProductDescription
-        ProductDescription desc = new ProductDescription();
-        desc.setProductId(saved.getId());
-        desc.setLanguageId(1L);
-        desc.setName(saved.getName());
-        desc.setDescription(saved.getDescription());
-        productDescriptionRepository.save(desc);
+        if (saved.getName() != null) {
+            ProductDescription desc = new ProductDescription();
+            desc.setProductId(saved.getId());
+            desc.setLanguageId(getDefaultLanguageId());
+            desc.setName(saved.getName());
+            desc.setDescription(saved.getDescription());
+            productDescriptionRepository.save(desc);
+        }
         
         // Create ProductAvailability
         ProductAvailability avail = new ProductAvailability();
@@ -66,10 +90,38 @@ public class ProductService {
         price.setDefaultPrice(true);
         productPriceRepository.save(price);
         
+        syncToCatalog(saved);
+        
         return saved;
     }
+    
+    private void syncToCatalog(Product product) {
+        if (product.getMerchantId() == null) return;
+        
+        catalogRepository.findByMerchantIdAndDefaultCatalog(product.getMerchantId(), true)
+            .ifPresent(catalog -> {
+                catalogEntryRepository.findByCatalogIdAndProductId(catalog.getId(), product.getId())
+                    .orElseGet(() -> {
+                        com.spaza.content.model.CatalogEntry entry = new com.spaza.content.model.CatalogEntry();
+                        entry.setCatalogId(catalog.getId());
+                        entry.setProductId(product.getId());
+                        entry.setCategoryId(product.getCategoryId());
+                        entry.setVisible(product.getAvailable());
+                        entry.setDateCreated(java.time.LocalDateTime.now());
+                        return catalogEntryRepository.save(entry);
+                    });
+            });
+    }
+    
+    private static final Long DEFAULT_LANGUAGE_ID = 1L;
 
+    private Long getDefaultLanguageId() {
+        return DEFAULT_LANGUAGE_ID; // English - should be fetched from language repository
+    }
+
+    @Transactional
     public void deleteById(Long id) {
+        catalogEntryRepository.deleteByProductId(id);
         productRepository.deleteById(id);
     }
 
@@ -79,7 +131,7 @@ public class ProductService {
         return product;
     }
 
-    public List<Product> findAll(String sku, String name, Boolean available, int page, int count, Long merchant) {
+    public List<Product> findAll(int page, int count, Long merchant) {
         List<Product> products;
         
         if (merchant != null) {

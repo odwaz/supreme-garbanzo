@@ -100,7 +100,7 @@ public class CustomerManagementApiCtrlDelegateImpl implements CustomerManagement
 
     @Override
     public ResponseEntity<ReadableCustomerList> list(Integer count, Integer page) {
-        List<Customer> customers = customerService.findAll(0, 0);
+        List<Customer> customers = customerService.findAll(count, page);
         ReadableCustomerList list = new ReadableCustomerList();
         list.setCustomers(customers.stream().map(this::toReadable).collect(Collectors.toList()));
         list.setTotal(customers.size());

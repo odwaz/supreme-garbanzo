@@ -22,6 +22,7 @@ com\spaza\order\entity\Order.class
 com\spaza\order\model\Invoice.class
 com\spaza\order\util\JwtUtil.class
 com\spaza\payment\controller\PaymentApiCtrlController.class
+com\spaza\payment\model\StripeEventLog.class
 com\spaza\order\api\OrderApiCtrl.class
 com\spaza\shipping\model\ShippingConfig.class
 com\spaza\payment\model\PersistablePaymentConfiguration.class
@@ -70,6 +71,7 @@ com\spaza\order\model\ReadableOrderConfirmation.class
 com\spaza\payment\api\PaymentApiCtrl.class
 com\spaza\tax\repository\TaxRateRepository.class
 com\spaza\order\controller\OrderApiCtrlController.class
+com\spaza\payment\repository\StripeEventLogRepository.class
 com\spaza\order\model\PersistableAnonymousOrder.class
 com\spaza\payment\repository\MerchantPaymentConfigRepository.class
 com\spaza\shipping\repository\ShippingConfigRepository.class

@@ -1,7 +1,6 @@
 za\blkmarket\userauth\service\AuthService.class
 za\blkmarket\userauth\dto\PersistableAddress.class
 za\blkmarket\userauth\entity\User.class
-za\blkmarket\userauth\util\JwtUtil.class
 za\blkmarket\userauth\exception\ValidationException.class
 za\blkmarket\userauth\api\UserAuthenticationApiCtrlController.class
 za\blkmarket\userauth\repository\GroupRepository.class

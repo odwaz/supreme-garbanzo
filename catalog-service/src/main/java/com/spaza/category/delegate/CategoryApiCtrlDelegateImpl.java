@@ -57,13 +57,13 @@ public class CategoryApiCtrlDelegateImpl implements CategoryApiCtrlDelegate {
 
     @Override
     public ResponseEntity<List<Category>> listPublic(String filter, int page, int count) {
-        List<Category> categories = categoryService.findAll(null, page, count);
+        List<Category> categories = categoryService.findAll( page, count);
         return ResponseEntity.ok(categories);
     }
 
     @Override
     public ResponseEntity<List<Category>> list(String name, int page, int count) {
-        List<Category> categories = categoryService.findAll(name, page, count);
+        List<Category> categories = categoryService.findAll(page, count);
         return ResponseEntity.ok(categories);
     }
 }

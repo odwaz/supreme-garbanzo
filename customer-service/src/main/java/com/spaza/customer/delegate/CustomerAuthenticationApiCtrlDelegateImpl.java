@@ -32,7 +32,7 @@ public class CustomerAuthenticationApiCtrlDelegateImpl implements CustomerAuthen
 
     @Override
     public ResponseEntity<ResponseEntity> changePassword(PasswordRequest passwordRequest) {
-        ResponseEntity response = customerService.changePassword(passwordRequest);
+        ResponseEntity response = customerService.changePassword(null, passwordRequest);
         return ResponseEntity.ok(response);
     }
 
@@ -44,13 +44,13 @@ public class CustomerAuthenticationApiCtrlDelegateImpl implements CustomerAuthen
 
     @Override
     public ResponseEntity<Void> changePassword(String store, String token, PasswordRequest passwordRequest) {
-        customerService.changePassword(store, token, passwordRequest);
+        customerService.resetPassword(token, passwordRequest);
         return ResponseEntity.ok().build();
     }
 
     @Override
     public ResponseEntity<Void> passwordResetVerify(String store, String token) {
-        customerService.passwordResetVerify(store, token);
+        customerService.passwordResetVerify(token);
         return ResponseEntity.ok().build();
     }
 }

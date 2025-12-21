@@ -1,6 +1,7 @@
 package za.blkmarket.userauth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -28,10 +29,22 @@ public class AdminInitializer implements CommandLineRunner {
     
     @Autowired
     private GroupRepository groupRepository;
+    
+    @Value("${admin.email:admin@spaza.com}")
+    private String adminEmail;
+    
+    @Value("${admin.password:admin123}")
+    private String adminPassword;
+    
+    @Value("${admin.store.code:DEFAULT}")
+    private String storeCode;
+    
+    @Value("${admin.store.name:Main Store}")
+    private String storeName;
 
     @Override
     public void run(String... args) {
-        if (userRepository.findByEmail("admin@spaza.com").isPresent()) {
+        if (userRepository.findByEmail(adminEmail).isPresent()) {
             return;
         }
         
@@ -40,15 +53,15 @@ public class AdminInitializer implements CommandLineRunner {
         adminGroup = groupRepository.save(adminGroup);
         
         MerchantStore store = new MerchantStore();
-        store.setCode("DEFAULT");
-        store.setName("Main Store");
+        store.setCode(storeCode);
+        store.setName(storeName);
         store.setEmail("store@spaza.com");
         store.setPhone("+27123456789");
         store = merchantStoreRepository.save(store);
         
         User admin = new User();
-        admin.setEmail("admin@spaza.com");
-        admin.setPassword(passwordEncoder.encode("admin123"));
+        admin.setEmail(adminEmail);
+        admin.setPassword(passwordEncoder.encode(adminPassword));
         admin.setFirstName("Admin");
         admin.setLastName("User");
         admin.setActive(true);

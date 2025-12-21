@@ -1,17 +1,25 @@
 package com.spaza.order.service;
 
 import com.spaza.order.entity.Order;
+import com.spaza.order.exception.*;
+import com.spaza.payment.model.PersistablePayment;
+import com.spaza.payment.service.PaymentService;
 import com.spaza.order.model.*;
 import com.spaza.order.repository.OrderRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class OrderService {
+
+    private static final String ORDER_NOT_FOUND = "Order not found: ";
 
     @Value("${customer.service.url}") private String customerServiceUrl;
     @Autowired
@@ -20,6 +28,10 @@ public class OrderService {
     @Autowired
     private RestTemplate restTemplate;
     
+    @Autowired
+    private PaymentService paymentService;
+    
+    @Transactional
     public Order save(Order order) {
         return orderRepository.save(order);
     }
@@ -44,6 +56,7 @@ public class OrderService {
         return orderRepository.findByMerchantId(merchantId);
     }
     
+    @Transactional
     public void deleteById(Long id) {
         orderRepository.deleteById(id);
     }
@@ -54,38 +67,41 @@ public class OrderService {
             Customer customer = restTemplate.getForObject(url, Customer.class);
             return customer != null ? customer.getId() : null;
         } catch (Exception e) {
+            log.error("Failed to fetch customer by email: {}", email, e);
             return null;
         }
     }
     
+    @Transactional
     public ReadableOrderConfirmation createOrder(String cartCode, PersistableOrder persistableOrder, Long authenticatedCustomerId) {
+        log.info("Creating order for customer: {}, cart: {}", authenticatedCustomerId, cartCode);
         java.math.BigDecimal total = java.math.BigDecimal.ZERO;
         Long merchantId = null;
         
         try {
             String cartUrl = customerServiceUrl + "/api/v1/cart/" + cartCode;
-            System.out.println("=== FETCHING CART: " + cartUrl);
-            Map cartResponse = restTemplate.getForObject(cartUrl, Map.class);
-            System.out.println("=== CART RESPONSE: " + cartResponse);
+            log.debug("Fetching cart: {}", cartUrl);
+            Map<String, Object> cartResponse = restTemplate.getForObject(cartUrl, Map.class);
             
             if (cartResponse != null) {
                 if (cartResponse.get("total") != null) {
                     total = new java.math.BigDecimal(cartResponse.get("total").toString());
-                    System.out.println("=== TOTAL EXTRACTED: " + total);
                 }
                 if (cartResponse.get("merchantId") != null) {
                     merchantId = Long.valueOf(cartResponse.get("merchantId").toString());
-                    System.out.println("=== MERCHANT ID EXTRACTED: " + merchantId);
                 } else {
-                    throw new RuntimeException("Cart has no merchant ID - cannot create order");
+                    throw new ValidationException("Cart has no merchant ID");
                 }
             } else {
-                System.out.println("=== NO CART RESPONSE");
+                throw new ServiceException("Cart not found: " + cartCode);
             }
+        } catch (ValidationException e) {
+            throw e;
+        } catch (ServiceException e) {
+            throw e;
         } catch (Exception e) {
-            System.err.println("=== ERROR: " + e.getMessage());
-            e.printStackTrace();
-            throw new RuntimeException("Failed to create order: " + e.getMessage());
+            log.error("Failed to create order", e);
+            throw new ServiceException("Failed to create order: " + e.getMessage());
         }
         
         Order order = new Order();
@@ -108,33 +124,65 @@ public class OrderService {
         order.setEmail(persistableOrder.getEmail());
         order.setCurrencyCode(persistableOrder.getCurrencyCode());
         order.setDateCreated(java.time.LocalDateTime.now());
-        System.out.println("=== SAVING ORDER WITH TOTAL: " + total + ", MERCHANT: " + merchantId);
+        
+        if (total.compareTo(java.math.BigDecimal.ZERO) <= 0) {
+            throw new ValidationException("Invalid order total");
+        }
         
         Order saved = orderRepository.save(order);
-        System.out.println("=== SAVED ORDER TOTAL: " + saved.getTotal());
+        log.info("Order created: {}, total: {}, merchant: {}", saved.getId(), saved.getTotal(), merchantId);
+
+        String method = persistableOrder.getPaymentMethod();
+        if (method == null || method.isBlank()) {
+            method = "STRIPE";
+        }
+        PersistablePayment payment = new PersistablePayment();
+        payment.setAmount(saved.getTotal() != null ? saved.getTotal().doubleValue() : 0.0);
+        payment.setPaymentMethod(method);
+        try {
+            paymentService.init(String.valueOf(saved.getId()), payment);
+            log.info("Payment transaction initialized: {} for order: {}", method, saved.getId());
+        } catch (Exception e) {
+            log.error("Failed to init transaction for order: {}", saved.getId(), e);
+        }
+        
         return new ReadableOrderConfirmation(saved.getId(), "ORD-" + saved.getId());
     }
     
+    @Transactional
     public ReadableOrderConfirmation createAnonymousOrder(String cartCode, PersistableAnonymousOrder order) {
+        log.info("Creating anonymous order for cart: {}", cartCode);
         Order newOrder = new Order();
         newOrder.setStatus("PENDING");
         newOrder.setTotal(java.math.BigDecimal.ZERO);
         Order saved = orderRepository.save(newOrder);
-        
+
+        PersistablePayment payment = new PersistablePayment();
+        payment.setAmount(0.0);
+        payment.setPaymentMethod("STRIPE");
+        try {
+            paymentService.init(String.valueOf(saved.getId()), payment);
+            log.info("Payment transaction initialized for anonymous order: {}", saved.getId());
+        } catch (Exception e) {
+            log.error("Failed to init transaction for anonymous order: {}", saved.getId(), e);
+        }
+
         return new ReadableOrderConfirmation(saved.getId(), "ORD-" + saved.getId());
     }
     
-    public ReadableOrderList getOrders(Integer count, Integer page) {
+    public ReadableOrderList getOrders() {
         List<Order> orders = orderRepository.findAll();
         List<ReadableOrder> readableOrders = orders.stream().map(this::toReadable).collect(Collectors.toList());
         return new ReadableOrderList(readableOrders, readableOrders.size());
     }
     
     public ReadableOrder getOrder(Long id) {
-        return orderRepository.findById(id).map(this::toReadable).orElse(null);
+        return orderRepository.findById(id)
+            .map(this::toReadable)
+            .orElseThrow(() -> new ResourceNotFoundException(ORDER_NOT_FOUND + id));
     }
     
-    public ReadableOrderList searchOrders(int count, String email, Long id, String name, int page, String phone, String status, Long merchantId) {
+    public ReadableOrderList searchOrders(String status, Long merchantId) {
         List<Order> orders;
         
         if (merchantId != null) {
@@ -150,24 +198,28 @@ public class OrderService {
         return new ReadableOrderList(readableOrders, readableOrders.size());
     }
     
-    public ReadableOrderList getCustomerOrders(Integer count, Long customerId, Integer start) {
+    public ReadableOrderList getCustomerOrders(Long customerId) {
         List<Order> orders = orderRepository.findByCustomerId(customerId);
         List<ReadableOrder> readableOrders = orders.stream().map(this::toReadable).collect(Collectors.toList());
         return new ReadableOrderList(readableOrders, readableOrders.size());
     }
     
+    @Transactional
     public void updateCustomer(Long orderId, Customer customer) {
-        orderRepository.findById(orderId).ifPresent(order -> {
-            order.setCustomerId(customer.getId());
-            orderRepository.save(order);
-        });
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new ResourceNotFoundException(ORDER_NOT_FOUND + orderId));
+        order.setCustomerId(customer.getId());
+        orderRepository.save(order);
+        log.info("Updated customer for order: {}", orderId);
     }
     
+    @Transactional
     public void updateStatus(Long orderId, String status) {
-        orderRepository.findById(orderId).ifPresent(order -> {
-            order.setStatus(status);
-            orderRepository.save(order);
-        });
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new ResourceNotFoundException(ORDER_NOT_FOUND + orderId));
+        order.setStatus(status);
+        orderRepository.save(order);
+        log.info("Updated order {} status to: {}", orderId, status);
     }
     
     private ReadableOrder toReadable(Order order) {

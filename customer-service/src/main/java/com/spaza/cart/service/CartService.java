@@ -3,6 +3,8 @@ package com.spaza.cart.service;
 import com.spaza.cart.model.*;
 import com.spaza.cart.repository.CartRepository;
 import com.spaza.cart.repository.CartItemRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import java.util.*;
 
 @Service
 public class CartService {
+
+    private static final Logger log = LoggerFactory.getLogger(CartService.class);
 
     @Autowired
     private CartRepository cartRepository;
@@ -24,7 +28,7 @@ public class CartService {
     
     private RestTemplate restTemplate = new RestTemplate();
 
-    public ReadableShoppingCart addToCart(PersistableShoppingCartItem item) {
+    public ReadableShoppingCart addToCart(Long customerId, PersistableShoppingCartItem item) {
         Long merchantId = getProductMerchantId(item.getProduct());
         String cartCode = "CART-" + UUID.randomUUID().toString().substring(0, 8);
         ReadableShoppingCart cart = new ReadableShoppingCart();
@@ -39,15 +43,19 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
+    public ReadableShoppingCart addToCart(PersistableShoppingCartItem item) {
+        return addToCart(null, item);
+    }
+
     public ReadableShoppingCart getByCode(String code) {
         return cartRepository.findByCode(code).orElse(createEmptyCart(code));
     }
 
-    public ReadableShoppingCart modifyCart(String code, PersistableShoppingCartItem item) {
+    public ReadableShoppingCart modifyCart(String code, PersistableShoppingCartItem item) throws IllegalStateException {
         ReadableShoppingCart cart = getByCode(code);
         Long productMerchantId = getProductMerchantId(item.getProduct());
         if (cart.getMerchantId() != null && !cart.getMerchantId().equals(productMerchantId)) {
-            throw new RuntimeException("Cannot add products from different merchants to the same cart");
+            throw new IllegalStateException("Cannot add products from different merchants to the same cart");
         }
         if (cart.getMerchantId() == null) {
             cart.setMerchantId(productMerchantId);
@@ -86,13 +94,13 @@ public class CartService {
         for (CartItem item : cart.getItems()) {
             try {
                 String productUrl = catalogServiceUrl + "/api/v1/product/" + item.getProductId();
-                Map product = restTemplate.getForObject(productUrl, Map.class);
+                Map<String, Object> product = restTemplate.getForObject(productUrl, Map.class);
                 if (product != null && product.get("price") != null) {
                     java.math.BigDecimal price = new java.math.BigDecimal(product.get("price").toString());
                     total = total.add(price.multiply(java.math.BigDecimal.valueOf(item.getQuantity())));
                 }
             } catch (Exception e) {
-                System.err.println("Error fetching product price: " + e.getMessage());
+                log.error("Error fetching product price: {}", e.getMessage());
             }
         }
         return total;
@@ -102,16 +110,16 @@ public class CartService {
         return getByCode(code);
     }
 
-    public ReadableShoppingCart getByCustomer(String cartCode) {
-        return getByCode(cartCode);
-    }
-
     public ReadableShoppingCart getByCustomer(Long customerId, String cartCode) {
         return getByCode(cartCode);
     }
 
-    public ReadableShoppingCart addToCart(Long customerId, PersistableShoppingCartItem item) {
-        return addToCart(item);
+    public ReadableShoppingCart getByCustomer(String cartCode) {
+        return getByCode(cartCode);
+    }
+
+    public ReadableShoppingCart getByCustomer(Long customerId) {
+        return getByCode("CART-" + customerId);
     }
 
     private ReadableShoppingCart createEmptyCart(String code) {
@@ -124,12 +132,12 @@ public class CartService {
     private Long getProductMerchantId(Long productId) {
         try {
             String productUrl = catalogServiceUrl + "/api/v1/product/" + productId;
-            Map product = restTemplate.getForObject(productUrl, Map.class);
+            Map<String, Object> product = restTemplate.getForObject(productUrl, Map.class);
             if (product != null && product.get("merchantId") != null) {
                 return Long.valueOf(product.get("merchantId").toString());
             }
         } catch (Exception e) {
-            System.err.println("Error fetching product merchant: " + e.getMessage());
+            log.error("Error fetching product merchant: {}", e.getMessage());
         }
         return null;
     }

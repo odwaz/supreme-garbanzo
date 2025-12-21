@@ -48,7 +48,7 @@ public class OrderApiCtrlDelegateImpl implements OrderApiCtrlDelegate {
     public ResponseEntity<ReadableOrderList> list(Integer count, Integer page) {
         String email = extractEmailFromToken();
         Long customerId = orderService.getCustomerIdByEmail(email);
-        ReadableOrderList orders = orderService.getCustomerOrders(count, customerId, page);
+        ReadableOrderList orders = orderService.getCustomerOrders(customerId);
         return ResponseEntity.ok(orders);
     }
 
@@ -60,13 +60,13 @@ public class OrderApiCtrlDelegateImpl implements OrderApiCtrlDelegate {
 
     @Override
     public ResponseEntity<ReadableOrderList> list(int count, String email, Long id, String name, int page, String phone, String status, Long merchantId) {
-        ReadableOrderList orders = orderService.searchOrders(count, email, id, name, page, phone, status, merchantId);
+        ReadableOrderList orders = orderService.searchOrders(email, merchantId);
         return ResponseEntity.ok(orders);
     }
 
     @Override
     public ResponseEntity<ReadableOrderList> list(Integer count, Long id, Integer start) {
-        ReadableOrderList orders = orderService.getCustomerOrders(count, id, start);
+        ReadableOrderList orders = orderService.getCustomerOrders(id);
         return ResponseEntity.ok(orders);
     }
 
