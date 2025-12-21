@@ -117,6 +117,6 @@ class CustomerServiceTest {
         request.setCurrentPassword("oldPassword");
         request.setNewPassword("newPassword");
 
-        assertDoesNotThrow(() -> customerService.changePassword("DEFAULT", "token123", request));
+        assertDoesNotThrow(() -> customerService.changePassword("DEFAULT", request));
     }
 }
