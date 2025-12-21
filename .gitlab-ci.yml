@@ -36,11 +36,16 @@ sonar:
 
 push:
   stage: push
-  image: maven:3.9-eclipse-temurin-17
+  image: docker:latest
   services:
     - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_VERIFY: 1
+    DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
   before_script:
-    - apt-get update && apt-get install -y docker.io
+    - apk add --no-cache maven openjdk17
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   script:
     - mvn clean package -DskipTests
