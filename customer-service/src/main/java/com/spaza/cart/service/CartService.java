@@ -28,7 +28,7 @@ public class CartService {
     
     private RestTemplate restTemplate = new RestTemplate();
 
-    public ReadableShoppingCart addToCart(PersistableShoppingCartItem item) {
+    public ReadableShoppingCart addToCart(Long customerId, PersistableShoppingCartItem item) {
         Long merchantId = getProductMerchantId(item.getProduct());
         String cartCode = "CART-" + UUID.randomUUID().toString().substring(0, 8);
         ReadableShoppingCart cart = new ReadableShoppingCart();
@@ -41,6 +41,10 @@ public class CartService {
         cart.getItems().add(cartItem);
         cart.setTotal(calculateTotal(cart));
         return cartRepository.save(cart);
+    }
+
+    public ReadableShoppingCart addToCart(PersistableShoppingCartItem item) {
+        return addToCart(null, item);
     }
 
     public ReadableShoppingCart getByCode(String code) {
@@ -102,8 +106,12 @@ public class CartService {
         return total;
     }
 
-    public ReadableShoppingCart addPromo(String code) {
+    public ReadableShoppingCart addPromo(String code, String promo) {
         return getByCode(code);
+    }
+
+    public ReadableShoppingCart getByCustomer(Long customerId, String cartCode) {
+        return getByCode(cartCode);
     }
 
     public ReadableShoppingCart getByCustomer(String cartCode) {
@@ -112,10 +120,6 @@ public class CartService {
 
     public ReadableShoppingCart getByCustomer(Long customerId) {
         return getByCode("CART-" + customerId);
-    }
-
-    public ReadableShoppingCart addToCart(PersistableShoppingCartItem item) {
-        return addToCart(item);
     }
 
     private ReadableShoppingCart createEmptyCart(String code) {
