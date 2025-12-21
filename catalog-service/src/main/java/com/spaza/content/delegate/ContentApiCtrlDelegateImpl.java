@@ -16,7 +16,7 @@ public class ContentApiCtrlDelegateImpl implements ContentApiCtrlDelegate {
 
     @Override
     public ResponseEntity<Object[]> boxes(Integer count, Integer page) {
-        Object[] boxes = contentService.getBoxes(count, page);
+        Object[] boxes = contentService.getBoxes();
         return ResponseEntity.ok(boxes);
     }
 
@@ -28,7 +28,7 @@ public class ContentApiCtrlDelegateImpl implements ContentApiCtrlDelegate {
 
     @Override
     public ResponseEntity<Object[]> pages(Integer count, Integer page) {
-        Object[] pages = contentService.getPages(count, page);
+        Object[] pages = contentService.getPages();
         return ResponseEntity.ok(pages);
     }
 
