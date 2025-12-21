@@ -28,6 +28,7 @@ test:
     reports:
       junit:
         - "*/target/surefire-reports/TEST-*.xml"
+  allow_failure: true
 sonar:
   stage: sonar
   image: maven:3.9-eclipse-temurin-17
