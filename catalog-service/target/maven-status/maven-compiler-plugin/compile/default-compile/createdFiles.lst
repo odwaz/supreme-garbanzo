@@ -13,8 +13,10 @@ com\spaza\product\entity\ProductDescription.class
 com\spaza\product\service\FileUploadService.class
 com\spaza\content\model\ContentFolder.class
 com\spaza\content\ContentServiceApplication.class
+com\spaza\content\repository\ContentBoxRepository.class
 com\spaza\product\model\ReadableProductVariation.class
 com\spaza\category\delegate\CategoryApiCtrlDelegateImpl.class
+com\spaza\content\model\ReadableOptin.class
 com\spaza\product\api\ProductImageApiCtrl.class
 com\spaza\product\model\PersistableProductPrice.class
 com\spaza\product\entity\ProductVariantGroup.class
@@ -33,10 +35,12 @@ com\spaza\category\entity\CategoryDescription.class
 com\spaza\content\exception\ErrorResponse.class
 com\spaza\category\model\PersistableCategory.class
 com\spaza\content\api\ContentApiCtrl.class
+com\spaza\product\delegate\ProductApiCtrlDelegateImpl.class
 com\spaza\manufacturer\service\ManufacturerService.class
 com\spaza\product\model\PersistableProductVariantGroup.class
 com\spaza\content\model\Newsletter.class
 com\spaza\category\repository\CategoryRepository.class
+com\spaza\content\delegate\ContentApiCtrlDelegateImpl.class
 com\spaza\content\delegate\NewsletterApiCtrlDelegate.class
 com\spaza\product\entity\ProductAvailability.class
 com\spaza\content\delegate\CatalogApiCtrlDelegate.class
@@ -81,6 +85,7 @@ com\spaza\content\repository\CatalogEntryRepository.class
 com\spaza\product\model\ReadableProductOptionSet.class
 com\spaza\product\repository\ProductVariantRepository.class
 com\spaza\product\entity\ProductVariantValue.class
+com\spaza\content\service\ContentService.class
 com\spaza\product\delegate\ProductImageApiCtrlDelegateImpl.class
 com\spaza\content\controller\CatalogApiCtrlController.class
 com\spaza\category\delegate\CategoryApiCtrlDelegate.class
@@ -95,5 +100,6 @@ com\spaza\product\service\ProductService.class
 com\spaza\content\repository\CatalogRepository.class
 com\spaza\content\controller\ContentApiCtrlController.class
 com\spaza\content\model\Entity.class
+com\spaza\product\model\PersistableProductOptionSet.class
 com\spaza\content\model\CatalogEntry.class
 com\spaza\category\service\CategoryService.class

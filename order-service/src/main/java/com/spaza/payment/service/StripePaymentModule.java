@@ -47,15 +47,16 @@ public class StripePaymentModule {
         HttpEntity<String> request = new HttpEntity<>(body, headers);
         
         try {
-            ResponseEntity<Map<String, Object>> response = restTemplate.postForEntity(
+            ResponseEntity<Map> response = restTemplate.postForEntity(
                 "https://api.stripe.com/v1/payment_intents",
                 request,
                 Map.class
             );
             
             Map<String, String> result = new HashMap<>();
-            result.put("clientSecret", (String) response.getBody().get("client_secret"));
-            result.put("paymentIntentId", (String) response.getBody().get("id"));
+            Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
+            result.put("clientSecret", (String) responseBody.get("client_secret"));
+            result.put("paymentIntentId", (String) responseBody.get("id"));
             return result;
         } catch (Exception e) {
             throw new IllegalStateException("Failed to create Stripe payment intent", e);
@@ -74,12 +75,13 @@ public class StripePaymentModule {
         HttpEntity<String> request = new HttpEntity<>("", headers);
         
         try {
-            ResponseEntity<Map<String, Object>> response = restTemplate.postForEntity(
+            ResponseEntity<Map> response = restTemplate.postForEntity(
                 "https://api.stripe.com/v1/payment_intents/" + paymentIntentId + "/capture",
                 request,
                 Map.class
             );
-            return (String) response.getBody().get("status");
+            Map<String, Object> body = (Map<String, Object>) response.getBody();
+            return (String) body.get("status");
         } catch (Exception e) {
             throw new IllegalStateException("Failed to capture Stripe payment", e);
         }
@@ -102,12 +104,13 @@ public class StripePaymentModule {
         HttpEntity<String> request = new HttpEntity<>(body, headers);
         
         try {
-            ResponseEntity<Map<String, Object>> response = restTemplate.postForEntity(
+            ResponseEntity<Map> response = restTemplate.postForEntity(
                 "https://api.stripe.com/v1/refunds",
                 request,
                 Map.class
             );
-            return (String) response.getBody().get("status");
+            Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
+            return (String) responseBody.get("status");
         } catch (Exception e) {
             throw new IllegalStateException("Failed to refund Stripe payment", e);
         }

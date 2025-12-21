@@ -73,7 +73,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public ResponseEntity changePassword(PasswordRequest request) {
+    public ResponseEntity changePassword(String store, PasswordRequest request) {
         log.warn("Authenticated password change not implemented");
         throw new ServiceException("Use password reset flow instead");
     }
@@ -98,7 +98,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public void changePassword(String token, PasswordRequest request) {
+    public void resetPassword(String token, PasswordRequest request) {
         log.info("Changing password with token: {}", token);
         PasswordResetToken resetToken = tokenRepository.findByToken(token)
             .orElseThrow(() -> new ValidationException("Invalid or expired token"));
@@ -122,7 +122,7 @@ public class CustomerService {
         log.info("Password changed successfully for: {}", customer.getEmail());
     }
 
-    public void passwordResetVerify(String token) {
+    public void passwordResetVerify(String store, String token) {
         log.info("Verifying reset token: {}", token);
         PasswordResetToken resetToken = tokenRepository.findByToken(token)
             .orElseThrow(() -> new ValidationException("Invalid token"));
@@ -135,6 +135,10 @@ public class CustomerService {
         }
         
         log.info("Token verified successfully for: {}", resetToken.getEmail());
+    }
+
+    public void passwordResetVerify(String token) {
+        passwordResetVerify(null, token);
     }
 
     @Transactional
@@ -196,6 +200,10 @@ public class CustomerService {
     @Transactional
     public void deleteById(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    public List<Customer> findAll(Integer count, Integer page) {
+        return customerRepository.findAll();
     }
 
     public List<Customer> findAll() {

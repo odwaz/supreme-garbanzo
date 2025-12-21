@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
   - sonar
   - push
 
@@ -12,11 +13,21 @@ build:
   stage: build
   image: maven:3.9-eclipse-temurin-17
   script:
-    - mvn clean package -DskipTests
+    - mvn clean compile
   artifacts:
     paths:
-      - "*/target/*.jar"
+      - "*/target/classes"
     expire_in: 1 hour
+
+test:
+  stage: test
+  image: maven:3.9-eclipse-temurin-17
+  script:
+    - mvn test -DskipTests
+  artifacts:
+    reports:
+      junit:
+        - "*/target/surefire-reports/TEST-*.xml"
 sonar:
   stage: sonar
   image: maven:3.9-eclipse-temurin-17
@@ -31,6 +42,7 @@ push:
   before_script:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   script:
+    - mvn clean package -DskipTests
     - docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/api-gateway:$CI_COMMIT_SHORT_SHA ./api-gateway
     - docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/catalog-service:$CI_COMMIT_SHORT_SHA ./catalog-service
     - docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_PREFIX/customer-service:$CI_COMMIT_SHORT_SHA ./customer-service
