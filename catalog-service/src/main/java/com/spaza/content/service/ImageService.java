@@ -15,8 +15,11 @@ import java.nio.file.Paths;
 @Service
 public class ImageService {
 
-    @Autowired
-    private FileUploadService fileUploadService;
+    private final FileUploadService fileUploadService;
+
+    public ImageService(FileUploadService fileUploadService) {
+        this.fileUploadService = fileUploadService;
+    }
 
     public String upload(MultipartFile file) throws IOException {
         return fileUploadService.uploadFile(file);

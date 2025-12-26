@@ -13,8 +13,11 @@ import javax.validation.Valid;
 @RequestMapping
 public class OrderApiCtrlController implements OrderApiCtrl {
     
-    @Autowired
-    private OrderApiCtrlDelegate delegate;
+    private final OrderApiCtrlDelegate delegate;
+
+    public OrderApiCtrlController(OrderApiCtrlDelegate delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public ResponseEntity<ReadableOrderConfirmation> checkout(@PathVariable String code, @Valid @RequestBody PersistableOrder order) {

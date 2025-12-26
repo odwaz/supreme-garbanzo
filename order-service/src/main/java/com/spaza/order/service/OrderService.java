@@ -20,16 +20,20 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private static final String ORDER_NOT_FOUND = "Order not found: ";
+    private final String customerServiceUrl;
+    private final OrderRepository orderRepository;
+    private final RestTemplate restTemplate;
+    private final PaymentService paymentService;
 
-    @Value("${customer.service.url}") private String customerServiceUrl;
-    @Autowired
-    private OrderRepository orderRepository;
-    
-    @Autowired
-    private RestTemplate restTemplate;
-    
-    @Autowired
-    private PaymentService paymentService;
+    public OrderService(@Value("${customer.service.url}") String customerServiceUrl,
+                       OrderRepository orderRepository,
+                       RestTemplate restTemplate,
+                       PaymentService paymentService) {
+        this.customerServiceUrl = customerServiceUrl;
+        this.orderRepository = orderRepository;
+        this.restTemplate = restTemplate;
+        this.paymentService = paymentService;
+    }
     
     @Transactional
     public Order save(Order order) {

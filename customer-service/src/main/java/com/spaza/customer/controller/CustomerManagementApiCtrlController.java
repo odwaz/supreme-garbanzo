@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CustomerManagementApiCtrlController implements CustomerManagementApiCtrl {
 
-    @Autowired
-    private CustomerManagementApiCtrlDelegate delegate;
+    private final CustomerManagementApiCtrlDelegate delegate;
+
+    public CustomerManagementApiCtrlController(CustomerManagementApiCtrlDelegate delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public ResponseEntity<ReadableCustomer> getAuthUser() {

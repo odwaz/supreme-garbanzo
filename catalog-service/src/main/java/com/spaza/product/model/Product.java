@@ -1,5 +1,6 @@
 package com.spaza.product.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spaza.product.entity.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "PRODUCT")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

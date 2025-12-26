@@ -14,11 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public class OrderApiCtrlDelegateImpl implements OrderApiCtrlDelegate {
 
-    @Autowired
-    private OrderService orderService;
-    
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final OrderService orderService;
+    private final JwtUtil jwtUtil;
+
+    public OrderApiCtrlDelegateImpl(OrderService orderService, JwtUtil jwtUtil) {
+        this.orderService = orderService;
+        this.jwtUtil = jwtUtil;
+    }
 
     @Override
     public ResponseEntity<ReadableOrderConfirmation> checkout(String code, PersistableOrder order) {
@@ -60,7 +62,7 @@ public class OrderApiCtrlDelegateImpl implements OrderApiCtrlDelegate {
 
     @Override
     public ResponseEntity<ReadableOrderList> list(int count, String email, Long id, String name, int page, String phone, String status, Long merchantId) {
-        ReadableOrderList orders = orderService.searchOrders(email, merchantId);
+        ReadableOrderList orders = orderService.searchOrders(status, merchantId);
         return ResponseEntity.ok(orders);
     }
 
@@ -72,8 +74,7 @@ public class OrderApiCtrlDelegateImpl implements OrderApiCtrlDelegate {
 
     @Override
     public ResponseEntity<ReadableOrder> get(Long id) {
-        ReadableOrder order = orderService.getOrder(id);
-        return ResponseEntity.ok(order);
+        return getOrder(id);
     }
 
     @Override

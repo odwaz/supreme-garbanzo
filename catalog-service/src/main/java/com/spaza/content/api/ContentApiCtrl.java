@@ -13,16 +13,16 @@ public interface ContentApiCtrl {
     ResponseEntity<Object[]> boxes(@RequestParam(required = false) Integer count, @RequestParam(required = false) Integer page);
 
     @GetMapping("/api/v1/content/boxes/{code}")
-    ResponseEntity<Object[]> getBoxByCode(@PathVariable String code);
+    ResponseEntity<Object[]> getBoxByCode(@PathVariable("code") String code);
 
     @GetMapping("/api/v1/content/pages")
     ResponseEntity<Object[]> pages(@RequestParam(required = false) Integer count, @RequestParam(required = false) Integer page);
 
     @GetMapping("/api/v1/content/pages/{code}")
-    ResponseEntity<ReadableContentPage> page(@PathVariable String code);
+    ResponseEntity<ReadableContentPage> page(@PathVariable("code") String code);
 
     @GetMapping("/api/v1/content/pages/name/{name}")
-    ResponseEntity<ReadableContentPage> pageByName(@PathVariable String name);
+    ResponseEntity<ReadableContentPage> pageByName(@PathVariable("name") String name);
 
     @GetMapping("/api/v1/content/images")
     ResponseEntity<ContentFolder> images(@RequestParam(required = false) String path);
@@ -31,19 +31,19 @@ public interface ContentApiCtrl {
     ResponseEntity<Entity> createBox(@Valid @RequestBody PersistableContentBox box);
 
     @PutMapping("/api/v1/private/content/box/{id}")
-    ResponseEntity<Void> updateBox(@PathVariable Long id, @Valid @RequestBody PersistableContentBox box);
+    ResponseEntity<Void> updateBox(@PathVariable("id") Long id, @Valid @RequestBody PersistableContentBox box);
 
     @DeleteMapping("/api/v1/private/content/box/{id}")
-    ResponseEntity<Void> deleteBox(@PathVariable Long id);
+    ResponseEntity<Void> deleteBox(@PathVariable("id") Long id);
 
     @PostMapping("/api/v1/private/content/page")
     ResponseEntity<Entity> createPage(@Valid @RequestBody PersistableContentPage page);
 
     @PutMapping("/api/v1/private/content/page/{id}")
-    ResponseEntity<Void> updatePage(@PathVariable Long id, @Valid @RequestBody PersistableContentPage page);
+    ResponseEntity<Void> updatePage(@PathVariable("id") Long id, @Valid @RequestBody PersistableContentPage page);
 
     @DeleteMapping("/api/v1/private/content/page/{id}")
-    ResponseEntity<Void> deletePage(@PathVariable Long id);
+    ResponseEntity<Void> deletePage(@PathVariable("id") Long id);
 
     @PostMapping("/api/v1/private/file")
     ResponseEntity<Void> upload(@RequestParam("file") MultipartFile file);

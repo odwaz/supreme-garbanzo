@@ -12,8 +12,11 @@ import javax.validation.Valid;
 @RestController
 public class CustomerAuthenticationApiCtrlController implements CustomerAuthenticationApiCtrl {
 
-    @Autowired
-    private CustomerAuthenticationApiCtrlDelegate delegate;
+    private final CustomerAuthenticationApiCtrlDelegate delegate;
+
+    public CustomerAuthenticationApiCtrlController(CustomerAuthenticationApiCtrlDelegate delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public ResponseEntity<Object> authenticate(@Valid @RequestBody AuthenticationRequest authenticationRequest) {

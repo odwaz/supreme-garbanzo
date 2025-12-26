@@ -10,8 +10,11 @@ import java.util.Optional;
 @Service
 public class ProductVariantService {
     
-    @Autowired
-    private ProductVariantRepository repository;
+    private final ProductVariantRepository repository;
+
+    public ProductVariantService(ProductVariantRepository repository) {
+        this.repository = repository;
+    }
     
     public ProductVariant save(ProductVariant variant) {
         return repository.save(variant);

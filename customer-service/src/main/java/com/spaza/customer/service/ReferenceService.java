@@ -3,7 +3,6 @@ package com.spaza.customer.service;
 import com.spaza.customer.model.*;
 import com.spaza.customer.repository.*;
 import org.springframework.stereotype.Service;
-import java.util.stream.Collectors;
 
 @Service
 public class ReferenceService {

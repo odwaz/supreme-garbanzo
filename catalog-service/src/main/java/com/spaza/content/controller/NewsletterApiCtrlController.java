@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class NewsletterApiCtrlController implements NewsletterApiCtrl {
 
-    @Autowired
-    private NewsletterApiCtrlDelegate delegate;
+    private final NewsletterApiCtrlDelegate delegate;
+
+    public NewsletterApiCtrlController(NewsletterApiCtrlDelegate delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public ResponseEntity<Void> subscribe(NewsletterSubscription subscription) {

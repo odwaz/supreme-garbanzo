@@ -20,14 +20,17 @@ import java.util.stream.Collectors;
 @Service
 public class ProductImageApiCtrlDelegateImpl implements ProductImageApiCtrlDelegate {
 
-    @Autowired
-    private ProductRepository productRepository;
-    
-    @Autowired
-    private ProductImageRepository productImageRepository;
-    
-    @Autowired
-    private FileUploadService fileUploadService;
+    private final ProductRepository productRepository;
+    private final ProductImageRepository productImageRepository;
+    private final FileUploadService fileUploadService;
+
+    public ProductImageApiCtrlDelegateImpl(ProductRepository productRepository,
+                                          ProductImageRepository productImageRepository,
+                                          FileUploadService fileUploadService) {
+        this.productRepository = productRepository;
+        this.productImageRepository = productImageRepository;
+        this.fileUploadService = fileUploadService;
+    }
 
     @Override
     public ResponseEntity<Void> uploadImage(Long id, List<MultipartFile> file, Boolean defaultImage, Integer order) {

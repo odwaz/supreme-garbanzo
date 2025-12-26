@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerAuthenticationApiCtrlDelegateImpl implements CustomerAuthenticationApiCtrlDelegate {
 
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
+
+    public CustomerAuthenticationApiCtrlDelegateImpl(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @Override
     public ResponseEntity<Object> authenticate(AuthenticationRequest authenticationRequest) {
@@ -32,7 +35,7 @@ public class CustomerAuthenticationApiCtrlDelegateImpl implements CustomerAuthen
 
     @Override
     public ResponseEntity<ResponseEntity> changePassword(PasswordRequest passwordRequest) {
-        ResponseEntity response = customerService.changePassword(null, passwordRequest);
+        ResponseEntity<Void> response = customerService.changePassword(passwordRequest);
         return ResponseEntity.ok(response);
     }
 

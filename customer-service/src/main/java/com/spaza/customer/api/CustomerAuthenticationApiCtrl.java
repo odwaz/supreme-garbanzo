@@ -24,8 +24,8 @@ public interface CustomerAuthenticationApiCtrl {
     ResponseEntity<Void> passwordResetRequest(@Valid @RequestBody ResetPasswordRequest customer);
 
     @PostMapping("/api/v1/customer/{store}/password/{token}")
-    ResponseEntity<Void> changePassword(@PathVariable String store, @PathVariable String token, @Valid @RequestBody PasswordRequest passwordRequest);
+    ResponseEntity<Void> changePassword(@PathVariable("store") String store, @PathVariable("token") String token, @Valid @RequestBody PasswordRequest passwordRequest);
 
     @GetMapping("/api/v1/customer/{store}/reset/{token}")
-    ResponseEntity<Void> passwordResetVerify(@PathVariable String store, @PathVariable String token);
+    ResponseEntity<Void> passwordResetVerify(@PathVariable("store") String store, @PathVariable("token") String token);
 }

@@ -15,38 +15,42 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
-    
-    @Autowired
-    private ProductDescriptionRepository productDescriptionRepository;
-    
-    @Autowired
-    private ProductAvailabilityRepository productAvailabilityRepository;
-    
-    @Autowired
-    private ProductPriceRepository productPriceRepository;
-    
-    @Autowired
-    private ProductVariantRepository productVariantRepository;
-    
-    @Autowired
-    private ProductVariantGroupRepository productVariantGroupRepository;
-    
-    @Autowired
-    private ProductVariationRepository productVariationRepository;
-    
-    @Autowired
-    private ProductVariantValueRepository productVariantValueRepository;
-    
-    @Autowired
-    private com.spaza.content.repository.CatalogRepository catalogRepository;
-    
-    @Autowired
-    private com.spaza.content.repository.CatalogEntryRepository catalogEntryRepository;
-    
-    @Autowired
-    private com.spaza.category.repository.CategoryRepository categoryRepository;
+    private static final Long DEFAULT_LANGUAGE_ID = 1L;
+    private final ProductRepository productRepository;
+    private final ProductDescriptionRepository productDescriptionRepository;
+    private final ProductAvailabilityRepository productAvailabilityRepository;
+    private final ProductPriceRepository productPriceRepository;
+    private final ProductVariantRepository productVariantRepository;
+    private final ProductVariantGroupRepository productVariantGroupRepository;
+    private final ProductVariationRepository productVariationRepository;
+    private final ProductVariantValueRepository productVariantValueRepository;
+    private final com.spaza.content.repository.CatalogRepository catalogRepository;
+    private final com.spaza.content.repository.CatalogEntryRepository catalogEntryRepository;
+    private final com.spaza.category.repository.CategoryRepository categoryRepository;
+
+    public ProductService(ProductRepository productRepository,
+                         ProductDescriptionRepository productDescriptionRepository,
+                         ProductAvailabilityRepository productAvailabilityRepository,
+                         ProductPriceRepository productPriceRepository,
+                         ProductVariantRepository productVariantRepository,
+                         ProductVariantGroupRepository productVariantGroupRepository,
+                         ProductVariationRepository productVariationRepository,
+                         ProductVariantValueRepository productVariantValueRepository,
+                         com.spaza.content.repository.CatalogRepository catalogRepository,
+                         com.spaza.content.repository.CatalogEntryRepository catalogEntryRepository,
+                         com.spaza.category.repository.CategoryRepository categoryRepository) {
+        this.productRepository = productRepository;
+        this.productDescriptionRepository = productDescriptionRepository;
+        this.productAvailabilityRepository = productAvailabilityRepository;
+        this.productPriceRepository = productPriceRepository;
+        this.productVariantRepository = productVariantRepository;
+        this.productVariantGroupRepository = productVariantGroupRepository;
+        this.productVariationRepository = productVariationRepository;
+        this.productVariantValueRepository = productVariantValueRepository;
+        this.catalogRepository = catalogRepository;
+        this.catalogEntryRepository = catalogEntryRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
     @Transactional
     public Product save(Product product) {
@@ -101,22 +105,23 @@ public class ProductService {
         catalogRepository.findByMerchantIdAndDefaultCatalog(product.getMerchantId(), true)
             .ifPresent(catalog -> {
                 catalogEntryRepository.findByCatalogIdAndProductId(catalog.getId(), product.getId())
-                    .orElseGet(() -> {
-                        com.spaza.content.model.CatalogEntry entry = new com.spaza.content.model.CatalogEntry();
-                        entry.setCatalogId(catalog.getId());
-                        entry.setProductId(product.getId());
-                        entry.setCategoryId(product.getCategoryId());
-                        entry.setVisible(product.getAvailable());
-                        entry.setDateCreated(java.time.LocalDateTime.now());
-                        return catalogEntryRepository.save(entry);
-                    });
+                    .ifPresentOrElse(
+                        entry -> {},
+                        () -> {
+                            com.spaza.content.model.CatalogEntry entry = new com.spaza.content.model.CatalogEntry();
+                            entry.setCatalogId(catalog.getId());
+                            entry.setProductId(product.getId());
+                            entry.setCategoryId(product.getCategoryId());
+                            entry.setVisible(product.getAvailable());
+                            entry.setDateCreated(java.time.LocalDateTime.now());
+                            catalogEntryRepository.save(entry);
+                        }
+                    );
             });
     }
     
-    private static final Long DEFAULT_LANGUAGE_ID = 1L;
-
     private Long getDefaultLanguageId() {
-        return DEFAULT_LANGUAGE_ID; // English - should be fetched from language repository
+        return DEFAULT_LANGUAGE_ID;
     }
 
     @Transactional

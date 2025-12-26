@@ -13,8 +13,11 @@ import javax.validation.Valid;
 @RestController
 public class ContentApiCtrlController implements ContentApiCtrl {
 
-    @Autowired
-    private ContentApiCtrlDelegate delegate;
+    private final ContentApiCtrlDelegate delegate;
+
+    public ContentApiCtrlController(ContentApiCtrlDelegate delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public ResponseEntity<Object[]> boxes(@RequestParam(required = false) Integer count, @RequestParam(required = false) Integer page) {

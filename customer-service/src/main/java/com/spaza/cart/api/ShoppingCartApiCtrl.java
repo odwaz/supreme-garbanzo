@@ -12,26 +12,26 @@ public interface ShoppingCartApiCtrl {
     ResponseEntity<ReadableShoppingCart> addToCart(@Valid @RequestBody PersistableShoppingCartItem shoppingCartItem);
 
     @GetMapping("/api/v1/cart/{code}")
-    ResponseEntity<ReadableShoppingCart> getByCode(@PathVariable String code);
+    ResponseEntity<ReadableShoppingCart> getByCode(@PathVariable("code") String code);
 
     @PutMapping("/api/v1/cart/{code}")
-    ResponseEntity<ReadableShoppingCart> modifyCart(@PathVariable String code, @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem);
+    ResponseEntity<ReadableShoppingCart> modifyCart(@PathVariable("code") String code, @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem);
 
     @PostMapping("/api/v1/cart/{code}/multi")
-    ResponseEntity<ReadableShoppingCart> modifyCart(@PathVariable String code, @Valid @RequestBody PersistableShoppingCartItem[] shoppingCartItems);
+    ResponseEntity<ReadableShoppingCart> modifyCart(@PathVariable("code") String code, @Valid @RequestBody PersistableShoppingCartItem[] shoppingCartItems);
 
     @DeleteMapping("/api/v1/cart/{code}/product/{sku}")
-    ResponseEntity<ReadableShoppingCart> deleteCartItem(@PathVariable String code, @PathVariable String sku, @RequestParam(defaultValue = "false") boolean body);
+    ResponseEntity<ReadableShoppingCart> deleteCartItem(@PathVariable("code") String code, @PathVariable("sku") String sku, @RequestParam(defaultValue = "false") boolean body);
 
     @PostMapping("/api/v1/cart/{code}/promo/{promo}")
-    ResponseEntity<ReadableShoppingCart> modifyCart(@PathVariable String code, @PathVariable String promo);
+    ResponseEntity<ReadableShoppingCart> modifyCart(@PathVariable("code") String code, @PathVariable("promo") String promo);
 
     @GetMapping("/api/v1/auth/customer/cart")
     ResponseEntity<ReadableShoppingCart> getByCustomer(@RequestParam(required = false) String cart);
 
     @GetMapping("/api/v1/auth/customer/{id}/cart")
-    ResponseEntity<ReadableShoppingCart> getByCustomer(@PathVariable Long id, @RequestParam(required = false) String cart);
+    ResponseEntity<ReadableShoppingCart> getByCustomer(@PathVariable("id") Long id, @RequestParam(required = false) String cart);
 
     @PostMapping("/api/v1/customers/{id}/cart")
-    ResponseEntity<ReadableShoppingCart> addToCart(@PathVariable Long id, @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem);
+    ResponseEntity<ReadableShoppingCart> addToCart(@PathVariable("id") Long id, @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem);
 }

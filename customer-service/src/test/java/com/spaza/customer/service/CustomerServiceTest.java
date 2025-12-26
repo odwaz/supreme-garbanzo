@@ -25,6 +25,12 @@ class CustomerServiceTest {
     @Mock
     private com.spaza.customer.util.JwtUtil jwtUtil;
 
+    @Mock
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
+    @Mock
+    private com.spaza.customer.repository.PasswordResetTokenRepository tokenRepository;
+
     @InjectMocks
     private CustomerService customerService;
 
@@ -52,22 +58,28 @@ class CustomerServiceTest {
 
     @Test
     void authenticate_ShouldReturnToken() {
-        when(customerRepository.findReadableByEmail("test@example.com")).thenReturn(Optional.of(readableCustomer));
+        customer.setId(1L);
+        customer.setPassword("$2a$10$encoded");
+        when(customerRepository.findByEmail("test@example.com")).thenReturn(Optional.of(customer));
+        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
         when(jwtUtil.generateToken(anyString())).thenReturn("jwt-token-test@example.com");
         
         AuthenticationResponse result = customerService.authenticate(authRequest);
 
         assertNotNull(result);
         assertNotNull(result.getToken());
-        assertEquals(readableCustomer, result.getCustomer());
+        assertNotNull(result.getCustomer());
     }
 
     @Test
     void register_ShouldCreateCustomerAndReturnToken() {
-        Customer savedCustomer = new Customer("John", "Doe", "test@example.com", "password");
+        customer.setPassword("password");
+        Customer savedCustomer = new Customer("John", "Doe", "test@example.com", "encoded");
         savedCustomer.setId(1L);
+        when(customerRepository.existsByEmail("test@example.com")).thenReturn(false);
+        when(passwordEncoder.encode("password")).thenReturn("encoded");
         when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
-        when(jwtUtil.generateToken(anyString())).thenReturn("jwt-token-test@example.com");
+        when(jwtUtil.generateToken("test@example.com")).thenReturn("jwt-token-test@example.com");
 
         AuthenticationResponse result = customerService.register(customer);
 
@@ -79,9 +91,13 @@ class CustomerServiceTest {
 
     @Test
     void register_ShouldCreateCustomer_WhenEmailDoesNotExist() {
-        Customer savedCustomer = new Customer("John", "Doe", "test@example.com", "password");
+        customer.setPassword("password");
+        Customer savedCustomer = new Customer("John", "Doe", "test@example.com", "encoded");
         savedCustomer.setId(1L);
+        when(customerRepository.existsByEmail("test@example.com")).thenReturn(false);
+        when(passwordEncoder.encode("password")).thenReturn("encoded");
         when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
+        when(jwtUtil.generateToken("test@example.com")).thenReturn("jwt-token");
 
         AuthenticationResponse result = customerService.register(customer);
 
@@ -107,6 +123,9 @@ class CustomerServiceTest {
     void passwordResetRequest_ShouldExecuteWithoutError() {
         ResetPasswordRequest request = new ResetPasswordRequest();
         request.setEmail("test@example.com");
+        when(customerRepository.findByEmail("test@example.com")).thenReturn(Optional.of(customer));
+        doNothing().when(tokenRepository).deleteByEmail(anyString());
+        when(tokenRepository.save(any())).thenReturn(null);
 
         assertDoesNotThrow(() -> customerService.passwordResetRequest(request));
     }
@@ -117,6 +136,6 @@ class CustomerServiceTest {
         request.setCurrentPassword("oldPassword");
         request.setNewPassword("newPassword");
 
-        assertDoesNotThrow(() -> customerService.changePassword("DEFAULT", request));
+        assertDoesNotThrow(() -> customerService.changePassword(request));
     }
 }

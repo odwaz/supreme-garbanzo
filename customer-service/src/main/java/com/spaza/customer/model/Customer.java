@@ -1,5 +1,6 @@
 package com.spaza.customer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -21,6 +22,7 @@ public class Customer {
     @NotBlank
     private String email;
     
+    @JsonIgnore
     private String password;
     
     private String address;

@@ -2,20 +2,19 @@ package com.spaza.content.service;
 
 import com.spaza.content.model.*;
 import com.spaza.content.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.*;
 
 @Service
 public class ContentService {
 
-    @Autowired
-    private ContentBoxRepository boxRepository;
-    
-    @Autowired
-    private ContentPageRepository pageRepository;
+    private final ContentBoxRepository boxRepository;
+    private final ContentPageRepository pageRepository;
+
+    public ContentService(ContentBoxRepository boxRepository, ContentPageRepository pageRepository) {
+        this.boxRepository = boxRepository;
+        this.pageRepository = pageRepository;
+    }
 
     public Object[] getBoxes() {
         return boxRepository.findAll().toArray();
