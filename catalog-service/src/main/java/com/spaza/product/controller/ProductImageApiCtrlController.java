@@ -12,8 +12,11 @@ import java.util.List;
 @RestController
 public class ProductImageApiCtrlController implements ProductImageApiCtrl {
 
-    @Autowired
-    private ProductImageApiCtrlDelegate delegate;
+    private final ProductImageApiCtrlDelegate delegate;
+
+    public ProductImageApiCtrlController(ProductImageApiCtrlDelegate delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public ResponseEntity<Void> uploadImage(Long id, List<MultipartFile> file, Boolean defaultImage, Integer order) {

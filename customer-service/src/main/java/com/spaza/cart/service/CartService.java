@@ -16,19 +16,20 @@ import java.util.*;
 public class CartService {
 
     private static final Logger log = LoggerFactory.getLogger(CartService.class);
+    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
+    private final String catalogServiceUrl;
+    private final RestTemplate restTemplate = new RestTemplate();
 
-    @Autowired
-    private CartRepository cartRepository;
-    
-    @Autowired
-    private CartItemRepository cartItemRepository;
-    
-    @Value("${catalog.service.url:http://localhost:8081}")
-    private String catalogServiceUrl;
-    
-    private RestTemplate restTemplate = new RestTemplate();
+    public CartService(CartRepository cartRepository, 
+                      CartItemRepository cartItemRepository,
+                      @Value("${catalog.service.url:http://localhost:8081}") String catalogServiceUrl) {
+        this.cartRepository = cartRepository;
+        this.cartItemRepository = cartItemRepository;
+        this.catalogServiceUrl = catalogServiceUrl;
+    }
 
-    public ReadableShoppingCart addToCart(Long customerId, PersistableShoppingCartItem item) {
+    public ReadableShoppingCart addToCart(PersistableShoppingCartItem item) {
         Long merchantId = getProductMerchantId(item.getProduct());
         String cartCode = "CART-" + UUID.randomUUID().toString().substring(0, 8);
         ReadableShoppingCart cart = new ReadableShoppingCart();
@@ -41,10 +42,6 @@ public class CartService {
         cart.getItems().add(cartItem);
         cart.setTotal(calculateTotal(cart));
         return cartRepository.save(cart);
-    }
-
-    public ReadableShoppingCart addToCart(PersistableShoppingCartItem item) {
-        return addToCart(null, item);
     }
 
     public ReadableShoppingCart getByCode(String code) {
@@ -106,20 +103,12 @@ public class CartService {
         return total;
     }
 
-    public ReadableShoppingCart addPromo(String code, String promo) {
+    public ReadableShoppingCart addPromo(String code) {
         return getByCode(code);
-    }
-
-    public ReadableShoppingCart getByCustomer(Long customerId, String cartCode) {
-        return getByCode(cartCode);
     }
 
     public ReadableShoppingCart getByCustomer(String cartCode) {
         return getByCode(cartCode);
-    }
-
-    public ReadableShoppingCart getByCustomer(Long customerId) {
-        return getByCode("CART-" + customerId);
     }
 
     private ReadableShoppingCart createEmptyCart(String code) {

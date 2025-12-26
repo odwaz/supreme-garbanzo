@@ -12,8 +12,11 @@ import java.util.List;
 @RestController
 public class ProductApiCtrlController implements ProductApiCtrl {
 
-    @Autowired
-    private ProductApiCtrlDelegate delegate;
+    private final ProductApiCtrlDelegate delegate;
+
+    public ProductApiCtrlController(ProductApiCtrlDelegate delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public ResponseEntity<Long> create(Product product) {

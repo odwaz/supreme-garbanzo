@@ -13,8 +13,11 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "*")
 public class ShoppingCartApiCtrlController implements ShoppingCartApiCtrl {
 
-    @Autowired
-    private ShoppingCartApiCtrlDelegate delegate;
+    private final ShoppingCartApiCtrlDelegate delegate;
+
+    public ShoppingCartApiCtrlController(ShoppingCartApiCtrlDelegate delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public ResponseEntity<ReadableShoppingCart> addToCart(@Valid @RequestBody PersistableShoppingCartItem shoppingCartItem) {

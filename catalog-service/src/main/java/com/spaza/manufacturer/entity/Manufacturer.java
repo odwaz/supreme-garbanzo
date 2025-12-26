@@ -1,9 +1,11 @@
 package com.spaza.manufacturer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "MANUFACTURER")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Manufacturer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

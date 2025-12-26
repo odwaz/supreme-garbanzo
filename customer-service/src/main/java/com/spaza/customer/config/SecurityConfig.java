@@ -26,8 +26,11 @@ import java.util.ArrayList;
 @EnableWebSecurity
 public class SecurityConfig {
     
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
+
+    public SecurityConfig(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
     
     @Bean
     public PasswordEncoder passwordEncoder() {

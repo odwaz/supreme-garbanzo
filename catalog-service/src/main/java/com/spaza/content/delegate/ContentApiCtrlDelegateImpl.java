@@ -11,8 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ContentApiCtrlDelegateImpl implements ContentApiCtrlDelegate {
 
-    @Autowired
-    private ContentService contentService;
+    private final ContentService contentService;
+
+    public ContentApiCtrlDelegateImpl(ContentService contentService) {
+        this.contentService = contentService;
+    }
 
     @Override
     public ResponseEntity<Object[]> boxes(Integer count, Integer page) {

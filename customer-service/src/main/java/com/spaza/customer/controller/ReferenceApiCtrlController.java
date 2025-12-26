@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ReferenceApiCtrlController implements ReferenceApiCtrl {
 
-    @Autowired
-    private ReferenceApiCtrlDelegate delegate;
+    private final ReferenceApiCtrlDelegate delegate;
+
+    public ReferenceApiCtrlController(ReferenceApiCtrlDelegate delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public ResponseEntity<ReadableCountry[]> listCountries() {

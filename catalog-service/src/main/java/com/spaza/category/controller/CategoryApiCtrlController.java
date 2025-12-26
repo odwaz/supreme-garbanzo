@@ -13,8 +13,11 @@ import java.util.List;
 @RestController
 public class CategoryApiCtrlController implements CategoryApiCtrl {
 
-    @Autowired
-    private CategoryApiCtrlDelegate delegate;
+    private final CategoryApiCtrlDelegate delegate;
+
+    public CategoryApiCtrlController(CategoryApiCtrlDelegate delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public ResponseEntity<Long> create(PersistableCategory category) {

@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class CatalogApiCtrlController implements CatalogApiCtrl {
 
-    @Autowired
-    private CatalogApiCtrlDelegate delegate;
+    private final CatalogApiCtrlDelegate delegate;
+
+    public CatalogApiCtrlController(CatalogApiCtrlDelegate delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public ResponseEntity<ReadableCatalog[]> list() {

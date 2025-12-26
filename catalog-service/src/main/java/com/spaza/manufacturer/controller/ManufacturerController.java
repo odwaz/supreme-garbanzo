@@ -11,18 +11,23 @@ import java.util.List;
 @RequestMapping("/api/v1/private/manufacturers")
 public class ManufacturerController {
     
-    @Autowired
-    private ManufacturerService service;
+    private final ManufacturerService service;
+
+    public ManufacturerController(ManufacturerService service) {
+        this.service = service;
+    }
     
     @PostMapping
     public ResponseEntity<Manufacturer> create(@RequestBody Manufacturer manufacturer) {
-        return ResponseEntity.ok(service.save(manufacturer));
+        Manufacturer saved = service.save(manufacturer);
+        return ResponseEntity.ok(saved);
     }
     
     @PutMapping("/{id}")
     public ResponseEntity<Manufacturer> update(@PathVariable Long id, @RequestBody Manufacturer manufacturer) {
         manufacturer.setId(id);
-        return ResponseEntity.ok(service.save(manufacturer));
+        Manufacturer saved = service.save(manufacturer);
+        return ResponseEntity.ok(saved);
     }
     
     @DeleteMapping("/{id}")

@@ -13,8 +13,11 @@ import java.util.List;
 @Service
 public class CategoryApiCtrlDelegateImpl implements CategoryApiCtrlDelegate {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
+
+    public CategoryApiCtrlDelegateImpl(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @Override
     public ResponseEntity<Long> create(PersistableCategory category) {

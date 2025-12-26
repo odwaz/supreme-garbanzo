@@ -19,17 +19,20 @@ import java.util.*;
 @Service
 public class CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
+    private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
+    private final PasswordResetTokenRepository tokenRepository;
 
-    @Autowired
-    private JwtUtil jwtUtil;
-    
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    
-    @Autowired
-    private PasswordResetTokenRepository tokenRepository;
+    public CustomerService(CustomerRepository customerRepository,
+                          JwtUtil jwtUtil,
+                          PasswordEncoder passwordEncoder,
+                          PasswordResetTokenRepository tokenRepository) {
+        this.customerRepository = customerRepository;
+        this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
+        this.tokenRepository = tokenRepository;
+    }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         log.info("Authenticating customer: {}", request.getUsername());
@@ -73,15 +76,15 @@ public class CustomerService {
     }
 
     @Transactional
-    public ResponseEntity changePassword(String store, PasswordRequest request) {
+    public ResponseEntity<Void> changePassword(PasswordRequest request) {
         log.warn("Authenticated password change not implemented");
-        throw new ServiceException("Use password reset flow instead");
+        return ResponseEntity.status(501).build();
     }
 
     @Transactional
     public void passwordResetRequest(ResetPasswordRequest request) {
         log.info("Password reset requested for: {}", request.getEmail());
-        Customer customer = customerRepository.findByEmail(request.getEmail())
+        customerRepository.findByEmail(request.getEmail())
             .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
         
         tokenRepository.deleteByEmail(request.getEmail());
@@ -122,7 +125,7 @@ public class CustomerService {
         log.info("Password changed successfully for: {}", customer.getEmail());
     }
 
-    public void passwordResetVerify(String store, String token) {
+    public void passwordResetVerify(String token) {
         log.info("Verifying reset token: {}", token);
         PasswordResetToken resetToken = tokenRepository.findByToken(token)
             .orElseThrow(() -> new ValidationException("Invalid token"));
@@ -137,16 +140,12 @@ public class CustomerService {
         log.info("Token verified successfully for: {}", resetToken.getEmail());
     }
 
-    public void passwordResetVerify(String token) {
-        passwordResetVerify(null, token);
-    }
-
     @Transactional
     public ReadableCustomer createCustomer(Customer customer) {
         log.info("Creating customer: {}", customer.getEmail());
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-        Customer saved = customerRepository.save(customer);
-        return new ReadableCustomer(saved);
+        customerRepository.save(customer);
+        return new ReadableCustomer(customer);
     }
 
     public ReadableCustomer getCustomer(Long id) {
@@ -200,10 +199,6 @@ public class CustomerService {
     @Transactional
     public void deleteById(Long id) {
         customerRepository.deleteById(id);
-    }
-
-    public List<Customer> findAll(Integer count, Integer page) {
-        return customerRepository.findAll();
     }
 
     public List<Customer> findAll() {

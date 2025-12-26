@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ShoppingCartApiCtrlDelegateImpl implements ShoppingCartApiCtrlDelegate {
 
-    @Autowired
-    private CartService cartService;
+    private final CartService cartService;
+
+    public ShoppingCartApiCtrlDelegateImpl(CartService cartService) {
+        this.cartService = cartService;
+    }
 
     @Override
     public ResponseEntity<ReadableShoppingCart> addToCart(PersistableShoppingCartItem shoppingCartItem) {
@@ -45,7 +48,7 @@ public class ShoppingCartApiCtrlDelegateImpl implements ShoppingCartApiCtrlDeleg
 
     @Override
     public ResponseEntity<ReadableShoppingCart> modifyCart(String code, String promo) {
-        ReadableShoppingCart cart = cartService.addPromo(code, promo);
+        ReadableShoppingCart cart = cartService.addPromo(code);
         return ResponseEntity.ok(cart);
     }
 
@@ -57,13 +60,13 @@ public class ShoppingCartApiCtrlDelegateImpl implements ShoppingCartApiCtrlDeleg
 
     @Override
     public ResponseEntity<ReadableShoppingCart> getByCustomer(Long id, String cart) {
-        ReadableShoppingCart shoppingCart = cartService.getByCustomer(id, cart);
+        ReadableShoppingCart shoppingCart = cartService.getByCustomer(cart);
         return ResponseEntity.ok(shoppingCart);
     }
 
     @Override
     public ResponseEntity<ReadableShoppingCart> addToCart(Long id, PersistableShoppingCartItem shoppingCartItem) {
-        ReadableShoppingCart cart = cartService.addToCart(id, shoppingCartItem);
+        ReadableShoppingCart cart = cartService.addToCart(shoppingCartItem);
         return ResponseEntity.status(HttpStatus.CREATED).body(cart);
     }
 }

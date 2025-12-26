@@ -24,16 +24,16 @@ public interface CustomerManagementApiCtrl {
     ResponseEntity<ReadableCustomer> create(@Valid @RequestBody Customer customer);
 
     @GetMapping("/api/v1/private/customer/{id}")
-    ResponseEntity<ReadableCustomer> get(@PathVariable Long id);
+    ResponseEntity<ReadableCustomer> get(@PathVariable("id") Long id);
 
     @PutMapping("/api/v1/private/customer/{id}")
-    ResponseEntity<Customer> update(@PathVariable Long id, @Valid @RequestBody Customer customer);
+    ResponseEntity<Customer> update(@PathVariable("id") Long id, @Valid @RequestBody Customer customer);
 
     @DeleteMapping("/api/v1/private/customer/{id}")
-    ResponseEntity<Void> delete(@PathVariable Long id);
+    ResponseEntity<Void> delete(@PathVariable("id") Long id);
 
     @PatchMapping("/api/v1/private/customer/{id}/address")
-    ResponseEntity<Void> updateAddress(@PathVariable Long id, @Valid @RequestBody Customer customer);
+    ResponseEntity<Void> updateAddress(@PathVariable("id") Long id, @Valid @RequestBody Customer customer);
 
     @GetMapping("/api/v1/private/customers")
     ResponseEntity<ReadableCustomerList> list(@RequestParam(required = false) Integer count, @RequestParam(required = false) Integer page);

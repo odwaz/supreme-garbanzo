@@ -10,8 +10,11 @@ import java.util.Optional;
 @Service
 public class ManufacturerService {
     
-    @Autowired
-    private ManufacturerRepository repository;
+    private final ManufacturerRepository repository;
+
+    public ManufacturerService(ManufacturerRepository repository) {
+        this.repository = repository;
+    }
     
     public Manufacturer save(Manufacturer manufacturer) {
         return repository.save(manufacturer);
