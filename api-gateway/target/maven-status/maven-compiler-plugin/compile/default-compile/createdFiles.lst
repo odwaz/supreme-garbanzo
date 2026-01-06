@@ -1,5 +1,0 @@
-za/blkmarket/gateway/ApiGatewayApplication.class
-za/blkmarket/gateway/CorsConfig.class
-za/blkmarket/gateway/LoggingFilter.class
-com/spaza/gateway/config/CorsConfig.class
-za/blkmarket/gateway/JwtAuthFilter.class
