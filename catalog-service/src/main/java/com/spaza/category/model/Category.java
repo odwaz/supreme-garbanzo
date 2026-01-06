@@ -3,50 +3,50 @@ package com.spaza.category.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "CATEGORY")
+@Table(name = "categories")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CATEGORY_ID")
+    @Column(name = "category_id")
     private Long id;
     
-    @Column(name = "MERCHANT_ID", nullable = false)
+    @Column(name = "merchant_id", nullable = false)
     private Long merchantId;
     
-    @Column(name = "CODE", length = 100)
+    @Column(name = "code", length = 100)
     private String code;
     
-    @Column(name = "CATEGORY_IMAGE", length = 100)
+    @Column(name = "category_image", length = 100)
     private String image;
     
-    @Column(name = "CATEGORY_STATUS")
+    @Column(name = "category_status")
     private Boolean status;
     
-    @Column(name = "DEPTH")
+    @Column(name = "depth")
     private Integer depth;
     
-    @Column(name = "FEATURED")
+    @Column(name = "featured")
     private Boolean featured;
     
-    @Column(name = "LINEAGE", length = 255)
+    @Column(name = "lineage", length = 255)
     private String lineage;
     
-    @Column(name = "SORT_ORDER")
+    @Column(name = "sort_order")
     private Integer sortOrder;
     
-    @Column(name = "VISIBLE")
+    @Column(name = "visible")
     private Boolean visible;
     
-    @Column(name = "PARENT_ID")
+    @Column(name = "parent_id")
     private Long parentId;
     
-    @Column(name = "DATE_CREATED")
+    @Column(name = "date_created")
     private java.time.LocalDateTime dateCreated;
     
-    @Column(name = "DATE_MODIFIED")
+    @Column(name = "date_modified")
     private java.time.LocalDateTime dateModified;
     
-    @Column(name = "UPDT_ID", length = 60)
+    @Column(name = "updt_id", length = 60)
     private String updtId;
 
     public Long getId() { return id; }

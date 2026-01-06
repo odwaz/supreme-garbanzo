@@ -18,10 +18,10 @@ public interface CategoryApiCtrl {
     @DeleteMapping("/api/v1/private/category/{id}")
     ResponseEntity<Void> delete(@PathVariable Long id);
 
-    @GetMapping("/api/v1/category/{id}")
+    @GetMapping("/api/v1/categories/{id}")
     ResponseEntity<Category> getById(@PathVariable Long id);
 
-    @GetMapping("/api/v1/category")
+    @GetMapping("/api/v1/categories")
     ResponseEntity<List<Category>> listPublic(
             @RequestParam(required = false) String filter,
             @RequestParam(defaultValue = "0") int page,
